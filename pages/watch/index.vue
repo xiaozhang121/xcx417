@@ -1,0 +1,89 @@
+<template>
+	<view class="box">
+
+		<!-- 切换导航-导航 -->
+		<van-nav-bar title="监测站点" fixed left-arrow @click-left='onClickLeft' />
+		<!-- 导航站位 -->
+		<status-bar />
+		<!-- 内容展示 -->
+		<view class="content">
+			<view class="search">
+				<van-search placeholder="请输入搜索关键词" use-action-slot bind:change="onChange" bind:search="onSearch">
+					<view slot="action" bind:tap="onClick" class="se-btn">搜索</view>
+				</van-search>
+			</view>
+			<scroll-view scroll-y="true" class="scroll-Y">
+				<view class="body">
+					<watch-item v-for="item in 6" :key='item'></watch-item>
+				</view>
+			</scroll-view>
+
+		</view>
+	</view>
+</template>
+
+<script>
+	import statusBar from "../../components/status-bar/index.vue"
+	import WatchItem from "../../components/watch-item/index.vue"
+	export default {
+		name: "user",
+		components: {
+			statusBar,
+			WatchItem
+		},
+		data() {
+
+		},
+		computed: {},
+		onLoad() {},
+		methods: {
+			//左上角返回按钮
+			onClickLeft() {
+				console.log(1)
+			}
+
+		},
+		mounted() {},
+
+	}
+</script>
+
+<style lang="less">
+	.box {
+		height: 100%;
+
+		.search {
+			width: 100%;
+
+			.van-search__field {
+				border: 1px solid rgb(209, 209, 209);
+				color: rgb(209, 209, 209);
+				border-radius: 20px;
+				padding-left: 60rpx;
+			}
+
+			.se-btn {
+				margin-left: 60rpx;
+				margin-right: 30rpx;
+				font-size: 32rpx;
+				color: #005AC3FF;
+			}
+		}
+
+		.content {
+			padding: 42px 0 0;
+			height: 100%;
+			box-sizing: border-box;
+
+			.scroll-Y {
+				background-color: rgb(243, 243, 243);
+
+			}
+
+			.body {
+				height: 100%;
+				padding: 10rpx 25rpx 0 25rpx;
+			}
+		}
+	}
+</style>
