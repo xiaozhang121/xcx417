@@ -37,7 +37,7 @@
 			</van-popup> 
 				<van-icon class='ico' name="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABV0lEQVRIS92VwU3DQBBF3wASuSUlUEJKSCnmgJwjdGBXQDhh5ZLQgVMBSQWYDtwBuZELHrRrm9iyE9YRllDmYq12dv7O/3/HQs8hPdfn3AGmui4o9IgkbdDp6wy4QZgRSZlbSztO0VQDID/YVsDsRxJQflsEbQL4ukUYFrlhAfB6wAwbIpkwVf3Zz3hgLqYzG02AarISIySA6aQtUoQAZVnZDG1XTgCnefh/ANRu4dSIpyMGfABOHRhxDa+LitgpyiPCCHghkiW+Go2GZKyssLl+nQC8AmDNjoQB93adkTCX2Nozj9QCdgLI/T1BUJ5lY8vc6ZgrhnzyzlK2jXUngPyBlf4P+SLmkrfixoYir+L/6ntwpKjiZSeRTVLHDvYiZzxxQVITeUfMNQsreu8i70V3dtHajoAukTG2U/VXm9aHXReIMvfWWvbgLDql5JEz5/7L/AO6vgGdT7oZrHsq9wAAAABJRU5ErkJggg==" />
 		</view>
-		<view class="echarts" ref="echarts">
+		<view class="echarts" ref="echarts" id="echarts">
 			<!-- <uni-ec-canvas 
 			          class="uni-ec-canvas"
 			          id="uni-ec-canvas"
@@ -54,7 +54,7 @@
 	   //import uniEcCanvas from '../../../uni-ec-canvas/uni-ec-canvas.vue' 
 	  // import WxCanvas from "../../../uni-ec-canvas/wx-canvas";
 	  // import * as echarts from "../../../uni-ec-canvas/echarts";
-	   import echarts from './echarts.js'
+	   //import echarts from './echarts.js'
 	export default {
 		components: {
 			  // uniEcCanvas
@@ -119,8 +119,7 @@
 					// debugger
 					// myChart.setOption(this.option)
 					
-					const view = uni.createSelectorQuery().select('.echarts');
-					console.log(view)
+					//console.log(view)
 					
 				},
 				showStart() {

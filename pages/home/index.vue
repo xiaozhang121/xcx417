@@ -10,15 +10,6 @@
 		<status-bar />
 		<!-- 内容展示 -->
 		<view class="content">
-			<view class="ech">
-			      <uni-ec-canvas
-			         class="uni-ec-canvas"
-			         id="uni-ec-canvas"
-			         ref="uni-ec-canvas"
-			         canvas-id="uni-ec-canvas"
-			         :ec="ec"
-			      ></uni-ec-canvas>
-			    </view>
 			<view class="bottom">
 				<view class="pull">
 					<view class="squ">

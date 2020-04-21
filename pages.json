@@ -4,7 +4,12 @@
 		{"path": "pages/login/index"},
 		{"path": "pages/user/index"},
 		{"path": "pages/watch/index"},
-		{"path": "pages/details/index"}
+		{"path": "pages/details/index"},
+		{"path": "pages/record/index"},
+		{"path": "pages/recordDetails/index"},
+		{"path": "pages/report/index"},
+		{"path": "pages/recordDetails/pic"}
+		
 	],
 	"globalStyle": {
 		"navigationStyle": "custom",
@@ -32,9 +37,13 @@
 			"van-tabs": "/wxcomponents/vant/tabs/index",
 			"van-transition": "/wxcomponents/vant/transition/index",
 			"van-cell": "/wxcomponents/vant/cell/index",
-			  "van-cell-group": "/wxcomponents/vant/cell-group/index",
-			  "van-datetime-picker": "/wxcomponents/vant/datetime-picker/index",
-			  "van-popup": "/wxcomponents/vant/popup/index"
+			 "van-cell-group": "/wxcomponents/vant/cell-group/index",
+			 "van-datetime-picker": "/wxcomponents/vant/datetime-picker/index",
+			 "van-popup": "/wxcomponents/vant/popup/index",
+			 "van-grid": "/wxcomponents/vant/grid/index",
+			 "van-grid-item": "/wxcomponents/vant/grid-item/index",
+			"van-action-sheet": "/wxcomponents/vant/action-sheet/index",
+			"van-uploader": "/wxcomponents/vant/uploader/index"
 		}
 	},
 	"tabBar": {
