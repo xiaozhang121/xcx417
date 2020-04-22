@@ -46,7 +46,7 @@
 		methods: {
 			//左上角返回按钮
 			onClickLeft() {
-				console.log(1)
+				uni.navigateBack()
 			},
 			onChange(){
 				

@@ -8,7 +8,10 @@
 		{"path": "pages/record/index"},
 		{"path": "pages/recordDetails/index"},
 		{"path": "pages/report/index"},
-		{"path": "pages/recordDetails/pic"}
+		{"path": "pages/recordDetails/pic"},
+		{"path": "pages/alarm/index"},
+		{"path": "pages/alarm/alarmreport/index"},
+		{"path": "pages/message/index"}
 		
 	],
 	"globalStyle": {
@@ -43,7 +46,8 @@
 			 "van-grid": "/wxcomponents/vant/grid/index",
 			 "van-grid-item": "/wxcomponents/vant/grid-item/index",
 			"van-action-sheet": "/wxcomponents/vant/action-sheet/index",
-			"van-uploader": "/wxcomponents/vant/uploader/index"
+			"van-uploader": "/wxcomponents/vant/uploader/index",
+			"van-divider": "/wxcomponents/vant/divider/index"
 		}
 	},
 	"tabBar": {

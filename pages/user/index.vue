@@ -34,7 +34,7 @@
 						</view>
 					</view>
 					<view class="navbox">
-						<navigator url="/pages/login/index">
+						<navigator url="/pages/message/index">
 						<image src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAVqSURBVHhe7Z1PT5xFHMe/M8+zYENJWlOEUkFpjDGxN3kB5WYUeiT26EHrC/DuG+AFSC+e1MSrjUnjAb31gJ701kBLQwsFrZT/u8/MOL/nmQV22WWfZ5/ZfQZ2PgnZ+Q0bGD6ZP7+ZBwaGdllYCLF7cxD8cEBH/QhLfSjr1xIPkjc4SkUK9OEQjB+icliG7N/F3vhrzDJh3pGJbALnF0uYGBpCpK4gYJdM7cWgIvfQx7ewvLGBe5MVU9uSdAJJ3NjwMBANIeDc1F5MhJRAuIFn6+tpRJ4tsJfE1VMVeenxGqamIlN7iuZSlGK4fvU6Ajncc/II+pnpZ98eH41dNKHxJ35SAQaX3wMPLpua3kaKHWxPPG600DToWdq2l1cLuSAn5KaO0wJ/XRrz8hpATshNHbUCF1avQYZDJvLUQ27I0QmOBS6oEPvlU4Y9dZAjyk4MxwKjpdGeXG2zQo7i1C4hEfaX6kMU1HRNz1novNj0wkTgsyej4CzdrsST9MKbOkfWmCHL6UDAk4UoHKQXhu+W38Ao/zCu9GTjufybYwhXTOjJinbHUbpgx1LdRLvjiMRRTuPJiHbH45NkV2HsfYho1ETuwUMtUDjaA0meEj+A8+/BZbziOYeQWqCLuw+SJ8V8UsYghJp3UmKJB+7KI3FV4qHspkS3BJIgKeZq5FUhiZGaM5EzuCOQ5FEvY2i+aHD2EZT8xkRO4IbAI3m6l7WCYcYliW4IpKGZRl6VROKXJiqU4gVSb6KhmRUGLVDOmKgwihVI8qg3tY8eysVKLE4gDcF88qrQfJi9B1uiIIG618RD0BJKZptDLVKAwHjI2V1FKW+Mk+/uS+y2QBpqnUlBqhK7fPjQXYFK3DOlzkASOZ82UVdgePi0exMw9Y4gjB/GNEWp22DqronqeQCF56bcGCkf6O9x9nss0l2BqZGLplALxxQk3zaRExSXxrSDY/KI8yXQQbzAnHiBOfECc+IF5sQLzEln8kBKmDn/Vn/1dNsqhftg/L6JNE3yQPBJU9CIOd382yY4G0q+pfyqEwl2Z3ogbafSyotRJ8SkJaU8gtrSoS2efYHJo8dmW7EiuduJx6L2BUrovWyDx5JFE5/W6LZZxr5AhS9MqX0U+xFK/VnzQQcJebHRtjosLyJtHpaSIBZkPKFuttC0QOFrvWD9ZqLc2O2BUrU5UbORTPNTnpNn1fSorC1s9kD9dWTyC0HOw+lg94+knA+LPbD4Z7TpsddWOwKT5xBdPUrPybStZyd2BPLAxbzvbCy1Ob/AePJvd/EoEt1mC4l1foFC0UNy9xLnVlCbqe05sTCE2WemcA7J3/b8AjMdGjiGhbbbWUR6mPwCJX43pfOHhbY7+mD9/MDju6Q87aHd0R/apL4nylOHdschIy+wXbQ7jjDwAttFu9NzoNo3oScr2h3HBv4zoScr2h3H5xMHOh86MFWetJAz7S5JpBXfil896YlYPHITgTtbL5MLBz2pIFeXx9apmAicvVWGCF7GZU9ryNUUi2+1PN4L7z9a87uSFJCj6bEXJjohcHZWINxdMZGnKfwpGDua7o4FEh/f+hdltmYiTz3kZvqdVyaKqRVIzIyvggfO/TZ84Si2Fbup47RAIryxhKhSNpGHXLx+tGyiGppfeUdX//68NIb+Hr8StCI28enEip73lKmpofWdgXRn6EFlvOfuF5RKoXKwgjsfbJqahqST8ovsh3wygn72JuQFvyaUxAn5D/i7a/iEH5rapmTrVYuqhM3VEcjKNSdvPMpFICDUJt56ex2TzPI/I2jEwxcDENFVsMpA/C8wyiLUa1LgvNh4y6qTYUabhiBCKdzBXvAKd27smXdkAPgfNWu+4Yrr2cUAAAAASUVORK5CYII=" mode=""></image>
 						</navigator>
 						<view class="text">
@@ -52,7 +52,7 @@
 				</view>
 				<view class="navs">
 					<view class="navbox" >
-						<navigator url="">
+						<navigator url="/pages/alarm/index">
 							<image src="data:image/png;base64,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" mode=""></image>
 						</navigator>
 						<view class="text">
@@ -60,12 +60,14 @@
 						</view>
 					</view>
 					<view class="navbox"  >
-						<navigator url=""></navigator>
-						
+						<view class="fak">
+							
+						</view>
 					</view>
 					<view class="navbox"   >
-						<navigator url=""></navigator>
-						
+						<view class="fak">
+							
+						</view>
 					</view>
 				</view>
 			</view>
@@ -169,6 +171,11 @@
 					text-align: center;
 					margin-top: 20rpx;
 					color: #333;
+				}
+				.fak {
+					margin: 0 auto;
+					width: 150rpx;
+					height: 150rpx;
 				}
 			}
 		}
