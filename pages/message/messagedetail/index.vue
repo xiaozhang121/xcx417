@@ -12,7 +12,7 @@
 				<view>2020-04-05 15</view>
 			</view>
 			<view class="btn">
-				<van-button color="linear-gradient(to right, #0068FF, #005AC3)">处理上报</van-button>
+				<van-button color="linear-gradient(to right, #0068FF, #005AC3)" @click='enter'>处理上报</van-button>
 			</view>
 		</view>
 	</view>
@@ -38,6 +38,12 @@
 			//左上角返回按钮
 			onClickLeft() {
 				uni.navigateBack();
+			},
+			enter(){
+				uni.navigateTo({
+					url: '/pages/report/index'
+				})
+				
 			}
 		},
 		mounted() {},

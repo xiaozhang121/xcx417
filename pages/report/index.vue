@@ -2,7 +2,7 @@
 	<view class="box">
 
 		<!-- 切换导航-导航 -->
-		<van-nav-bar title="监测站点" fixed left-arrow @click-left='onClickLeft' />
+		<van-nav-bar title="预警上报" fixed left-arrow @click-left='onClickLeft' />
 		<!-- 导航站位 -->
 		<status-bar />
 		<!-- 内容展示 -->
