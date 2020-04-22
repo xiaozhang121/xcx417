@@ -8,7 +8,7 @@
 		<!-- 内容展示 -->
 		<view class="content">
 		<view class="content-top">
-			<view class="select">
+					<view class="select">
 					<van-cell title="单元格" is-link value="内容" label='请选择' arrow-direction="down" @click='actone'/>
 						<van-action-sheet
 						  :show="showone"
@@ -16,7 +16,9 @@
 						  @close="onClose"
 						  @select="onSelect"
 						/>
+						<van-divider />
 					</view>
+					
 					<view class="write">
 						<van-cell-group>
 							<view class="van-text">
@@ -28,6 +30,7 @@
 						    @change="onChange"
 							:border='false'
 						  />
+						  <van-divider />
 						</van-cell-group>
 					</view>
 					<view class="select">
@@ -38,6 +41,7 @@
 						  @close="onClose"
 						  @select="onSelect"
 						/>
+						<van-divider />
 					</view>
 					<view class="write">
 						<van-cell-group>
@@ -50,6 +54,7 @@
 						    @change="onChange"
 							:border='false'
 						  />
+						  <van-divider />
 						</van-cell-group>
 					</view>
 		</view>
@@ -135,7 +140,6 @@
 				      formData: { user: 'test' },
 				      success(res) {
 				        // 上传完成需要更新 fileList
-				       
 						console,log(1)
 						this.fileList.push({ ...file, url: res.data })
 				      }
@@ -146,6 +150,10 @@
 </script>
 
 <style lang="less">
+	.van-divider {
+		padding: 15rpx 30rpx 0!important;
+		margin: 0!important;
+	}
 	.box {
 	height: 100%;
 	background-color: #F3F3F3;
@@ -153,15 +161,22 @@
 			padding: 44px 0 0;
 			box-sizing: border-box;
 			.write {
+				background-color: #FFFFFF;
 				.van-text {
 					font-size: 28rpx;
-					padding: 0 32rpx;
+					padding: 10rpx 32rpx;
 					background-color: #FFFFFF;
 				}
 				.van-cell {
 					padding: 0 32rpx!important;
 					padding-top: 6rpx;
+					.van-cell__title {
+					font-size: 28rpx;	
+					}
 				}
+			}
+			.select {
+				background-color: #FFFFFF;
 			}
 			.content-top {
 				margin-top: 20rpx;

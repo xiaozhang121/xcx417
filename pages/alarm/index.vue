@@ -2,7 +2,7 @@
 	<view class="box">
 
 		<!-- 切换导航-导航 -->
-		<van-nav-bar title="监测站点" fixed left-arrow @click-left='onClickLeft' />
+		<van-nav-bar title="预警" fixed left-arrow @click-left='onClickLeft' />
 		<!-- 导航站位 -->
 		<status-bar />
 		<!-- 内容展示 -->
@@ -133,6 +133,7 @@
 			.card {
 				background-color: rgb(243, 243, 243);
 				margin-top: 20rpx;
+				padding-bottom: 15rpx;
 				.list {
 					border-radius: 10rpx;
 					border: 1px solid white;

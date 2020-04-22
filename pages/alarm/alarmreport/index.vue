@@ -79,10 +79,10 @@
 		</view>
 		<view class="report">
 			<view class="report-one">
-				<van-button type="default">默认按钮</van-button>
+				<van-button type="default">取消</van-button>
 			</view>
 			<view class="report-one">
-				<van-button color="linear-gradient(to right, #0068FF, #005AC3)">渐变色按钮</van-button>
+				<van-button color="linear-gradient(to right, #0068FF, #005AC3)">确认上报</van-button>
 			</view>
 		</view>
 			</view>

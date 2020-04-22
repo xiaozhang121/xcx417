@@ -12,15 +12,20 @@
 			  <van-cell title="单元格" value="内容" label="描述信息" :border="false" />
 			</van-cell-group> -->
 			<view class="group">
-					<van-cell-group><van-cell center title="站点名称" border='true' label="南京六合站" size='large'/></van-cell-group>
+					<van-cell-group><van-cell center title="站点名称" border= true label="南京六合站" size='large'/>
+					<van-divider />
 					<van-cell center title="采集地点"  label="A站点"  size='large'/>
+					<van-divider />
 					<van-cell center title="上报类型"  label="巡检上报" size='large'/>
+					<van-divider />
 					<van-cell center title="上报描述"  label="请输入描述内容非必填" size='large' />
+					</van-cell-group>
 				
 			</view>
 			<view class='group'>
 				<van-cell-group >
 					<van-cell center title="站点名称"  label="南京六合站" size='large'/>
+					<van-divider />
 					<van-cell center title="采集地点"  label="A站点" size='large'/>
 				</van-cell-group>
 			</view>
@@ -81,6 +86,10 @@
 </script>
 
 <style lang="less">
+	.van-divider {
+		padding: 15rpx 30rpx 0!important;
+		margin: 0!important;
+	}
 	.box {
 		// height: 100%;
 		background-color: #F3F3F3;
@@ -106,11 +115,10 @@
 			}
 			.group-img {
 				padding: 0 20rpx;
-				height: 240rpx;
 				white-space: nowrap;
 				position: relative;
 				display: flex;
-			
+				padding-bottom: 30rpx;
 					.img {
 						flex: 1;
 						height: 120rpx;

@@ -11,7 +11,8 @@
 		{"path": "pages/recordDetails/pic"},
 		{"path": "pages/alarm/index"},
 		{"path": "pages/alarm/alarmreport/index"},
-		{"path": "pages/message/index"}
+		{"path": "pages/message/index"},
+		{"path": "pages/message/messagedetail/index"}
 		
 	],
 	"globalStyle": {
@@ -51,21 +52,21 @@
 		}
 	},
 	"tabBar": {
-		"color": "#7A7E83",
-		"selectedColor": "#08CFC0",
+		"color": "#999999",
+		"selectedColor": "#005AC3",
 		"borderStyle": "black",
 		"backgroundColor": "#F8F8F8",
 		"list": [
 			{
 				"pagePath": "pages/home/index",
-				"iconPath": "static/imgage/tabBar/home.png",
-				"selectedIconPath": "static/imgage/tabBar/homeHL.png",
+				"iconPath": "static/imgage/basic/home.png",
+				"selectedIconPath": "static/imgage/basic/home.png",
 				"text": "首页"
 			},
 			{
 				"pagePath": "pages/user/index",
-				"iconPath": "static/imgage/tabBar/user.png",
-				"selectedIconPath": "static/imgage/tabBar/userHL.png",
+				"iconPath": "static/imgage/basic/my.png",
+				"selectedIconPath": "static/imgage/basic/my-active.png",
 				"text": "我的"
 			}
 		]
