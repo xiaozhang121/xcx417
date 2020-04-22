@@ -8,38 +8,16 @@
 		<!-- 内容展示 -->
 		<view class="content">
 		<view class="content-top">
-			<!-- <view class="">
-				<van-cell-group>
-				  <van-field
-				    :value="value"
-				    placeholder="请输入用户名"
-				    border=true
-				    @change="onChange"
-				  />
-				  <van-field
-				    :value="value"
-				    placeholder="请输入用户名"
-				    :border="false"
-				    @change="onChange"
-				  />
-				  <van-field
-				    :value="value"
-				    placeholder="请输入用户名"
-				    :border="false"
-				    @change="onChange"
-				  />
-				</van-cell-group>
-			</view> -->
 			<view class="write">
 				<van-cell-group>
 					<view class="van-text">
-					采集地点
+					站点名称
 					</view>
 				  <van-field
 					:border = 'true'
 				    :value="value"
 				    placeholder="请输入用户名"
-				    @change="onChange"
+				    @change="getstationId"
 				  />
 				</van-cell-group>
 				<van-divider />
@@ -52,7 +30,7 @@
 						  <van-field
 						    :value="value"
 						    placeholder="请输入用户名"
-						    @change="onChange"
+						    @change="getreportSite"
 							
 						  />
 						</van-cell-group>
@@ -61,12 +39,12 @@
 					<view class="write mt">
 						<van-cell-group>
 							<view class="van-text">
-							采集地点
+							上述描述
 							</view>
 						  <van-field
 						    :value="value"
 						    placeholder="请输入用户名"
-						    @change="onChange"
+						    @change="getreportDescribe"
 						  />
 						</van-cell-group>
 					</view>
@@ -82,7 +60,7 @@
 				<van-button type="default">取消</van-button>
 			</view>
 			<view class="report-one">
-				<van-button color="linear-gradient(to right, #0068FF, #005AC3)">确认上报</van-button>
+				<van-button color="linear-gradient(to right, #0068FF, #005AC3)" @click = 'makesure'>确认上报</van-button>
 			</view>
 		</view>
 			</view>
@@ -92,6 +70,7 @@
 <script>
 	import statusBar from "../../../components/status-bar/index.vue"
 	import WatchItem from "../../../components/watch-item/index.vue"
+	import {$http} from "../../common/util.js"
 	export default {
 		name: "user",
 		components: {
@@ -102,6 +81,7 @@
 		return {
 			showone: false,
 			showtwo: false,
+			reportSite: '',
 			    actionone: [
 			      { name: '1' }
 			    ],
@@ -109,17 +89,20 @@
 				  { name: '1' } 
 				],
 				fileList: [
-				      { url: 'https://img.yzcdn.cn/vant/leaf.jpg', name: '图片1' },
-				      {
-				        url: 'http://iph.href.lu/60x60?text=default',
-				        name: '图片2',
-				        isImage: true
-				      }
-				    ]
+		
+				    ],
+					stationId:'',
+					reportSite:'',
+					reportDescribe:'',
+					id:''
+					
 		}
 		},
 		computed: {},
-		onLoad() {},
+		onLoad(option) {
+			console.log(option)
+			this.id = option
+		},
 		methods: {
 			//左上角返回按钮
 			onClickLeft() {
@@ -144,20 +127,42 @@
 			    console.log(e.detail)
 			  },
 			afterRead(event){
-				const { file } = event.detail;
-				console.log(file)
-				 uni.uploadFile({
-				      url: 'https://example.weixin.qq.com/upload', // 仅为示例，非真实的接口地址
-				      filePath: file.path,
-				      name: 'file',
-				      formData: { user: 'test' },
-				      success(res) {
-				        // 上传完成需要更新 fileList
-						console,log(1)
-						this.fileList.push({ ...file, url: res.data })
-				      }
-				    })
+				this.fileList.push({url: event.detail.file.path })
+					
+			},
+			getstationId(e){
+				this.stationId = e.detail
+			},
+			getreportSite(e){
+				this.reportSite = e.detail
+			},
+			getreportDescribe(e){
+				this.reportDescribe =e.detail
+			},
+			makesure(){
+				var that = this
+				$http({
+					url: 'https://nei.netease.com/api/apimock-v2/e64ee4e782c695855b9f3645456ae8ce/venus/mobilePhone/historyAlarm?stationId=&type=&userId=&timeStart=&timeEnd=&pageIndex=&pageRows=',
+					data: {
+						id: that.id,
+						stationId: that.stationId,
+						reportSite: that.reportSite,
+						reportDescribe: that.reportDescribe,
+						imgUrl: that.fileList,
+						repostPersonId:22
+						
+					},
+					success(res){
+						console.log(res)
+						// that.user = res.data.username;
+						// that.id = res.data.id;	
+						// console.log(res.tableData)
+						that.tableData = res.data.tableData;
+						uni.navigateBack()
+					}
+				})
 			}
+			
 		}
 	}
 </script>

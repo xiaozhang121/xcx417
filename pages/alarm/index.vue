@@ -13,40 +13,40 @@
 				</van-search>
 			</view>
 			<date-time></date-time>
-			<view class="card">
-				<view class="list" v-for="(item,index) in 5" :key='index'>
-					<view class="list-title">
-						<view class="title-tp">
-							<text class="name">2020.03.29 12:11:42</text>
-							<text class="normal">爆管</text>
+			<scroll-view scroll-y="true" class="card" @scrolltolower='reachBottom' :style="{height:scrollH+'px'}">
+					<view class="list" v-for="(item,index) in tableData" :key='index'>
+						<view class="list-title">
+							<view class="title-tp">
+								<text class="name">{{item.alarmTime}}</text>
+								<text class="normal">{{item.alarmType}}</text>
+							</view>
+							<view class="title-bd">
+								<text>流量: {{item.flowValue}}/h</text>
+								<text>压力: {{item.pressureValue}}pa</text>
+							</view>
 						</view>
-						<view class="title-bd">
-							<text>流量: 735^3/h</text>
-							<text>压力: 5kPa</text>
+						<view class="list-main">
+							<view class="main-tp">
+								<text>站点名称: {{item.stationName}}</text>
+							</view>
+							<view class="main-tp">
+								<text>地理位置: {{item.address}}</text>
+							</view>
+							<view class="main-tp">
+								<text>阀门描述: {{item.valve}}</text>
+							</view>
+							<view class="main-bd">
+								<text>预警描述: </text>
+							</view>
+							<view class="ico">
+								<van-icon name="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAACbElEQVRIS62WP0xTURTGf+d10QXrpOAgLoJKAi6OkGjUkaqJuqhlUBMJ/plMHBQdjE5GCCbGodVNErRMRl1gdZEmgDjJYtENcVAHesx5ty3l8e6zNbzkLfee+333fOffFRK+T0varkp/GTKipBF6QnNlRoXlAAoiTO5rlUUfjMRtGHC5zB2EbNIFantKPgi4G0e0gWC+pJmykhMh3RB4xUiV5UAY2N8mhfpz6whmlzQrSq4Z4KitCgNdrZKvrtcINgO8DvRE1ZOQwDRfLfOxWVl8nppcqYCDFpOQYLakeYELcQdWfsHD97Dwzf2dO91/8yi0bPWLqfC8q02yEmaM8iXO9MMiXBuHld8bd1u2wOPTcKjdTxIIe2S+pNcVHkXN7ObHRx344b0w2AedrfB1GQpFeDINRvJ2yO+JwA2ZLemUQF+U4NYkTBYd+OjZjbccm3Yk/d1wvz/eC4VpmSupVeHuqMnJp/D5O0xcdDePfgtLcOqZi8fEJY9MyowRaNz2gXtude62X+NGbLwEjXrQsQNeXfZfwitRNQZHOmDkzH/GQCl6g2xZdGwEfv4BI7nSu5ZFFvyxKUil4M0g7NqeEGRfmtoRq4OrLx1J9EsJrKoLcu5cfKqGaZpUaAZqnjx456rYsso0N9DBXhgad2s+krDQ/tUq/OFz5NkXjsQqOnd+zbrWKmwpbHaWs7AtCdDXq4zEqjpf6WYKP1JCT63Z2UEbNAqvmyWIsxdY366rRpsxE7wDp0oSjkyw9t2UXCZLANnEkVklqcRk2DcjorJYQFPCcENDv/5w5dliHmVQ0iJ0274qRdaeLYWkZ8tfRVkVrJbBytQAAAAASUVORK5CYII=" />
+							</view>
+						</view>
+						<view class="list-bt" @click="navi(item.id)">
+							处理上报 →
 						</view>
 					</view>
-					<view class="list-main">
-						<view class="main-tp">
-							<text>站点名称: 南京六合站</text>
-						</view>
-						<view class="main-tp">
-							<text>地理位置: 南京六合站</text>
-						</view>
-						<view class="main-tp">
-							<text>阀门描述: </text>
-						</view>
-						<view class="main-bd">
-							<text>预警描述: </text>
-						</view>
-						<view class="ico">
-							<van-icon name="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAACbElEQVRIS62WP0xTURTGf+d10QXrpOAgLoJKAi6OkGjUkaqJuqhlUBMJ/plMHBQdjE5GCCbGodVNErRMRl1gdZEmgDjJYtENcVAHesx5ty3l8e6zNbzkLfee+333fOffFRK+T0varkp/GTKipBF6QnNlRoXlAAoiTO5rlUUfjMRtGHC5zB2EbNIFantKPgi4G0e0gWC+pJmykhMh3RB4xUiV5UAY2N8mhfpz6whmlzQrSq4Z4KitCgNdrZKvrtcINgO8DvRE1ZOQwDRfLfOxWVl8nppcqYCDFpOQYLakeYELcQdWfsHD97Dwzf2dO91/8yi0bPWLqfC8q02yEmaM8iXO9MMiXBuHld8bd1u2wOPTcKjdTxIIe2S+pNcVHkXN7ObHRx344b0w2AedrfB1GQpFeDINRvJ2yO+JwA2ZLemUQF+U4NYkTBYd+OjZjbccm3Yk/d1wvz/eC4VpmSupVeHuqMnJp/D5O0xcdDePfgtLcOqZi8fEJY9MyowRaNz2gXtude62X+NGbLwEjXrQsQNeXfZfwitRNQZHOmDkzH/GQCl6g2xZdGwEfv4BI7nSu5ZFFvyxKUil4M0g7NqeEGRfmtoRq4OrLx1J9EsJrKoLcu5cfKqGaZpUaAZqnjx456rYsso0N9DBXhgad2s+krDQ/tUq/OFz5NkXjsQqOnd+zbrWKmwpbHaWs7AtCdDXq4zEqjpf6WYKP1JCT63Z2UEbNAqvmyWIsxdY366rRpsxE7wDp0oSjkyw9t2UXCZLANnEkVklqcRk2DcjorJYQFPCcENDv/5w5dliHmVQ0iJ0274qRdaeLYWkZ8tfRVkVrJbBytQAAAAASUVORK5CYII=" />
-						</view>
-					</view>
-					<view class="list-bt" @click="navi">
-						处理上报 →
-					</view>
-				</view>
-			</view>
+			</scroll-view>
 		</view>
 	</view>
 </template>
@@ -55,6 +55,7 @@
 	import statusBar from "../../components/status-bar/index.vue"
 	import WatchItem from "../../components/watch-item/index.vue"
 	import DateTime from "../../components/datetime/index.vue"
+	import {$http} from "../common/util.js"
 	export default {
 		name: "user",
 		components: {
@@ -83,20 +84,69 @@
 				timeValue: '请选择结束时间',
 				currentDate: new Date().getTime(),
 				minDate: new Date().getTime(),
-			}
+			},
+			scrollH:'',
+			pageIndex:1,
+			rageRows:5,
+			tableData: []
 		}
 		},
 		computed: {},
-		onLoad() {},
+		onLoad() {
+			this.getHeight()
+			this.gethistory()
+		},
 		methods: {
 			//左上角返回按钮
 			onClickLeft() {
 				uni.navigateBack();
 			},
-			navi(){
+			navi(id){
+				console.log(id)
 				uni.navigateTo({
-					url: "/pages/alarm/alarmreport/index"
+					url: "/pages/alarm/alarmreport/index?id=" + id
 				})
+			},
+			//获取历史报警
+			gethistory(){
+				var that = this
+				$http({
+					url: 'https://nei.netease.com/api/apimock-v2/e64ee4e782c695855b9f3645456ae8ce/venus/mobilePhone/historyAlarm?stationId=&type=&userId=&timeStart=&timeEnd=&pageIndex=&pageRows=',
+					data: {
+						 pageIndex: this.pageIndex,
+						 pageRows: this.rageRows
+					},
+					success(res){
+						console.log(res)
+						// that.user = res.data.username;
+						// that.id = res.data.id;	
+						// console.log(res.tableData)
+						that.tableData = res.data.tableData;
+					}
+				})
+			},
+			//到达底部触发
+			reachBottom(){
+				console.log(1)
+				// if (this.tableData.length >= this.total) {
+				//   // 没有更多数据了，给一个提示，终止后续的接口调用
+				//   uni.showToast({
+				//     title: '没有更多数据了'
+				//   })
+				//   return
+				// }
+				this.pageIndex++;
+				this.gethistory();
+			},
+			//获取当前屏幕高度
+			getHeight(){
+				var that = this
+				wx.getSystemInfo({
+				          success: function(res) {
+				            let scrollH = res.windowHeight;
+				                that.scrollH = scrollH
+				          }
+				      });
 			}
 
 		},
