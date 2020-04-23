@@ -37,35 +37,168 @@
 			</van-popup> 
 				<van-icon class='ico' name="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABV0lEQVRIS92VwU3DQBBF3wASuSUlUEJKSCnmgJwjdGBXQDhh5ZLQgVMBSQWYDtwBuZELHrRrm9iyE9YRllDmYq12dv7O/3/HQs8hPdfn3AGmui4o9IgkbdDp6wy4QZgRSZlbSztO0VQDID/YVsDsRxJQflsEbQL4ukUYFrlhAfB6wAwbIpkwVf3Zz3hgLqYzG02AarISIySA6aQtUoQAZVnZDG1XTgCnefh/ANRu4dSIpyMGfABOHRhxDa+LitgpyiPCCHghkiW+Go2GZKyssLl+nQC8AmDNjoQB93adkTCX2Nozj9QCdgLI/T1BUJ5lY8vc6ZgrhnzyzlK2jXUngPyBlf4P+SLmkrfixoYir+L/6ntwpKjiZSeRTVLHDvYiZzxxQVITeUfMNQsreu8i70V3dtHajoAukTG2U/VXm9aHXReIMvfWWvbgLDql5JEz5/7L/AO6vgGdT7oZrHsq9wAAAABJRU5ErkJggg==" />
 		</view>
-		<view class="echarts" ref="echarts" id="echarts">
-			<!-- <uni-ec-canvas 
-			          class="uni-ec-canvas"
-			          id="uni-ec-canvas"
-			          ref="uni-ec-canvas"
-			          canvas-id="uni-ec-canvas"
-			          :ec="ec"
-			       ></uni-ec-canvas> -->
-				   
-		</view>
+		
+		  <view class="eca">
+		  <uni-ec-canvas
+		    class="uni-ec-canvas"
+		    id="line-chart"
+		    ref="canvas"
+		    canvas-id="lazy-load-chart"
+		    :ec="ec"
+		  ></uni-ec-canvas>
+		  </view>	   
+	
 	</view>
 </template>
 
 <script>
-	   //import uniEcCanvas from '../../../uni-ec-canvas/uni-ec-canvas.vue' 
-	  // import WxCanvas from "../../../uni-ec-canvas/wx-canvas";
-	  // import * as echarts from "../../../uni-ec-canvas/echarts";
-	   //import echarts from './echarts.js'
+	 import uniEcCanvas from '../../../uni-ec-canvas/uni-ec-canvas.vue'
+	 
 	export default {
 		components: {
-			  // uniEcCanvas
+			 uniEcCanvas
+		
 		},
 		mounted() {
-			this.$nextTick(() => {
-				this.ec()
-			})
 		},
 		data(){
 			return {
+				timeData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+			ec: {
+			  option: {
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            animation: false
+        }
+    },
+    legend: {
+        data: ['流量', '压力','开启度']
+    },
+    axisPointer: {
+        link: {xAxisIndex: 'all'}
+    },
+    // dataZoom: [
+    //         {
+    //             show: true,
+    //             realtime: true,
+    //             start: 30,
+    //             end: 70,
+    //             xAxisIndex: [0, 1],
+				// top: '30%'
+    //         },
+    //         {
+    //             type: 'inside',
+    //             realtime: true,
+    //             start: 30,
+    //             end: 70,
+    //             xAxisIndex: [0, 1],
+				// top: '30%'
+    //         }
+    //     ],
+    grid: [{
+        left: 40,
+        right: 40,
+        height: '15%'
+    }, {
+        left: 40,  
+        right: 40,
+        top: '30%',
+        height: '15%'
+    }],
+    xAxis: [
+        {
+            type: 'category',
+            boundaryGap: false,
+            axisLine: {onZero: true},
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        {
+            gridIndex: 1,
+            type: 'category',
+            boundaryGap: false,
+            axisLine: {onZero: true},
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            position: 'top'
+        }
+    ],
+    yAxis: [
+        {
+            name: '流量(m^3/s)',
+            type: 'value',
+            max: 500
+        },
+        {
+            gridIndex: 1,
+            name: '降雨量(mm)',
+            type: 'value',
+			max: 8,
+            inverse: true
+        },
+		{
+		    // gridIndex: 1,
+		    name: '开启度(%)',
+		    type: 'value',
+			max: 8,
+			// axisLabel: {
+			//    show: true,
+			//       interval: 'auto',//居中显示
+			//    formatter: '{value} %'//以百分比显示
+			//                         },
+		    //inverse: true
+		}
+    ],
+    series: [
+        {
+            name: '流量',
+            type: 'line',
+            symbolSize: 8,
+            hoverAnimation: false,
+			itemStyle : {
+				  normal : {
+				   lineStyle:{
+				   color:'#FFB917'//设置折线线条颜色
+				   }
+				   }
+			},
+            data: [
+					0,1,1,1,1,2
+            ]
+        },
+		{
+		     name: '压力',
+		     type: 'line',
+			step: 'middle',
+			 itemStyle : {
+			  normal : {
+			   lineStyle:{
+			   color:'#0068FF'//设置折线线条颜色
+			   }
+			   }
+		},
+		     data: [220, 282, 201, 234, 290, 430, 410]
+		},
+        {
+            name: '开启度',
+            type: 'line',
+            xAxisIndex: 1,
+            yAxisIndex: 1,
+            symbolSize: 8,
+            hoverAnimation: false,
+			itemStyle : {
+				  normal : {
+				   lineStyle:{
+				   color:'#00C3A2'//设置折线线条颜色
+				   }
+				   }
+			},
+            data: [
+					0,0,0,0,0,0,1
+            ]
+        }
+    ]
+}
+			},	
 			formatter(type, value) {
 			      if (type === 'year') {
 			        return `${value}年`;
@@ -92,17 +225,6 @@
 			}
 		},
 			methods: {
-				ec(){
-					// const view = uni.createSelectorQuery().select('.echarts');
-					// console.log(view)
-					// debugger
-					// var myChart = echarts.init(view);
-					// debugger
-					// myChart.setOption(this.option)
-					
-					//console.log(view)
-					
-				},
 				showStart() {
 				    this.start.show = true
 				  },
@@ -132,21 +254,23 @@
 				let day = time.getDate();        
 				return year + '年' + month + '月' + day + '日'      
 				}
-	}
+					}
+			
 	}
 </script>
 
 <style lang="less">
-	.echarts {
+.eca {
 		width: 100%;
-		height: 300px;
-		.uni-ec-canvas {
-			width: 100%;
-			height: 100%;
-			display: block;
-			font-size: 12rpx;
-		}
+		height: 700px;
 	}
+	.uni-ec-canvas {
+		width: 100%;
+		height: auto;
+		display: block;
+		font-size: 12rpx;
+	}
+	
 	.date {
 		width: 100%;
 		overflow: hidden;

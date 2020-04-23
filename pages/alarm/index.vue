@@ -13,7 +13,7 @@
 				</van-search>
 			</view>
 			<date-time></date-time>
-			<scroll-view scroll-y="true" class="card" @scrolltolower='reachBottom' :style="{height:scrollH+'px'}">
+			<scroll-view scroll-y="true" class="card" @scrolltolower='reachBottom' :style="{height:scrollH+'px'}" :lower-threshold="0">
 					<view class="list" v-for="(item,index) in tableData" :key='index'>
 						<view class="list-title">
 							<view class="title-tp">

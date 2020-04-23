@@ -86,14 +86,34 @@
 <script>
 	import statusBar from "../../components/status-bar/index.vue"
 	import {$http} from "../common/util.js"
+	import uniEcCanvas from '../../uni-ec-canvas/uni-ec-canvas.vue'
 	export default {
 		name: "user",
-		components: { statusBar },
+		components: { 
+			statusBar,
+			 uniEcCanvas
+			 },
 		data() {
 			return {
 				imgURL: this.$store.state.imgURL,
 				user:'',
-				id:''
+				id:'',
+				ec:{
+								                option:{
+				    xAxis: {
+				        type: 'category',
+				        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+				    },
+				    yAxis: {
+				        type: 'value'
+				    },
+				    series: [{
+				        data: [820, 932, 901, 934, 1290, 1330, 1320],
+				        type: 'line'
+				    }]
+				} //echart 配置项
+								            }
+				
 			}
 		},
 		computed: {
@@ -146,6 +166,12 @@
 </script>
 
 <style lang="less">
+	.uni-ec-canvas {
+		width: 100%;
+		height: 100%;
+		display: block;
+		font-size: 12rpx;
+	}
 .box {
 	background: #f5f7f9;
 	height: 100%;

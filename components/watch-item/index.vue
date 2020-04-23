@@ -1,24 +1,26 @@
 <template>
-	<view class="list">
-		<view class="list-title">
-			<view class="title-tp">
-				<text class="name">南京六合站</text>
-				<navigator class="normal" url="/pages/details/index">正常</navigator>
-				<view class="ico">
-					<van-icon name="arrow"/>
+	<view class="">
+		<view class="list" v-for="item in receive" :key='item' @click="enter(item.id)">
+			<view class="list-title">
+				<view class="title-tp">
+					<text class="name">{{item.stationName}}</text>
+					<navigator class="normal" url="/pages/details/index">{{item.workStatus}}</navigator>
+					<view class="ico">
+						<van-icon name="arrow"/>
+					</view>
+				</view>
+				<view class="title-bd">
+					编号： {{deviceNo}}
 				</view>
 			</view>
-			<view class="title-bd">
-				编号： 00121530
-			</view>
-		</view>
-		<view class="list-main">
-			<view class="main-tp">
-				<text>流量: 735^3/h</text>
-				<text>压力: 5kPa</text>
-			</view>
-			<view class="main-bd">
-				位置: 南京市六合区宁六路219号
+			<view class="list-main">
+				<view class="main-tp">
+					<text>流量: {{item.waterFlow}}</text>
+					<text>压力: {{item.waterPressure}}</text>
+				</view>
+				<view class="main-bd">
+					位置: {{item.address}}
+				</view>
 			</view>
 		</view>
 	</view>
@@ -30,6 +32,14 @@
 			return {
 				
 			};
+		},
+		props:["receive"],
+		methods:{
+			enter(id){
+				uni.navigateTo({
+					url:'/pages/details/index?id='+id
+				})
+			}
 		}
 	}
 </script>

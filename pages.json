@@ -12,7 +12,8 @@
 		{"path": "pages/alarm/index"},
 		{"path": "pages/alarm/alarmreport/index"},
 		{"path": "pages/message/index"},
-		{"path": "pages/message/messagedetail/index"}
+		{"path": "pages/message/messagedetail/index"},
+		{"path": "pages/eca/index"}
 		
 	],
 	"globalStyle": {

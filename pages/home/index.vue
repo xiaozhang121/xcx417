@@ -60,7 +60,8 @@
 <script>
 	import statusBar from "../../components/status-bar/index.vue"
 	import WatchItem from "../../components/watch-item/index.vue"
-	 import uniEcCanvas from '../../uni-ec-canvas/uni-ec-canvas.vue'  
+	import uniEcCanvas from '../../uni-ec-canvas/uni-ec-canvas.vue'
+	
 	export default {
 		name: "user",
 		components: { 
@@ -70,30 +71,57 @@
 		},
 		data() {
 			return{
-				 ec:{
-				       option: {
-				           tooltip: {
-				                  formatter: '{a} <br/>{b} : {c}%'
-				              },
-				              toolbox: {
-				                  feature: {
-				                      restore: {},
-				                      saveAsImage: {}
-				                  }
-				              },
-				              series: [
-				                  {
-				                      name: '业务指标',
-				                      type: 'gauge',
-				                      detail: {
-									  formatter: '{value}%',
-									  offsetCenter: [0,"50%"]
-									  },
-				                      data: [{value: 50, name: '完成率'}]
-				                  }
-				              ]
-				       }
-					}
+				ec:{
+				                option:{
+    title: {
+        text: 'Step Line'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        data: ['Step Start', 'Step Middle', 'Step End']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            name: 'Step Start',
+            type: 'line',
+            step: 'start',
+            data: [120, 132, 101, 134, 90, 230, 210]
+        },
+        {
+            name: 'Step Middle',
+            type: 'line',
+            step: 'middle',
+            data: [220, 282, 201, 234, 290, 430, 410]
+        },
+        {
+            name: 'Step End',
+            type: 'line',
+            step: 'end',
+            data: [450, 432, 401, 454, 590, 530, 510]
+        }
+    ]
+} //echart 配置项
+				            }
 			}
 		},
 		computed: {
@@ -103,10 +131,6 @@
 		},
 		onLoad() {},
 		methods: {
-			//左上角返回按钮
-			 onClickLeft(){
-				 console.log(1)
-			},
 		
 			
 		},
@@ -116,6 +140,10 @@
 </script>
 
 <style lang="less">
+	.top {
+		width: 300px;
+		height: 200px;
+	}
 	.uni-ec-canvas {
 		width: 100%;
 		height: 100%;

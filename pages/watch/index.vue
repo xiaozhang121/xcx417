@@ -12,10 +12,10 @@
 					<view slot="action" bind:tap="onClick" class="se-btn">搜索</view>
 				</van-search>
 			</view>
-			<scroll-view scroll-y="true" class="scroll-Y">
-				<view class="body">
-					<watch-item v-for="item in 6" :key='item'></watch-item>
-				</view>
+			<scroll-view scroll-y="true" class="body">
+			<!-- 	<view class="body" @click="enter"> -->
+					<watch-item :receive='tableData' @scrolltolower='reachBottom' :style="{height:scrollH+'px'}" :lower-threshold="0"></watch-item>
+				<!-- </view> -->
 			</scroll-view>
 
 		</view>
@@ -25,22 +25,60 @@
 <script>
 	import statusBar from "../../components/status-bar/index.vue"
 	import WatchItem from "../../components/watch-item/index.vue"
+	import {$http} from "../common/util.js"
 	export default {
 		name: "user",
 		components: {
 			statusBar,
-			WatchItem
+			WatchItem,
+			
 		},
 		data() {
-
+			return {
+				pageIndex:1,
+				pageRows:5,
+				tableData:[]
+			}
 		},
 		computed: {},
-		onLoad() {},
+		onLoad(option) {
+			this.getwatch(),
+			console.log(option)
+		},
 		methods: {
 			//左上角返回按钮
 			onClickLeft() {
 				uni.navigateBack();
-			}
+			},
+			enter(){
+				uni.navigateTo({
+					url:'/pages/details/index'
+				})
+			},
+			getwatch(){
+				var that = this
+				$http({
+					url: 'https://nei.netease.com/api/apimock-v2/e64ee4e782c695855b9f3645456ae8ce/venus/mobilePhone/stationList/ByPage?userId=&stationNameOrCode=&pageIndex=&pageRows=',
+					data: {
+						 pageIndex:that.pageIndex,
+						 pageRows:that.pageRows,
+						 userId: '22'
+					},
+					success(res){
+						//console.log(res)
+						// that.user = res.data.username;
+						// that.id = res.data.id;	
+						that.tableData = res.data.tableData	
+						console.log(that.tableData)
+					}
+				})
+				
+			},
+			reachBottom(){
+				console.log(1)
+				this.pageIndex++;
+				this.getwatch();
+			},
 
 		},
 		mounted() {},
@@ -49,9 +87,19 @@
 </script>
 
 <style lang="less">
+	.eca {
+		width: 300px;
+		height: 200px;
+	}
+	.uni-ec-canvas {
+		width: 100%;
+		height: 100%;
+		display: block;
+		font-size: 12rpx;
+	}
 	.box {
 		height: 100%;
-
+background-color: rgb(243, 243, 243);
 		.search {
 			width: 100%;
 
@@ -72,15 +120,15 @@
 
 		.content {
 			padding: 42px 0 0;
-			height: 100%;
 			box-sizing: border-box;
+			
+			// .scroll-Y {
+			// 	background-color: rgb(243, 243, 243);
 
-			.scroll-Y {
-				background-color: rgb(243, 243, 243);
-
-			}
+			// }
 
 			.body {
+				box-sizing: border-box;
 				height: 100%;
 				padding: 10rpx 25rpx 0 25rpx;
 			}
