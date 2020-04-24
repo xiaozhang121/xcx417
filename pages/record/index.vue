@@ -8,13 +8,13 @@
 		<!-- 内容展示 -->
 		<view class="content">
 			<scroll-view scroll-y="true" class="sco">
-				<view class="list" v-for="item in 18" :key='item' @click="enter">
+				<view class="list" v-for="(item,index) in tableData" :key='item' @click="enter(item.id)">
 					<view class="tco">
 						<van-icon name="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAB3UlEQVRIS9WX207CQBCG/2kJgQBqpASNGm18Aa/UO/XJhCdT79QrX0BWo0YRazCcKqFds1uq9QDdbpTGuWibdjrf/jsz7S5hbIyxfQ46BLAFYCG8/0vnNoALAq/btn0sYpI4XDJWowD658bB65u2XaOx0qM/J0YABH5ADcaOAdqbJRjgJ3TZYG0imp8tGG1qsCs+Y6jE/T9wxbLg+z6c52etCdNSXF5cxNxcSQJbTw663W5ieGJwsVhExSp/AunAE4F/goYjaD620O/3lZUrgzOZDNZWVyYGFvm+ub2TeVcxZfBoNILjOO8xd3e25fXp2XnQHkSwLAuGYahw9dvJ3liXAHZ1rQT66qSkOJfLAQi+M77PMRwOEQVHnwsf132NHUwsWARdXqp+CiRURsHhdeh0/9CE67pT4bHgpWoV+bxQ/GEC7A4G8kYun38fROgxGLh4aDb1wZMqWUy15wXVa5oGstnsN4iocFGQk2yqYqtcRqlUjM3XTw6dThdPkS5IVFxfc5d0BNMqfqpiwyCYppmUJ/09z5MdoDXVvV4PnOv9rsUHpVAo6IG1pCq+FNtOinESu6UHTmOxxzl/SW95m9qCXlRFKluYsBwD5ahxjq3fXuDLnJLYtKEWbtreAOWZAuYf28zLAAAAAElFTkSuQmCC" />
 					</view>
 					<view class="list-title">
 						<view class="title-tp">
-							<text class="name">预警上报</text>
+							<text class="name">{{item.reportType}}</text>
 							<navigator class="normal" url="/pages/recordDetails/index">
 								<view class="ico">
 									<van-icon name="arrow" color='#BBBBBB'/>
@@ -22,7 +22,7 @@
 							</navigator>
 						</view>
 						<view class="title-bd">
-							2020.03.30 12:01:25
+							{{item.reportTime}}
 						</view>
 					</view>
 				</view>
@@ -37,17 +37,25 @@
 <script>
 	import statusBar from "../../components/status-bar/index.vue"
 	import WatchItem from "../../components/watch-item/index.vue"
+	import {$http} from "../common/util.js"
 	export default {
-		name: "user",
+		name: "record",
 		components: {
 			statusBar,
 			WatchItem
 		},
 		data() {
-
+			return {
+				pageIndex:1,
+				pageRows:5,
+				id:'',
+				tableData:[]
+			}
 		},
 		computed: {},
-		onLoad() {},
+		onLoad() {
+			this.getrecord()
+		},
 		methods: {
 			//左上角返回按钮
 			onClickLeft() {
@@ -58,9 +66,27 @@
 				            url:"/pages/report/index"
 				        })
 			},
-			enter(){
+			enter(id){
+				console.log(id)
 				uni.navigateTo({
-					url: "/pages/recordDetails/index"
+					url: "/pages/recordDetails/index?id="+id
+				})
+			},
+			getrecord(){
+				var that = this;
+				var user = uni.getStorageSync('userinfo')
+				this.id = user.id;
+				$http({
+					url: 'https://nei.netease.com/api/apimock-v2/e64ee4e782c695855b9f3645456ae8ce/venus/crud/PnmHistoryReport/',
+					data: {
+						 pageIndex:that.pageIndex,
+						 pageRows:that.pageRows,
+						 userId: that.id
+					},
+					success(res){
+						console.log(res.data)
+						that.tableData = res.data.tableData
+					}
 				})
 			}
 				

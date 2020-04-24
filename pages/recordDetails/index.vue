@@ -59,7 +59,9 @@
 			}
 		},
 		computed: {},
-		onLoad() {},
+		onLoad(option) {
+			console.log(option)
+		},
 		methods: {
 			//左上角返回按钮
 			onClickLeft() {
