@@ -79,10 +79,9 @@
 	.box {
 		 height: 100%;
 		background-color: #F3F3F3;
-		// padding: 30rpx 20rpx;
+	
 		.content {
 			padding: 44px 0 0;
-			// height: 100%;
 			box-sizing: border-box;
 			.list {
 				border-radius: 10rpx;

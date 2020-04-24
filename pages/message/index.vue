@@ -37,6 +37,7 @@
 <script>
 	import statusBar from "../../components/status-bar/index.vue"
 	import WatchItem from "../../components/watch-item/index.vue"
+	import {$http} from "../common/util.js"
 	export default {
 		name: "user",
 		components: {
@@ -49,7 +50,9 @@
 		}
 		},
 		computed: {},
-		onLoad() {},
+		onLoad() {
+			this.getmessage()
+		},
 		methods: {
 			//左上角返回按钮
 			onClickLeft() {
@@ -58,6 +61,26 @@
 			enter() {
 				uni.navigateTo({
 					url:'/pages/message/messagedetail/index'
+				})
+			},
+			getmessage(){
+				var that = this;
+				var {id} = uni.getStorageSync('userinfo')
+				console.log(id)	
+				$http({
+					url: 'https://nei.netease.com/api/apimock-v2/e64ee4e782c695855b9f3645456ae8ce/venus/mobilePhone/message',
+					data: {
+						 pageIndex:that.pageIndex,
+						 pageRows:that.pageRows,
+						 userId: id
+					},
+					success(res){
+						console.log(res)
+						// that.user = res.data.username;
+						// that.id = res.data.id;	
+						// that.tableData = res.data.tableData	
+						// console.log(that.tableData)
+					}
 				})
 			}
 		},

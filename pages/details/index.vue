@@ -44,7 +44,7 @@
 	import one from "./one/index.vue"
 	import two from "./two/index.vue"
 	import three from "./three/index.vue" 
-	
+	import {$http} from "../common/util.js"
 	
 	export default {
 		name: "user",
@@ -67,6 +67,7 @@
 		onLoad(option) {
 			console.log(option)
 			this.id = option.id
+			this.getDetail()
 		},
 		methods: {
 			//左上角返回按钮
@@ -77,7 +78,16 @@
 				
 			},
 			getDetail(){
-				
+					var that = this
+					$http({
+						url: 'https://nei.netease.com/api/apimock-v2/e64ee4e782c695855b9f3645456ae8ce/venus/crud/PnmStation/view?id=',
+						data: {
+							 id:that.id
+						},
+						success(res){
+						console.log(res)
+						}
+					})
 			},
 			show(n){
 				this.index = n

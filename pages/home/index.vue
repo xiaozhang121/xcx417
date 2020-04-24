@@ -21,26 +21,45 @@
 				</view>
 				<view class="watch">
 					<view class="mh">
-						<uni-ec-canvas
-						   class="uni-ec-canvas"
-						   id="uni-ec-canvas"
-						   ref="uni-ec-canvas"
-						   canvas-id="uni-ec-canvas"
-						   :ec="ec"
-						></uni-ec-canvas>
+						<view class="ec-text">
+							<view class="text-bt">
+								<text>流量</text>
+								<br />
+								<text>(m^3/h)</text>
+							</view>
+						</view>
+						<view class="ech">
+							<uni-ec-canvas
+							   class="uni-ec-canvas"
+							   id="uni-ec-canvas"
+							   ref="uni-ec-canvas"
+							   canvas-id="uni-ec-canvas"
+							   :ec="ec"
+							></uni-ec-canvas>
+						</view>
 					</view>
 					<view class="kpa">
-						<uni-ec-canvas
-						   class="uni-ec-canvas"
-						   id="uni-ec-canvas"
-						   ref="uni-ec-canvas"
-						   canvas-id="uni-ec-canvas"
-						   :ec="ec"
-						></uni-ec-canvas>
+						<view class="ec-text">
+							<view class="text-bt">
+								<text>压力</text>
+								<br />
+								<text>(kPa)</text>
+							</view>
+						</view>
+						<view class="ech">
+							<uni-ec-canvas
+							   class="uni-ec-canvas"
+							   id="uni-ec-canvas"
+							   ref="uni-ec-canvas"
+							   canvas-id="uni-ec-canvas"
+							   :ec="ec"
+							></uni-ec-canvas>
+						</view>
 					</view>
 				</view>
 				<view class="local">
 					<van-icon name='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAABPElEQVQ4T72UwVEDMQxFJTVAOoBUAOmAEkIFhMtqfaSChA64eXxaqIB0AB0QKiBUwHLNQWKc8TLGsdkNk4lvO5aev/SlRTjwwQPz4LhAa+0ZIs4RcQoAIwBoVXWpqnfGmHWuuqJCa+0lET0FUJrbisiVMeYlvcgCvTIiek1gHwBwGgE8dJIqzQKdcw8AcO2TVfVNVac+MbRgiYjnAfzIzLNYZQno+7NVg4iTqqpWXVJoxXN4bF3X9XgIULsgZv71aNM0o81m81m6LylsAeDEJ4nIjTHGt2B7rLUzImrC5xcze/d/Tm8Pw6gsiGglIheIuIjMGtbD4PJ73xaJyHiQy5nSdthpK7qAP1fPOefLm2eU3jLz/V6b0gXHM1mavV5T0pcj6I4Jg1YvV4ofl3h8SoYd9/fVNzb/MmVf6DcBtocVrvnaNQAAAABJRU5ErkJggg=='></van-icon>
+					<text>地理位置: 甘肃省陇南市</text>
 				</view>
 				<view class="exercise">
 					<view class="ex-left">
@@ -75,7 +94,6 @@
 			option:{
     series: [
         {
-           
             name: '1',
             type: 'gauge',
             center: ['50%', '55%'], // 默认全局居中
@@ -158,9 +176,7 @@
                 },
                 formatter: '{value}'
             },
-            data: [
-                { value: 40 }
-            ]
+            data: [{value: 40, name: '',itemStyle:{color:'#00C3A2'}}]
         }
     
     ]
@@ -194,10 +210,6 @@
 		display: block;
 		font-size: 12rpx;
 	}
-	.ech {
-		width: 100%;
-		height: 300px;
-	}
 	.box {
 		.content {
 			padding: 62px 0 0;
@@ -207,7 +219,7 @@
 			.bottom {
 				padding: 40rpx 30rpx 0 30rpx;
 				width: 100%;
-				height: 512rpx;
+				height: 532rpx;
 				position: absolute;
 				bottom: 0;
 				left: 0;
@@ -241,17 +253,56 @@
 					height: 160rpx;
 					border-top: 1px solid #EEEEEEFF;
 					display: flex;
+					padding-top: 20rpx;
 					.mh {
 						flex: 1;
-						border: 1px solid #333;
 						margin-right: 50rpx;
 						height: 160rpx;
+						.ec-text {
+							width: 40%;
+							height: 100%;
+							font-size: 28rpx;
+							color: #666666;
+							float: left;
+							position: relative;
+							.text-bt{
+								position: absolute;
+								left: 0;
+								bottom: 10%;
+								font-size: 28rpx;
+								line-height: 1.5;
+							}
+						}
+						.ech {
+							width: 60%;
+							height: 100%;
+							float: right;
+						}
 					}
 					.kpa {
 							flex: 1;
-							border: 1px solid #333;
 							margin-left: 50rpx;
 							height: 160rpx;
+							.ec-text {
+								width: 40%;
+								height: 100%;
+								font-size: 28rpx;
+								color: #666666;
+								float: left;
+								position: relative;
+								.text-bt{
+									position: absolute;
+									left: 0;
+									bottom: 10%;
+									font-size: 28rpx;
+									line-height: 1.5;
+								}
+							}
+							.ech {
+								width: 60%;
+								height: 100%;
+								float: right;
+							}
 					}
 				}
 				.local {
@@ -265,9 +316,15 @@
 						left: 0;
 						top: 10rpx;
 					}
+					text {
+						color: #666666;
+						font-size: 28rpx;
+					}
 				}
 				.exercise{
 					padding: 25rpx 0 0 0;
+					font-size: 28rpx;
+					font-weight: 700;
 					.ex-left {
 						display: inline-block;
 						.van-icon--image {
@@ -278,6 +335,7 @@
 							left: 0;
 							top: 10rpx;
 						}
+						
 					}
 					.ex-right {
 						display: inline-block;

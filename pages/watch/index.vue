@@ -58,14 +58,14 @@
 			getwatch(){
 				var that = this
 				$http({
-					url: 'https://nei.netease.com/api/apimock-v2/e64ee4e782c695855b9f3645456ae8ce/venus/mobilePhone/stationList/ByPage?userId=&stationNameOrCode=&pageIndex=&pageRows=',
+					url: 'https://nei.netease.com/api/apimock-v2/e64ee4e782c695855b9f3645456ae8ce/venus/mobilePhone/stationList/ByPage',
 					data: {
 						 pageIndex:that.pageIndex,
 						 pageRows:that.pageRows,
 						 userId: '22'
 					},
 					success(res){
-						//console.log(res)
+						console.log(res)
 						// that.user = res.data.username;
 						// that.id = res.data.id;	
 						that.tableData = res.data.tableData	
@@ -95,7 +95,6 @@
 		width: 100%;
 		height: 100%;
 		display: block;
-		font-size: 12rpx;
 	}
 	.box {
 		height: 100%;

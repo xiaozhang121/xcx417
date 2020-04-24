@@ -15,23 +15,26 @@
 			</view>
 			  <view class="name">
 			  	<van-field
-			  	 placeholder="请输入用户名"
-			  	  left-icon="contact"
+			  	 placeholder="请输入账号"
+			  	  left-icon="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABI0lEQVRIS+2UzW3DMAyFSdgDpBOkHUEwfU6yQbpBOkon6Ah1J0g3SO4SoGxQe4KmAwgsGMiAD/pLiqCHhGfqfeQjKYQrB15ZH24MYK19FEuVUn2ptUUWGWPWAPAOADMvfASAFyL6zIGyAC++jQg95yAlALFjHgEciegh1UUSYK2dOee+UwJVVT2lZvK/AKncGJOyaCCi02bFIjsDrfUSEXchAWZetW27/xNAHntINxn2wMybnLi8zXYwrU6G7g9N7qAoSob8BgByaOORjcI9InZN07xeZJF8C8458T45RGY+1HW9UkoFu4p2oLXeI+KiyAeADyLahHKDAF/9V6H4KS12cEFA5v8JcmMrGwSkdj/S1Q8zr0Nre9aanmPZmHsHZF37Bf79cRljR2RXAAAAAElFTkSuQmCC"
+				  @change='getaccount'
 			  	/>
 			  </view>
 			 <view class="password">
 			 	<van-field
-			 	 placeholder="请输入用户名"
-			 	  left-icon="contact"
+			 	 placeholder="请输入密码"
+			 	  left-icon="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABX0lEQVRIS+2U303DMBDG75S80xHKBI2T8ztsABPACO0ElAmgEzACbEB5tiNnhLJBeY916KRECvmDXbV9gnuydNb38313Z4QzB55ZH/4YwDk3Y+ZFnucfsdZGWSTC3vsXALjpCC+JaBMCRQGstW8AcAUA98y8lzMiPgDALRFJbjJiAdwXa6BARN2qBqAgwBgjr31n5mut9bZVMMaspRKttVR2eAWN8B0zZ4iYMXOFiGJPG3MAmAFAJbk0TTdKqV2fNFqBcy7z3rtQA7t5gWitVRSgLMslMz+NAD7lxU3DL/p5Iho8eLQC8beZkq7GV5Ikc6XUvixLmSYZ2x9xLGBHRJei2Db+1ABAxFVRFM/WWrFpcXIAMz9qrdfWWtmLQRxrkQhukyRZTU1YNMBaK9v5esiYyt1oQPO5ydYOfJ6Ctv2J2oP2kixcXdeyrb9GmqaVjO/YpeBfFBIP5f8BIYfgG6/GnBlwcnI3AAAAAElFTkSuQmCC"
+				  @change='getpassword'
 			 	/>
 			 </view>
-			 	<van-button round type="info">登 录</van-button>
+			 	<van-button round type="info" @click='getuser'>登 录</van-button>
 		</view>
 	</view>
 </template>
 
 <script>
 	import statusBar from "../../components/status-bar/index.vue"
+	import {$http} from "../common/util.js"
 	export default {
 		name: "user",
 		components: { statusBar },
@@ -39,6 +42,8 @@
 			return {
 				imgURL: this.$store.state.imgURL,
 				value:'',
+				account:'',
+				password:''
 			}
 		},
 		computed: {
@@ -51,9 +56,29 @@
 			//左上角返回按钮
 		onClickLeft(){
 			},
-			onChange(e){
-				console.log(e.detail)
+		getaccount(e){
+			this.account = e.detail
+		},
+		getpassword(e){
+			this.password = e.detail
+		},
+		getuser(){
+			var that = this
+			$http({
+				url: 'https://nei.netease.com/api/apimock-v2/e64ee4e782c695855b9f3645456ae8ce/venus/mobilePhone/login?account=&password=',
+				data: {
+					account:that.account,
+					password:that.password
+				},
+				success(res){
+					uni.setStorageSync('userinfo', res.data)
+					uni.switchTab({
+						url:'/pages/user/index'
+					})
 				}
+			})
+			
+		}
 		},
 		mounted() {}
 	}
@@ -64,6 +89,10 @@
 	background: #f5f7f9;
 	height: 100%;
 	overflow: hidden;
+	.van-icon--image {
+		width: 48rpx!important;
+		height: 48rpx!important;
+	}
 	.van-hairline--bottom:after{
 		border-bottom: 0;
 		}

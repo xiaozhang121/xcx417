@@ -10,15 +10,17 @@
 					class='left'
 			       :value="start.timeValue"
 			       @click="showStart" />
-			<van-popup :show="start.show" @close="StartClose"  position="bottom">
-				  <van-datetime-picker
-				    type="date"
-				    :value="start.currentDate"
-				    :min-date="start.minDate"
-				    :formatter="formatter"
-					@confirm = 'startConfirmFn'
-				  />
-			</van-popup> 
+				   <cover-view>
+					   <van-popup :show="start.show" @close="StartClose"  position="bottom">
+					   	  <van-datetime-picker
+					   	    type="date"
+					   	    :value="start.currentDate"
+					   	    :min-date="start.minDate"
+					   	    :formatter="formatter"
+					   		@confirm = 'startConfirmFn'
+					   	  />
+					   </van-popup> 
+				   </cover-view>
 			<view class="mid">
 				-
 			</view>
@@ -27,17 +29,18 @@
 			       :value="end.timeValue"
 			       @click="showEnd" />
 			<van-popup :show="end.show" @close="EndClose"  position="bottom">
-				  <van-datetime-picker
+				  <cover-view>
+				<van-datetime-picker
 				    type="date"
 				    :value="end.currentDate"
 				    :min-date="end.minDate"
 				    :formatter="formatter"
 					@confirm = 'endConfirmFn'
-				  />
+				  /></cover-view>
 			</van-popup> 
 				<van-icon class='ico' name="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABV0lEQVRIS92VwU3DQBBF3wASuSUlUEJKSCnmgJwjdGBXQDhh5ZLQgVMBSQWYDtwBuZELHrRrm9iyE9YRllDmYq12dv7O/3/HQs8hPdfn3AGmui4o9IgkbdDp6wy4QZgRSZlbSztO0VQDID/YVsDsRxJQflsEbQL4ukUYFrlhAfB6wAwbIpkwVf3Zz3hgLqYzG02AarISIySA6aQtUoQAZVnZDG1XTgCnefh/ANRu4dSIpyMGfABOHRhxDa+LitgpyiPCCHghkiW+Go2GZKyssLl+nQC8AmDNjoQB93adkTCX2Nozj9QCdgLI/T1BUJ5lY8vc6ZgrhnzyzlK2jXUngPyBlf4P+SLmkrfixoYir+L/6ntwpKjiZSeRTVLHDvYiZzxxQVITeUfMNQsreu8i70V3dtHajoAukTG2U/VXm9aHXReIMvfWWvbgLDql5JEz5/7L/AO6vgGdT7oZrHsq9wAAAABJRU5ErkJggg==" />
 		</view>
-		  <view class="eca">
+		  <view class="eca" v-if="start.show===false&&end.show===false">
 		  <uni-ec-canvas
 		    class="uni-ec-canvas"
 		    id="line-chart"
