@@ -12,19 +12,24 @@
 			   ref="uni-ec-canvas"
 			   canvas-id="uni-ec-canvas"
 			   :ec="ec"
-			></uni-ec-canvas> -->
+			></uni-ec-canvas> --> 
 			<!-- <van-tabs>
-			  <van-tab title="站点详情" @click='active=0'>
+			  <van-tab title="站点详情" @click='show()'>
 				<one v-if="active===0"></one>
 			  </van-tab>
 			  <van-tab title="历史记录">
-				  <two v-if="active===1" @click='active=1'></two> 
+				  <two v-if="active===1"></two> 
 			  </van-tab>
 			  <van-tab title="历史报警">
 				  <three v-if="active===2"></three>
 			  </van-tab>
 			</van-tabs> -->
-			<view class="btn" v-for="(item,n) in arr" @click="show(n)" >
+			<view class="tab">
+				<view class="btn" v-for="(item,n) in title" @click="show(n)" :key='n'>
+					<view class="btn-title" :class="n===index?'col':''">
+						{{item}}
+					</view>
+				</view>
 			</view>
 			<one v-if="index===0"></one>
 			<two v-if="index===1"></two>
@@ -48,14 +53,14 @@
 			WatchItem,
 			one,
 			two,
-			three,
-			
+			three
 		},
 		data() {
 		return {
 			active: 0,
 			arr:[0,1,2],
-			index: 0
+			index: 0,
+			title: ['站点详情','历史记录','历史报警']
 		}
 		},
 		computed: {},
@@ -76,7 +81,6 @@
 			},
 			show(n){
 				this.index = n
-				
 			}
 
 		},
@@ -95,6 +99,7 @@
 	}
 	.box {
 		height: 100%;
+		background-color: #F3F3F3;
 		.content {
 			padding: 42px 0 0;
 			
@@ -112,10 +117,30 @@
 
 		}
 	}
+	.tab {
+		width: 100%;
+		height: 80rpx;
+		padding: 0 120rpx;
+		display: flex;
+		box-sizing: border-box;
+		background-color: #FFFFFF;
+	}
 	.btn {
-		width: 20px;
-		height: 20px;
-		border: 1px solid #333;
+		padding: 0 20rpx;
+		margin-top: 20rpx;
+		// border: 1px solid #333;
+		float: left;
+		flex: 1;
+		font-size: 28rpx;
+		text-align: center;
+		color: #999999;
 		
+		.btn-title{
+			padding-bottom: 15rpx;
+		}
+	}
+	.col{	
+		color: #005AC3;
+		border-bottom: 6rpx solid #005AC3;
 	}
 </style>

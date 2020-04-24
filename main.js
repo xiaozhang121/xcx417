@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import App from './App'
 import store from './store'
-
+import echarts from './uni-ec-canvas/echarts.js'
+Vue.prototype.$echarts = echarts
 
 Vue.config.productionTip = false
 

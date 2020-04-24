@@ -72,53 +72,97 @@
 		data() {
 			return{
 				ec:{
-				                option:{
-    title: {
-        text: 'Step Line'
-    },
-    tooltip: {
-        trigger: 'axis'
-    },
-    legend: {
-        data: ['Step Start', 'Step Middle', 'Step End']
-    },
-    grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-    },
-    toolbox: {
-        feature: {
-            saveAsImage: {}
-        }
-    },
-    xAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    },
-    yAxis: {
-        type: 'value'
-    },
+			option:{
     series: [
         {
-            name: 'Step Start',
-            type: 'line',
-            step: 'start',
-            data: [120, 132, 101, 134, 90, 230, 210]
-        },
-        {
-            name: 'Step Middle',
-            type: 'line',
-            step: 'middle',
-            data: [220, 282, 201, 234, 290, 430, 410]
-        },
-        {
-            name: 'Step End',
-            type: 'line',
-            step: 'end',
-            data: [450, 432, 401, 454, 590, 530, 510]
+           
+            name: '1',
+            type: 'gauge',
+            center: ['50%', '55%'], // 默认全局居中
+            radius: '100%',
+            min: 0,
+            max: 120,  
+            splitNumber: 10,
+            axisLine: { // 坐标轴线
+                lineStyle: { // 属性lineStyle控制线条样式
+                    color:  [
+                    [1,new this.$echarts.graphic.LinearGradient(0, 0, 1, 0, [
+                      {
+                        offset: 0.1,
+                        color: "#00C3A2"
+                      },
+                      {
+                        offset: 0.6,
+                        color: "#FFF700"
+                      },
+                      {
+                        offset: 1,
+                        color: "#FF2C00"
+                      }
+                    ])
+                  ]
+                ],
+                    width: 5, //半径
+                    shadowColor: '#fff', //默认透明
+                    shadowBlur: 1
+                }
+            },
+            pointer: {
+              width:3,
+			  length: '60%'
+            },
+            axisLabel: {
+                //show:false,
+                // 坐标轴小标记
+                textStyle: { // 属性lineStyle控制线条样式
+                    fontWeight: 'bolder',
+                    color: '#999999', //刻度数字颜色 隐藏
+                    shadowColor: '#fff', //默认透明
+                    shadowBlur: 10,
+					fontSize: 5
+                }
+            },
+            axisTick: { // 坐标轴小标记
+                length: 5, // 属性length控制线长
+                lineStyle: { // 属性lineStyle控制线条样式
+                    color: '#999999', //坐标轴 小刻度线颜色
+					width:1,
+                },
+				width:2
+            },
+            splitLine: { // 分隔线
+                length: 5, // 属性length控制线长
+                lineStyle: { // 属性lineStyle（详见lineStyle）控制线条样式
+                    width: 3,
+                    color: 'transparent', //分割线
+                    shadowColor: '#fff', //默认透明
+                    shadowBlur: 10
+                }
+            },
+            title: {
+                textStyle: { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                    fontWeight: 'bolder',
+                    fontStyle: 'italic',
+                    color: '#000',
+                    shadowColor: '#fff', //默认透明
+                    shadowBlur: 10
+                }
+            },
+            detail: { //show : true ,
+                borderColor: '#fff',
+                shadowColor: '#fff', //默认透明
+                textStyle: { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                    fontWeight: 'bolder',
+                    fontSize: 14,
+                    color: '#333333'
+                },
+                formatter: '{value}'
+            },
+            data: [
+                { value: 40 }
+            ]
         }
+    
     ]
 } //echart 配置项
 				            }
