@@ -99,12 +99,12 @@
     grid: [{
         left: 50,
         right: 50,
-        height: '35%'
+        height: '30%'
     }, {
         left: 50,
         right: 50,
         top: '55%',
-        height: '35%'
+        height: '30%'
     }],
     xAxis: [
         {

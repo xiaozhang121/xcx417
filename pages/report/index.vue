@@ -96,12 +96,7 @@
 				  { name: '1' } 
 				],
 				fileList: [
-				      { url: 'https://img.yzcdn.cn/vant/leaf.jpg', name: '图片1' },
-				      {
-				        url: 'http://iph.href.lu/60x60?text=default',
-				        name: '图片2',
-				        isImage: true
-				      }
+				     
 				    ]
 		}
 		},
@@ -131,19 +126,7 @@
 			    console.log(e.detail)
 			  },
 			afterRead(event){
-				const { file } = event.detail;
-				console.log(file)
-				 uni.uploadFile({
-				      url: 'https://example.weixin.qq.com/upload', // 仅为示例，非真实的接口地址
-				      filePath: file.path,
-				      name: 'file',
-				      formData: { user: 'test' },
-				      success(res) {
-				        // 上传完成需要更新 fileList
-						console,log(1)
-						this.fileList.push({ ...file, url: res.data })
-				      }
-				    })
+				this.fileList.push({url: event.detail.file.path })
 			}
 		}
 	}
