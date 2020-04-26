@@ -60,13 +60,14 @@
 			active: 0,
 			arr:[0,1,2],
 			index: 0,
-			title: ['站点详情','历史记录','历史报警']
+			title: ['站点详情','历史记录','历史报警'],
+			id:''
 		}
 		},
 		computed: {},
 		onLoad(option) {
 			console.log(option)
-			this.id = option.id
+			this.stationNameOrCode = option.name
 			this.getDetail()
 		},
 		methods: {
@@ -80,9 +81,9 @@
 			getDetail(){
 					var that = this
 					$http({
-						url: 'https://nei.netease.com/api/apimock-v2/e64ee4e782c695855b9f3645456ae8ce/venus/crud/PnmStation/view?id=',
+						url: '/venus/crud/PnmStation/view',
 						data: {
-							 id:that.id
+							 stationNameOrCode:that.id
 						},
 						success(res){
 						console.log(res)

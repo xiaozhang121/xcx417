@@ -4,13 +4,13 @@
 			<view class="list-title">
 				<view class="title-tp">
 					<text class="name">{{item.stationName}}</text>
-					<navigator class="normal" url="/pages/details/index">{{item.workStatus}}</navigator>
+					<navigator class="normal" url="/pages/details/index">{{item.workStatus==1?'正常':''}}</navigator>
 					<view class="ico">
 						<van-icon name="arrow"/>
 					</view>
 				</view>
 				<view class="title-bd">
-					编号： {{deviceNo}}
+					编号： {{item.stationCode}}
 				</view>
 			</view>
 			<view class="list-main">

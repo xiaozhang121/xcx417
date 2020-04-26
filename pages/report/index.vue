@@ -9,14 +9,14 @@
 		<view class="content">
 		<view class="content-top">
 					<view class="select">
-					<van-cell title="单元格" is-link value="内容" label='请选择' arrow-direction="down" @click='actone'/>
+					<van-cell title="站点名称" is-link value="内容" label='请选择' arrow-direction="down" @click='actone'/>
 						<van-action-sheet
 						  :show="showone"
 						  :actions="actionone"
 						  @close="onClose"
 						  @select="onSelect"
 						/>
-						<van-divider />
+						
 					</view>
 					
 					<view class="write">
@@ -30,7 +30,7 @@
 						    @change="onChange"
 							:border='false'
 						  />
-						  <van-divider />
+						 
 						</van-cell-group>
 					</view>
 					<view class="select">
@@ -41,7 +41,7 @@
 						  @close="onClose"
 						  @select="onSelect"
 						/>
-						<van-divider />
+						
 					</view>
 					<view class="write">
 						<van-cell-group>
@@ -54,7 +54,7 @@
 						    @change="onChange"
 							:border='false'
 						  />
-						  <van-divider />
+						  
 						</van-cell-group>
 					</view>
 		</view>
@@ -79,6 +79,7 @@
 <script>
 	import statusBar from "../../components/status-bar/index.vue"
 	import WatchItem from "../../components/watch-item/index.vue"
+	import {$http} from "../common/util.js"
 	export default {
 		name: "user",
 		components: {
@@ -97,11 +98,18 @@
 				],
 				fileList: [
 				     
-				    ]
+				    ],
+					stationId:''
 		}
 		},
 		computed: {},
-		onLoad() {},
+		onLoad(option) {
+			//console.log(option)
+			console.log(option.stationId)
+			this.stationId = option.stationId
+			console.log(this.stationId)
+			this.getdropdown()
+		},
 		methods: {
 			//左上角返回按钮
 			onClickLeft() {
@@ -127,16 +135,28 @@
 			  },
 			afterRead(event){
 				this.fileList.push({url: event.detail.file.path })
+			},
+			getdropdown(){
+				
+				
+				var that = this;
+				
+				$http({
+					url: '/venus/select/customAll',
+					data: {
+						 
+					},
+					success(res){
+						console.log(res)
+						
+					}
+				})
 			}
 		}
 	}
 </script>
 
 <style lang="less">
-	.van-divider {
-		padding: 15rpx 30rpx 0!important;
-		margin: 0!important;
-	}
 	.box {
 	height: 100%;
 	background-color: #F3F3F3;

@@ -8,11 +8,11 @@
 		<!-- 内容展示 -->
 		<view class="content">
 			<view class="message">
-				<view>A站点安居客公交卡的快感克拉里看到过考虑奥地利咖喱阿桑的歌阿迪斯</view>
-				<view>2020-04-05 15</view>
+				<view>{{tableData.datail}}</view>
+				<view>{{tableData.publishTime}}</view>
 			</view>
 			<view class="btn">
-				<van-button color="linear-gradient(to right, #0068FF, #005AC3)" @click='enter'>处理上报</van-button>
+				<van-button color="linear-gradient(to right, #0068FF, #005AC3)" @click='enter(tableData.id)'>处理上报</van-button>
 			</view>
 		</view>
 	</view>
@@ -21,6 +21,7 @@
 <script>
 	import statusBar from "../../../components/status-bar/index.vue"
 	import WatchItem from "../../../components/watch-item/index.vue"
+	import {$http} from "../../common/util.js"
 	export default {
 		name: "user",
 		components: {
@@ -29,22 +30,43 @@
 		},
 		data() {
 		return {
-			
+			id:'',
+			tableData:{}
 		}
 		},
 		computed: {},
-		onLoad() {},
+		onLoad(option) {
+			console.log(option)
+			this.id = option.id
+			this.getmessageDetail()
+		},
 		methods: {
 			//左上角返回按钮
 			onClickLeft() {
 				uni.navigateBack();
 			},
-			enter(){
+			enter(stationId){
 				uni.navigateTo({
-					url: '/pages/report/index'
+					url: '/pages/report/index?stationId='+stationId
 				})
 				
-			}
+			},
+			getmessageDetail(){
+				var that = this;
+				$http({
+					url: '/venus/mobilePhone/messageDetail',
+					data: {
+						id:that.id
+					},
+					success(res){
+						console.log(res)
+						// that.user = res.data.username;
+						// that.id = res.data.id;	
+						// console.log(that.tableData)
+						that.tableData = res.data
+					}
+				})
+			},
 		},
 		mounted() {},
 	}

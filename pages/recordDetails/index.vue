@@ -13,19 +13,19 @@
 			</van-cell-group> -->
 			<view class="group">
 					<van-cell-group><van-cell center title="站点名称" border= true :label="detail.id" size='large'/>
-					<van-divider />
+					
 					<van-cell center title="采集地点"  :label="detail.reportSite"  size='large'/>
-					<van-divider />
+				
 					<van-cell center title="上报类型"  :label="detail.reportType" size='large'/>
-					<van-divider />
+					
 					<van-cell center title="上报描述"  :label="detail.reportDescribe" size='large' />
-					</van-cell-group>
+					
 				
 			</view>
 			<view class='group'>
 				<van-cell-group >
 					<van-cell center title="上报时间"  :label="detail.reportTime" size='large'/>
-					<van-divider />
+					
 					<van-cell center title="上报人"  :label="detail.username" size='large'/>
 				</van-cell-group>
 			</view>
@@ -65,6 +65,7 @@
 		},
 		computed: {},
 		onLoad(option) {
+			console.log(option)
 			this.id = option;
 			this.getrecordDetails()
 		},
@@ -92,27 +93,27 @@
 					var user = uni.getStorageSync('userinfo')
 					this.user = user.id;
 					$http({
-						url: 'https://nei.netease.com/api/apimock-v2/e64ee4e782c695855b9f3645456ae8ce/venus/crud/PnmHistoryReport/',
+						url: '/venus/crud/PnmHistoryReport/view',
 						data: {
-							 pageIndex:that.pageIndex,
-							 pageRows:that.pageRows,
-							 userId: that.id
+							 // pageIndex:that.pageIndex,
+							 // pageRows:that.pageRows,
+							 id: that.id
 						},
 						success(res){
-							that.tableData = res.data.tableData
-							//console.log(that.tableData)
-							var tab = that.tableData.filter((item,index)=>{
-								  // console.log(that.id.id*1)
-								  // console.log(item.id*1)
-								if(item.id*1===that.id.id*1){
+							console.log(res)
+							// that.tableData = res.data.tableData
+							
+							// var tab = that.tableData.filter((item,index)=>{
+								 
+							// 	if(item.id*1===that.id.id*1){
 									
-									return item
-								}
-							})
-							//that.detail = tab;
-							let [detail] = tab;
-							that.detail = detail;
-							console.log(that.detail)
+							// 		return item
+							// 	}
+							// })
+							// //that.detail = tab;
+							// let [detail] = tab;
+							// that.detail = detail;
+							// console.log(that.detail)
 						}
 					})
 				}
@@ -123,10 +124,6 @@
 </script>
 
 <style lang="less">
-	.van-divider {
-		padding: 15rpx 30rpx 0!important;
-		margin: 0!important;
-	}
 	.box {
 		// height: 100%;
 		background-color: #F3F3F3;

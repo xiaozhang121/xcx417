@@ -37,7 +37,9 @@
 			return {
 				pageIndex:1,
 				pageRows:5,
-				tableData:[]
+				tableData:[],
+				userId:'',
+				name:''
 			}
 		},
 		computed: {},
@@ -50,26 +52,27 @@
 			onClickLeft() {
 				uni.navigateBack();
 			},
-			enter(){
-				uni.navigateTo({
-					url:'/pages/details/index'
-				})
-			},
 			getwatch(){
-				var that = this
+				var that = this;
+				var user = uni.getStorageSync('userinfo')
+				that.userId = user.id;
+				console.log(that.userId)
 				$http({
-					url: 'https://nei.netease.com/api/apimock-v2/e64ee4e782c695855b9f3645456ae8ce/venus/mobilePhone/stationList/ByPage',
+					url: '/venus/mobilePhone/stationList/ByPage',
 					data: {
 						 pageIndex:that.pageIndex,
 						 pageRows:that.pageRows,
-						 userId: '22'
+						 userId: that.userId
 					},
 					success(res){
 						console.log(res)
+						that.pageIndex = res.data.pageParam.pageIndex;
+						that.pageIndex = res.data.pageParam.pageRows;
 						// that.user = res.data.username;
 						// that.id = res.data.id;	
-						that.tableData = res.data.tableData	
-						console.log(that.tableData)
+						 that.tableData = res.data.tableData
+						 //that.name = res.data.tableData.stationName
+						// console.log(that.tableData)
 					}
 				})
 				

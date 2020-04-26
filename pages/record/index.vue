@@ -77,7 +77,7 @@
 				var user = uni.getStorageSync('userinfo')
 				this.id = user.id;
 				$http({
-					url: 'https://nei.netease.com/api/apimock-v2/e64ee4e782c695855b9f3645456ae8ce/venus/crud/PnmHistoryReport/',
+					url: '/venus/crud/PnmHistoryReport/',
 					data: {
 						 pageIndex:that.pageIndex,
 						 pageRows:that.pageRows,

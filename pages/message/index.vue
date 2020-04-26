@@ -7,17 +7,17 @@
 		<status-bar />
 		<!-- 内容展示 -->
 		<view class="content">
-			<scroll-view scroll-y="true" class="sco" >
-				<view class="list"  v-for="item in 15" :key='item' @click="enter">
+			<scroll-view scroll-y="true" class="sco" @scrolltolower='reachBottom' :style="{height:scrollH+'px'}" :lower-threshold="0">
+				<view class="list"  v-for="item in tableData" :key='item.id' @click="enter(item.id)">
 					<view class="tco">
 						<van-icon dot name="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABmUlEQVRIS+2X307CMBTGv47BRiQOEvBOccEoXLk3UJ/M8WTiG/gC0JFIght/SjK4gEFNJxAShnM4tpjYizVZ2vPrd9qcfIdgPSiljxzkGYABoLj5H9PMALwR8Kau6y0Rk4hPm1KTfEFPPjh4s6brJlkrfTk5cQdAwJ9Ih9IWQB6SBAP8lbQ7lBFCtGTBYKRDLZ4w1Mf9g/eyXimXUSicRb4N13XhDIYH94WmWr+uRoZui5LV/cPg+XwO23FC1V9UKsjlcv46Godiallw3WkoOJ9XcVOrxQcOJQYsiEVxauB+/wNWN/iVqooCw7jfO1ssiqezGcQDCxoSkaBp56cBp5bqxMFFTUOpFN0JjccMbDI5vnIxxiBnMpBl2Q/SaNS3wQaDIZyAouJ5HrzlEsXi4QOH1mpBWSwWWK1WPrB+d+vPAvre60FV1T1VkiQhm81+ezs/Au9GqF5dYjQa+1BNO964RAbbtg1FUX4FFUIig4953UF7UjF7nPNJevY2NUMv8p9KC7P1R37TBpNzGHEbfP9OiWjaYG6atk+aHPTXiNgrMAAAAABJRU5ErkJggg=="  />
 					</view>
 					<view class="list-title">
 						<view class="annouce">
-							预警公告
+							{{item.stationName}}
 						</view>
 						<view class="title-tp" >
-							<text class="name">XXX处发生泄漏</text>
+							<text class="name">{{item.title}}</text>
 							<navigator class="normal">
 								<view class="ico">
 									<van-icon name="arrow" color='#BBBBBB'/>
@@ -25,7 +25,7 @@
 							</navigator>
 						</view>
 						<view class="title-bd">
-							2020.03.30 12:01:25
+							{{item.publishTime}}
 						</view>
 					</view>
 				</view>
@@ -46,7 +46,9 @@
 		},
 		data() {
 		return {
-		
+			pageIndex:1,
+			pageRows:5,
+			tableData:[]
 		}
 		},
 		computed: {},
@@ -58,17 +60,16 @@
 			onClickLeft() {
 				uni.navigateBack();
 			},
-			enter() {
+			enter(id) {
 				uni.navigateTo({
-					url:'/pages/message/messagedetail/index'
+					url:'/pages/message/messagedetail/index?id='+id
 				})
 			},
 			getmessage(){
 				var that = this;
 				var {id} = uni.getStorageSync('userinfo')
-				console.log(id)	
 				$http({
-					url: 'https://nei.netease.com/api/apimock-v2/e64ee4e782c695855b9f3645456ae8ce/venus/mobilePhone/message',
+					url: '/venus/mobilePhone/message',
 					data: {
 						 pageIndex:that.pageIndex,
 						 pageRows:that.pageRows,
@@ -78,11 +79,18 @@
 						console.log(res)
 						// that.user = res.data.username;
 						// that.id = res.data.id;	
-						// that.tableData = res.data.tableData	
+						that.pageIndex = res.data.pageParam.pageIndex;
+						that.pageRows = res.data.pageParam.pageRows;
+						 that.tableData = res.data.tableData	
 						// console.log(that.tableData)
 					}
 				})
-			}
+			},
+			reachBottom(){
+				console.log(1)
+				this.pageIndex++;
+				this.getmessage();
+			},
 		},
 		mounted() {},
 

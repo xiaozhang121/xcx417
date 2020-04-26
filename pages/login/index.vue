@@ -65,12 +65,13 @@
 		getuser(){
 			var that = this
 			$http({
-				url: 'https://nei.netease.com/api/apimock-v2/e64ee4e782c695855b9f3645456ae8ce/venus/mobilePhone/login?account=&password=',
+				url: '/venus/mobilePhone/login',
 				data: {
 					account:that.account,
 					password:that.password
 				},
 				success(res){
+					console.log(res.data)
 					uni.setStorageSync('userinfo', res.data)
 					uni.switchTab({
 						url:'/pages/user/index'
