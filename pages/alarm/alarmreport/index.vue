@@ -17,7 +17,7 @@
 					:border = 'true'
 				    :value="value"
 				    placeholder="请输入用户名"
-				    @change="getstationId"
+				    @change="getreportPersonId"
 				  />
 				</van-cell-group>
 				<van-divider />
@@ -91,7 +91,7 @@
 				fileList: [
 		
 				    ],
-					stationId:'',
+					reportPersonId:'',
 					reportSite:'',
 					reportDescribe:'',
 					id:''
@@ -100,9 +100,9 @@
 		},
 		computed: {},
 		onLoad(option) {
-			console.log(option.stationId)
-			this.stationId = option.stationId
-			console.log(this.stationId)
+			this.id = option.id
+			
+			console.log(option)
 		},
 		methods: {
 			//左上角返回按钮
@@ -131,8 +131,8 @@
 				this.fileList.push({url: event.detail.file.path })
 					
 			},
-			getstationId(e){
-				this.stationId = e.detail
+			getreportPersonId(e){
+				this.reportPersonId = e.detail
 			},
 			getreportSite(e){
 				this.reportSite = e.detail
@@ -143,23 +143,23 @@
 			makesure(){
 				var that = this
 				$http({
-					url: 'https://nei.netease.com/api/apimock-v2/e64ee4e782c695855b9f3645456ae8ce/venus/mobilePhone/historyAlarm?stationId=&type=&userId=&timeStart=&timeEnd=&pageIndex=&pageRows=',
+					method:'PUT',
+					url: '/venus/crud/PnmAlarm/edit',
 					data: {
 						id: that.id,
-						stationId: that.stationId,
+						reportPersonId: that.reportPersonId,
 						reportSite: that.reportSite,
 						reportDescribe: that.reportDescribe,
 						imgUrl: that.fileList,
-						repostPersonId:22
-						
+						//stationId:'49747921de15cd25ac1f393d019b15a8'
 					},
 					success(res){
 						console.log(res)
 						// that.user = res.data.username;
 						// that.id = res.data.id;	
 						// console.log(res.tableData)
-						that.tableData = res.data.tableData;
-						uni.navigateBack()
+						//that.tableData = res.data.tableData;
+						//uni.navigateBack()
 					}
 				})
 			}

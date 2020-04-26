@@ -1,29 +1,29 @@
 <template>
 	<view class="">
 		<view class="choose">
-			<view class="choose-time" v-for="(item,index) in choose" @click="sele(index)" :class="currentindex===index?'select':''" :key='index'>
+			<view class="choose-time" v-for="(item,index) in choose" @click="sele(item,index)" :class="currentindex===index?'select':''" :key='index'>
 				{{item}}
 			</view>
 		</view>
 		<view class="card">
-			<view class="list" v-for="(item,index) in 5" :key='index'>
+			<view class="list" v-for="(item,index) in tableData" :key='index'>
 				<view class="list-title">
 					<view class="title-tp">
-						<text class="name">2020.03.29 12:11:42</text>
-						<text class="normal">爆管</text>
+						<text class="name">{{item.alarmTime}}</text>
+						<text class="normal">{{item.alarmType==1?'爆管':'泄露'}}</text>
 					</view>
 				</view>
 				<view class="list-main">
 					<view class="main-tp">
-						<text>流量: 735^3/h</text>
-						<text>压力: 5kPa</text>
+						<text>流量: {{item.flowValue}}</text>
+						<text>压力: {{item.pressureValue}}</text>
 					</view>
 					<view class="main-tp">
-						<text>流量: 735^3/h</text>
-						<text>压力: 5kPa</text>
+						<text>站点状态: {{item.stationStatus}}</text>
+						<text>阀门状态: {{item.valve}}</text>
 					</view>
 					<view class="main-bd">
-						位置: 南京市六合区宁六路219号
+						报警描述: {{item.alarmInfo}}
 					</view>
 				</view>
 			</view>
@@ -39,15 +39,18 @@
 			choose: ['全部','爆管','泄露','无信号'],
 			currentindex:0,
 			pageIndex:1,
-			pageRows:5
+			pageRows:5,
+			tableData:[],
 			}
 		},
 		mounted(){
 		this.gethistory()
 		},
 			methods: {
-			sele(e){
-				this.currentindex = e
+			sele(item,e){
+				this.currentindex = e;
+				this.type = item;
+				this.gethistory()
 			},
 			gethistory(){
 				var that = this
@@ -56,10 +59,13 @@
 					data: {
 						pageIndex:that.pageIndex,
 						pageRows:that.pageRows
+						
 					},
 					success(res){
 						console.log(res)
-						this.tableData = res
+						//console.log(res.data)
+						that.tableData = res.data.tableData
+						console.log(that.tableData)
 					}
 				})
 			}

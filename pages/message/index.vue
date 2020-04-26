@@ -48,7 +48,8 @@
 		return {
 			pageIndex:1,
 			pageRows:5,
-			tableData:[]
+			tableData:[],
+			id:''
 		}
 		},
 		computed: {},
@@ -62,27 +63,28 @@
 			},
 			enter(id) {
 				uni.navigateTo({
-					url:'/pages/message/messagedetail/index?id='+id
+					//url:'/pages/message/messagedetail/index?id='+id
 				})
 			},
 			getmessage(){
 				var that = this;
-				var {id} = uni.getStorageSync('userinfo')
-				console.log(id)	
+				var user = uni.getStorageSync('userinfo');
+				that.id = user.id
+				//console.log(id)	
 				$http({
 					url: '/venus/mobilePhone/message',
 					data: {
 						 pageIndex:that.pageIndex,
 						 pageRows:that.pageRows,
-						 userId: id
+						userId: that.id
 					},
 					success(res){
 						console.log(res)
 						// that.user = res.data.username;
 						// that.id = res.data.id;	
-						that.pageIndex = res.data.pageParam.pageIndex;
-						that.pageRows = res.data.pageParam.pageRows;
-						 that.tableData = res.data.tableData	
+						// that.pageIndex = res.data.pageParam.pageIndex;
+						// that.pageRows = res.data.pageParam.pageRows;
+						//  that.tableData = res.data.tableData	
 						// console.log(that.tableData)
 					}
 				})

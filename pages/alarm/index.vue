@@ -87,7 +87,7 @@
 			},
 			scrollH:'',
 			pageIndex:1,
-			rageRows:2,
+			pageRows:5,
 			tableData: [],
 			pageParam:{}
 		}
@@ -103,7 +103,6 @@
 				uni.navigateBack();
 			},
 			navi(id){
-				console.log(id)
 				uni.navigateTo({
 					url: "/pages/alarm/alarmreport/index?id=" + id
 				})
@@ -115,7 +114,7 @@
 					url: '/venus/mobilePhone/historyAlarm',
 					data: {
 						 pageIndex: that.pageIndex,
-						 pageRows: that.rageRows
+						 pageRows: that.pageRows
 					},
 					success(res){
 						console.log(res)

@@ -8,8 +8,8 @@
 		<!-- 内容展示 -->
 		<view class="content">
 			<view class="search">
-				<van-search placeholder="请输入搜索关键词" use-action-slot bind:change="onChange" bind:search="onSearch">
-					<view slot="action" bind:tap="onClick" class="se-btn">搜索</view>
+				<van-search placeholder="请输入搜索关键词" use-action-slot @change="onChange" @search="onSearch">
+					<view slot="action" bind:tap="onClick" class="se-btn" @click="onSearch">搜索</view>
 				</van-search>
 			</view>
 			<scroll-view scroll-y="true" class="body">
@@ -39,7 +39,8 @@
 				pageRows:10,
 				tableData:[],
 				userId:'',
-				name:''
+				name:'',
+				stationNameOrCode:''
 			}
 		},
 		computed: {},
@@ -52,17 +53,22 @@
 			onClickLeft() {
 				uni.navigateBack();
 			},
+			onChange(e){
+				this.stationNameOrCode = e.detail;
+				//this.getwatch()
+			},
 			getwatch(){
 				var that = this;
 				var user = uni.getStorageSync('userinfo')
 				that.userId = user.id;
-				console.log(that.userId)
+				//console.log(that.userId)
 				$http({
 					url: '/venus/mobilePhone/stationList/ByPage',
 					data: {
 						 pageIndex:that.pageIndex,
 						 pageRows:that.pageRows,
 						 userId: that.userId,
+						 stationNameOrCode:that.stationNameOrCode
 						 //stationNameOrCode:003
 					},
 					success(res){
@@ -83,6 +89,9 @@
 				this.pageIndex++;
 				this.getwatch();
 			},
+			onSearch(){
+				this.getwatch()
+			}
 
 		},
 		mounted() {},
