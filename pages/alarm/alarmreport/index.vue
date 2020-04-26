@@ -100,8 +100,9 @@
 		},
 		computed: {},
 		onLoad(option) {
-			console.log(option)
-			this.id = option
+			console.log(option.stationId)
+			this.stationId = option.stationId
+			console.log(this.stationId)
 		},
 		methods: {
 			//左上角返回按钮

@@ -8,12 +8,12 @@
 		<!-- 内容展示 -->
 		<view class="content">
 			<view class="search">
-				<van-search placeholder="请输入预警类别、地理位置" use-action-slot bind:change="onChange" bind:search="onSearch">
+				<van-search placeholder="请输入预警类别、地理位置" use-action-slot bind:change="onChange" bind:search="onSearch" >
 					<view slot="action" bind:tap="onClick" class="se-btn">搜索</view>
 				</van-search>
 			</view>
 			<date-time></date-time>
-			<scroll-view scroll-y="true" class="card" @scrolltolower='reachBottom' :style="{height:scrollH+'px'}" :lower-threshold="0">
+			<scroll-view scroll-y="true" class="card" @scrolltolower='reachBottom' :style="{height:scrollH+'px'}">
 					<view class="list" v-for="(item,index) in tableData" :key='index'>
 						<view class="list-title">
 							<view class="title-tp">
@@ -87,13 +87,14 @@
 			},
 			scrollH:'',
 			pageIndex:1,
-			rageRows:5,
-			tableData: []
+			rageRows:2,
+			tableData: [],
+			pageParam:{}
 		}
 		},
 		computed: {},
 		onLoad() {
-			this.getHeight()
+			
 			this.gethistory()
 		},
 		methods: {
@@ -111,32 +112,25 @@
 			gethistory(){
 				var that = this
 				$http({
-					url: 'https://nei.netease.com/api/apimock-v2/e64ee4e782c695855b9f3645456ae8ce/venus/mobilePhone/historyAlarm?stationId=&type=&userId=&timeStart=&timeEnd=&pageIndex=&pageRows=',
+					url: '/venus/mobilePhone/historyAlarm',
 					data: {
-						 pageIndex: this.pageIndex,
-						 pageRows: this.rageRows
+						 pageIndex: that.pageIndex,
+						 pageRows: that.rageRows
 					},
 					success(res){
 						console.log(res)
-						// that.user = res.data.username;
-						// that.id = res.data.id;	
-						// console.log(res.tableData)
 						that.tableData = res.data.tableData;
+						
 					}
 				})
 			},
 			//到达底部触发
 			reachBottom(){
-				console.log(1)
-				// if (this.tableData.length >= this.total) {
-				//   // 没有更多数据了，给一个提示，终止后续的接口调用
-				//   uni.showToast({
-				//     title: '没有更多数据了'
-				//   })
-				//   return
-				// }
-				this.pageIndex++;
-				this.gethistory();
+				
+				// console.log(1)
+				 this.pageIndex++;
+				// if(this.pageIndex)
+				 this.gethistory();
 			},
 			//获取当前屏幕高度
 			getHeight(){
@@ -150,7 +144,9 @@
 			}
 
 		},
-		mounted() {},
+		mounted() {
+			this.getHeight()
+		},
 
 	}
 </script>
@@ -183,7 +179,7 @@
 			.card {
 				background-color: rgb(243, 243, 243);
 				margin-top: 20rpx;
-				padding-bottom: 15rpx;
+				//padding-bottom: 15rpx;
 				.list {
 					border-radius: 10rpx;
 					border: 1px solid white;

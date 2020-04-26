@@ -1,7 +1,7 @@
 <template>
 	<view class="">
 		<view class="choose">
-			<view class="choose-time" v-for="(item,index) in choose" @click="sele(index)" :class="currentindex===index?'select':''" :key='index'>
+			<view class="choose-time" v-for="(item,index) in choose" @click="sele(item,index)" :class="currentindex===index?'select':''" :key='index'>
 				{{item}}
 			</view>
 		</view>
@@ -54,13 +54,17 @@
 
 <script>
 	 import uniEcCanvas from '../../../uni-ec-canvas/uni-ec-canvas.vue'
-	 
+	 import {$http} from "../../common/util.js"
 	export default {
 		components: {
 			 uniEcCanvas
 		
 		},
+		props:["postid"],
 		mounted() {
+		},
+		onLoad(){
+			this.gethis()
 		},
 		data(){
 			return {
@@ -187,7 +191,9 @@
         			},
                     data: [
         					0,0,0,0,0,0,1
-                    ]
+                    ],
+					date:'',
+					echartData:[]
                 }
     ]
 }
@@ -230,8 +236,12 @@
 				  EndClose() {
 				   this.end.show=false
 				  },
-			sele(e){
+			sele(item,e){
 				this.currentindex = e
+				//console.log(item)
+				this.date = item
+				//this.$emit("getChild",item)
+				this.gethis()
 			},
 			startConfirmFn(e){
 				this.start.timeValue = this.timeFormat(new Date(e.detail));
@@ -246,7 +256,23 @@
 				let month = time.getMonth() + 1;        
 				let day = time.getDate();        
 				return year + '年' + month + '月' + day + '日'      
+				},
+				gethis(){
+					var that = this
+					$http({
+						url: '/venus/mobilePhone/historyFlowPressure',
+						data: {
+							 id:that.id,
+							 dateType:that.date
+						},
+						success(res){
+							that.echartData = res.data
+							console.log(res.data)
+						}
+					})
 				}
+				
+		
 					}
 			
 	}

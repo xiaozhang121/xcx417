@@ -36,7 +36,7 @@
 		data() {
 			return {
 				pageIndex:1,
-				pageRows:5,
+				pageRows:10,
 				tableData:[],
 				userId:'',
 				name:''
@@ -62,7 +62,8 @@
 					data: {
 						 pageIndex:that.pageIndex,
 						 pageRows:that.pageRows,
-						 userId: that.userId
+						 userId: that.userId,
+						 //stationNameOrCode:003
 					},
 					success(res){
 						console.log(res)

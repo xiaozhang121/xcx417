@@ -32,16 +32,36 @@
 </template>
 
 <script>
+	 import {$http} from "../../common/util.js"
 	export default {
 		data(){
 			return {
 			choose: ['全部','爆管','泄露','无信号'],
-			currentindex:0
+			currentindex:0,
+			pageIndex:1,
+			pageRows:5
 			}
+		},
+		mounted(){
+		this.gethistory()
 		},
 			methods: {
 			sele(e){
 				this.currentindex = e
+			},
+			gethistory(){
+				var that = this
+				$http({
+					url: '/venus/mobilePhone/historyAlarm',
+					data: {
+						pageIndex:that.pageIndex,
+						pageRows:that.pageRows
+					},
+					success(res){
+						console.log(res)
+						this.tableData = res
+					}
+				})
 			}
 		
 			

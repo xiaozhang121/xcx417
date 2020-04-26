@@ -26,7 +26,7 @@
 				<van-cell-group >
 					<van-cell center title="上报时间"  :label="detail.reportTime" size='large'/>
 					
-					<van-cell center title="上报人"  :label="detail.username" size='large'/>
+					<van-cell center title="上报人"  :label="detail.reportPerson" size='large'/>
 				</van-cell-group>
 			</view>
 			<view class="group">
@@ -66,7 +66,7 @@
 		computed: {},
 		onLoad(option) {
 			console.log(option)
-			this.id = option;
+			this.id = option.id;
 			this.getrecordDetails()
 		},
 		methods: {
@@ -101,6 +101,7 @@
 						},
 						success(res){
 							console.log(res)
+							that.detail = res.data
 							// that.tableData = res.data.tableData
 							
 							// var tab = that.tableData.filter((item,index)=>{

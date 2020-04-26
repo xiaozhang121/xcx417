@@ -45,9 +45,9 @@
 			onClickLeft() {
 				uni.navigateBack();
 			},
-			enter(stationId){
+			enter(id){
 				uni.navigateTo({
-					url: '/pages/report/index?stationId='+stationId
+					url: '/pages/alarm/alarmreport/index?id'+id
 				})
 				
 			},

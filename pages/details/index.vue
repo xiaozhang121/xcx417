@@ -31,9 +31,9 @@
 					</view>
 				</view>
 			</view>
-			<one v-if="index===0"></one>
-			<two v-if="index===1"></two>
-			<three v-if="index===2"></three>
+			<one v-if="index===0" :receive='tableData'></one>
+			<two v-if="index===1" :postid='id' @getChild = "getChild"></two>
+			<three v-if="index===2" :receive='tableData'></three>
 		</view>
 	</view>
 </template>
@@ -61,16 +61,22 @@
 			arr:[0,1,2],
 			index: 0,
 			title: ['站点详情','历史记录','历史报警'],
-			id:''
+			id:'',
+			tableData:{},
+			date:''
 		}
 		},
 		computed: {},
 		onLoad(option) {
-			console.log(option)
-			this.stationNameOrCode = option.name
+			//console.log(option)
+			this.id = option.id
 			this.getDetail()
 		},
 		methods: {
+			getChild(e){
+				// console.log(e)
+				this.date = e
+			},
 			//左上角返回按钮
 			onClickLeft() {
 				uni.navigateBack()
@@ -83,10 +89,11 @@
 					$http({
 						url: '/venus/crud/PnmStation/view',
 						data: {
-							 stationNameOrCode:that.id
+							 id:that.id
 						},
 						success(res){
 						console.log(res)
+						that.tableData = res.data;
 						}
 					})
 			},

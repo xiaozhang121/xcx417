@@ -68,6 +68,7 @@
 			getmessage(){
 				var that = this;
 				var {id} = uni.getStorageSync('userinfo')
+				console.log(id)	
 				$http({
 					url: '/venus/mobilePhone/message',
 					data: {
