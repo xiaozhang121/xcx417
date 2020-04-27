@@ -16,7 +16,6 @@
 						  @close="onClose"
 						  @select="onSelect"
 						/>
-						
 					</view>
 					
 					<view class="write">
@@ -108,7 +107,7 @@
 			console.log(option.stationId)
 			this.stationId = option.stationId
 			console.log(this.stationId)
-			this.getdropdown()
+			//this.getdropdown()
 		},
 		methods: {
 			//左上角返回按钮

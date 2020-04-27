@@ -94,14 +94,15 @@
 					reportPersonId:'',
 					reportSite:'',
 					reportDescribe:'',
-					id:''
+					id:'',
+					stationId:''
 					
 		}
 		},
 		computed: {},
 		onLoad(option) {
 			this.id = option.id
-			
+			this.stationId = option.stationId
 			console.log(option)
 		},
 		methods: {
@@ -147,11 +148,11 @@
 					url: '/venus/crud/PnmAlarm/edit',
 					data: {
 						id: that.id,
+						stationId:that.stationId,
 						reportPersonId: that.reportPersonId,
 						reportSite: that.reportSite,
 						reportDescribe: that.reportDescribe,
 						imgUrl: that.fileList,
-						//stationId:'49747921de15cd25ac1f393d019b15a8'
 					},
 					success(res){
 						console.log(res)

@@ -63,7 +63,7 @@
 			},
 			enter(id) {
 				uni.navigateTo({
-					//url:'/pages/message/messagedetail/index?id='+id
+					url:'/pages/message/messagedetail/index?id='+id
 				})
 			},
 			getmessage(){
@@ -84,7 +84,7 @@
 						// that.id = res.data.id;	
 						// that.pageIndex = res.data.pageParam.pageIndex;
 						// that.pageRows = res.data.pageParam.pageRows;
-						//  that.tableData = res.data.tableData	
+						 that.tableData = res.data.tableData	
 						// console.log(that.tableData)
 					}
 				})

@@ -8,11 +8,11 @@
 		<!-- 内容展示 -->
 		<view class="content">
 			<view class="search">
-				<van-search placeholder="请输入预警类别、地理位置" use-action-slot bind:change="onChange" bind:search="onSearch" >
-					<view slot="action" bind:tap="onClick" class="se-btn">搜索</view>
+				<van-search placeholder="请输入预警类别、地理位置" use-action-slot @change="onChange" >
+					<view slot="action" @tap="onClick" class="se-btn">搜索</view>
 				</van-search>
 			</view>
-			<date-time></date-time>
+			<date-time @starttime="starttime" @endtime = "endtime"></date-time>
 			<scroll-view scroll-y="true" class="card" @scrolltolower='reachBottom' :style="{height:scrollH+'px'}">
 					<view class="list" v-for="(item,index) in tableData" :key='index'>
 						<view class="list-title">
@@ -42,7 +42,7 @@
 								<van-icon name="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAACbElEQVRIS62WP0xTURTGf+d10QXrpOAgLoJKAi6OkGjUkaqJuqhlUBMJ/plMHBQdjE5GCCbGodVNErRMRl1gdZEmgDjJYtENcVAHesx5ty3l8e6zNbzkLfee+333fOffFRK+T0varkp/GTKipBF6QnNlRoXlAAoiTO5rlUUfjMRtGHC5zB2EbNIFantKPgi4G0e0gWC+pJmykhMh3RB4xUiV5UAY2N8mhfpz6whmlzQrSq4Z4KitCgNdrZKvrtcINgO8DvRE1ZOQwDRfLfOxWVl8nppcqYCDFpOQYLakeYELcQdWfsHD97Dwzf2dO91/8yi0bPWLqfC8q02yEmaM8iXO9MMiXBuHld8bd1u2wOPTcKjdTxIIe2S+pNcVHkXN7ObHRx344b0w2AedrfB1GQpFeDINRvJ2yO+JwA2ZLemUQF+U4NYkTBYd+OjZjbccm3Yk/d1wvz/eC4VpmSupVeHuqMnJp/D5O0xcdDePfgtLcOqZi8fEJY9MyowRaNz2gXtude62X+NGbLwEjXrQsQNeXfZfwitRNQZHOmDkzH/GQCl6g2xZdGwEfv4BI7nSu5ZFFvyxKUil4M0g7NqeEGRfmtoRq4OrLx1J9EsJrKoLcu5cfKqGaZpUaAZqnjx456rYsso0N9DBXhgad2s+krDQ/tUq/OFz5NkXjsQqOnd+zbrWKmwpbHaWs7AtCdDXq4zEqjpf6WYKP1JCT63Z2UEbNAqvmyWIsxdY366rRpsxE7wDp0oSjkyw9t2UXCZLANnEkVklqcRk2DcjorJYQFPCcENDv/5w5dliHmVQ0iJ0274qRdaeLYWkZ8tfRVkVrJbBytQAAAAASUVORK5CYII=" />
 							</view>
 						</view>
-						<view class="list-bt" @click="navi(item.id)">
+						<view class="list-bt" @click="navi(item.id,item.stationId)">
 							处理上报 →
 						</view>
 					</view>
@@ -89,7 +89,10 @@
 			pageIndex:1,
 			pageRows:5,
 			tableData: [],
-			pageParam:{}
+			pageParam:{},
+			timeStart:'',
+			timeEnd:'',
+			type:''
 		}
 		},
 		computed: {},
@@ -97,14 +100,19 @@
 			
 			this.gethistory()
 		},
+		watch:{
+			timeEnd(){
+				this.gethistory()
+			}
+		},
 		methods: {
 			//左上角返回按钮
 			onClickLeft() {
 				uni.navigateBack();
 			},
-			navi(id){
+			navi(id,stationId){
 				uni.navigateTo({
-					url: "/pages/alarm/alarmreport/index?id=" + id
+					url: "/pages/alarm/alarmreport/index?id=" + id+'&stationId='+stationId
 				})
 			},
 			//获取历史报警
@@ -114,7 +122,10 @@
 					url: '/venus/mobilePhone/historyAlarm',
 					data: {
 						 pageIndex: that.pageIndex,
-						 pageRows: that.pageRows
+						 pageRows: that.pageRows*that.pageIndex,
+						 timeStart:that.timeStart,
+						 timeEnd:that.timeEnd,
+						 type:that.type
 					},
 					success(res){
 						console.log(res)
@@ -140,8 +151,21 @@
 				                that.scrollH = scrollH
 				          }
 				      });
+			},
+			starttime(e){
+				console.log(e)
+				this.timeStart = e
+			},
+			endtime(e){
+				console.log(e)
+				this.timeEnd = e
+			},
+			onChange(e){
+				this.type = e.detail
+			},
+			onClick(){
+				this.gethistory()
 			}
-
 		},
 		mounted() {
 			this.getHeight()
@@ -179,6 +203,9 @@
 				background-color: rgb(243, 243, 243);
 				margin-top: 20rpx;
 				//padding-bottom: 15rpx;
+				// position: absolute;
+				// top: 30%;
+				// width: 100%;
 				.list {
 					border-radius: 10rpx;
 					border: 1px solid white;

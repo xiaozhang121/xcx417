@@ -86,11 +86,15 @@
 			},
 			startConfirmFn(e){
 				this.start.timeValue = this.timeFormat(new Date(e.detail));
+				//console.log(this.start.timeValue)
 				this.start.show = false;
+				this.$emit('starttime',this.start.timeValue)
 			},
 			endConfirmFn(e){
 				this.end.timeValue = this.timeFormat(new Date(e.detail));
 				this.end.show = false;
+				//console.log(this.end.timeValue)
+				this.$emit('endtime',this.end.timeValue)
 			},
 			timeFormat(time) { 
 				let year = time.getFullYear();        

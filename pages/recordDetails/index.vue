@@ -20,7 +20,7 @@
 					
 					<van-cell center title="上报描述"  :label="detail.reportDescribe" size='large' />
 					
-				
+				</van-cell-group>
 			</view>
 			<view class='group'>
 				<van-cell-group >
