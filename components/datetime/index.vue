@@ -9,7 +9,7 @@
 			    type="date"
 			    :value="start.currentDate"
 			    :min-date="start.minDate"
-			    :formatter="formatter"
+			    
 				@confirm = 'startConfirmFn'
 			  />
 		</van-popup> 

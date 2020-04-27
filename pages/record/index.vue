@@ -65,6 +65,9 @@
 			}
 			this.pageIndex++
 			this.pageRows = this.pageIndex*this.pageRows
+			if(this.pageRows>this.totalRows){
+				this.pageRows = this.totalRows
+			}
 			this.getrecord()
 			
 		},
