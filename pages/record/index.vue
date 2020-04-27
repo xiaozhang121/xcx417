@@ -46,13 +46,28 @@
 		},
 		data() {
 			return {
-				pageIndex:1,
-				pageRows:5,
 				id:'',
-				tableData:[]
+				tableData:[],
+				pageIndex:1,
+				pageRows:7,
+				totalRows:10,
+				totalPages:1
 			}
 		},
 		computed: {},
+		onReachBottom(){
+			if(this.totalPages<=this.pageIndex){
+				uni.showToast({
+					title:'没有更多数据了',
+					icon:'none'
+				})
+				return false;
+			}
+			this.pageIndex++
+			this.pageRows = this.pageIndex*this.pageRows
+			this.getrecord()
+			
+		},
 		onLoad() {
 			this.getrecord()
 		},
@@ -86,13 +101,17 @@
 					success(res){
 						console.log(res.data)
 						that.tableData = res.data.tableData
+						that.totalRows = res.data.pageParam.totalRows
+						that.totalPages = res.data.pageParam.totalPages
 					}
 				})
 			}
 				
 
 		},
-		mounted() {},
+		// mounted() {
+		// 	this.getrecord()
+		// },
 
 	}
 </script>
@@ -101,6 +120,9 @@
 	.sco {
 		background-color: #F3F3F3;
 		padding-bottom: 90rpx;
+		// position: absolute;
+		// top: 128rpx;
+		// bottom: 0;
 	}
 	.box {
 		 height: 100%;

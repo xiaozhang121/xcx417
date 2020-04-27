@@ -13,7 +13,7 @@
 				</van-search>
 			</view>
 			<date-time @starttime="starttime" @endtime = "endtime"></date-time>
-			<scroll-view scroll-y="true" class="card" @scrolltolower='reachBottom' :style="{height:scrollH+'px'}">
+			<scroll-view scroll-y="true" class="card">
 					<view class="list" v-for="(item,index) in tableData" :key='index'>
 						<view class="list-title">
 							<view class="title-tp">
@@ -86,24 +86,38 @@
 				minDate: new Date().getTime(),
 			},
 			scrollH:'',
-			pageIndex:1,
-			pageRows:5,
 			tableData: [],
 			pageParam:{},
 			timeStart:'',
 			timeEnd:'',
-			type:''
+			type:'',
+			pageIndex:1,
+			pageRows:7,
+			totalRows:10,
+			totalPages:1
 		}
 		},
 		computed: {},
 		onLoad() {
-			
 			this.gethistory()
 		},
 		watch:{
 			timeEnd(){
 				this.gethistory()
 			}
+		},
+		onReachBottom(){
+			if(this.totalPages<=this.pageIndex){
+				uni.showToast({
+					title:'没有更多数据了',
+					icon:'none'
+				})
+				return false;
+			}
+			this.pageIndex++
+			this.pageRows = this.pageIndex*this.pageRows
+			this.getrecord()
+			
 		},
 		methods: {
 			//左上角返回按钮
@@ -130,7 +144,8 @@
 					success(res){
 						console.log(res)
 						that.tableData = res.data.tableData;
-						
+						that.totalRows = res.data.pageParam.totalRows
+						that.totalPages = res.data.pageParam.totalPages
 					}
 				})
 			},
@@ -141,16 +156,6 @@
 				 this.pageIndex++;
 				// if(this.pageIndex)
 				 this.gethistory();
-			},
-			//获取当前屏幕高度
-			getHeight(){
-				var that = this
-				wx.getSystemInfo({
-				          success: function(res) {
-				            let scrollH = res.windowHeight;
-				                that.scrollH = scrollH
-				          }
-				      });
 			},
 			starttime(e){
 				console.log(e)
@@ -166,10 +171,7 @@
 			onClick(){
 				this.gethistory()
 			}
-		},
-		mounted() {
-			this.getHeight()
-		},
+		}
 
 	}
 </script>

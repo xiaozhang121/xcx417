@@ -136,13 +136,14 @@
                     gridIndex: 1,
                     name: '降雨量(mm)',
                     type: 'value',
-        			max: 8,
+        			max: 10,
                     inverse: true
                 },
         		{
         		    name: '开启度(%)',
         		    type: 'value',
-        			max: 8
+        			max: 100,
+					//inverse: true
         		}
     ],
     series: [
@@ -266,11 +267,14 @@
 							 dateType:that.date
 						},
 						success(res){
-							that.echartData = res.data
+							//console.log(1)
+							//that.echartData = res.data
+							console.log(res)
 							console.log(res.data)
+							//that.ec.option.series[0].data = [500,500,500,400,600,500]
 						}
 					})
-				}
+				},
 				
 		
 					}

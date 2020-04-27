@@ -35,13 +35,28 @@
 		},
 		data() {
 			return {
-				pageIndex:1,
-				pageRows:10,
 				tableData:[],
 				userId:'',
 				name:'',
-				stationNameOrCode:''
+				stationNameOrCode:'',
+				pageIndex:1,
+				pageRows:7,
+				totalRows:10,
+				totalPages:1
 			}
+		},
+		onReachBottom(){
+			if(this.totalPages<=this.pageIndex){
+				uni.showToast({
+					title:'没有更多数据了',
+					icon:'none'
+				})
+				return false;
+			}
+			this.pageIndex++
+			this.pageRows = this.pageIndex*this.pageRows
+			this.getwatch()
+			
 		},
 		computed: {},
 		onLoad(option) {
@@ -73,13 +88,13 @@
 					},
 					success(res){
 						console.log(res)
-						that.pageIndex = res.data.pageParam.pageIndex;
-						that.pageIndex = res.data.pageParam.pageRows;
 						// that.user = res.data.username;
 						// that.id = res.data.id;	
 						 that.tableData = res.data.tableData
 						 //that.name = res.data.tableData.stationName
 						// console.log(that.tableData)
+						that.totalRows = res.data.pageParam.totalRows
+						that.totalPages = res.data.pageParam.totalPages
 					}
 				})
 				

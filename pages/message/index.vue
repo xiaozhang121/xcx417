@@ -7,7 +7,7 @@
 		<status-bar />
 		<!-- 内容展示 -->
 		<view class="content">
-			<scroll-view scroll-y="true" class="sco" @scrolltolower='reachBottom' :style="{height:scrollH+'px'}" :lower-threshold="0">
+			<scroll-view scroll-y="true" class="sco">
 				<view class="list"  v-for="item in tableData" :key='item.id' @click="enter(item.id)">
 					<view class="tco">
 						<van-icon dot name="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABmUlEQVRIS+2X307CMBTGv47BRiQOEvBOccEoXLk3UJ/M8WTiG/gC0JFIght/SjK4gEFNJxAShnM4tpjYizVZ2vPrd9qcfIdgPSiljxzkGYABoLj5H9PMALwR8Kau6y0Rk4hPm1KTfEFPPjh4s6brJlkrfTk5cQdAwJ9Ih9IWQB6SBAP8lbQ7lBFCtGTBYKRDLZ4w1Mf9g/eyXimXUSicRb4N13XhDIYH94WmWr+uRoZui5LV/cPg+XwO23FC1V9UKsjlcv46Godiallw3WkoOJ9XcVOrxQcOJQYsiEVxauB+/wNWN/iVqooCw7jfO1ssiqezGcQDCxoSkaBp56cBp5bqxMFFTUOpFN0JjccMbDI5vnIxxiBnMpBl2Q/SaNS3wQaDIZyAouJ5HrzlEsXi4QOH1mpBWSwWWK1WPrB+d+vPAvre60FV1T1VkiQhm81+ezs/Au9GqF5dYjQa+1BNO964RAbbtg1FUX4FFUIig4953UF7UjF7nPNJevY2NUMv8p9KC7P1R37TBpNzGHEbfP9OiWjaYG6atk+aHPTXiNgrMAAAAABJRU5ErkJggg=="  />
@@ -47,14 +47,36 @@
 		data() {
 		return {
 			pageIndex:1,
-			pageRows:5,
+			pageRows:6,
 			tableData:[],
-			id:''
+			id:'',
+			totalPages:1,
+			totalRows:9
+			
 		}
 		},
 		computed: {},
 		onLoad() {
 			this.getmessage()
+		},
+		onReachBottom(){
+			if(this.totalPages<=this.pageIndex){
+				uni.showToast({
+					title:'没有更多数据了',
+					icon:'none'
+				})
+				return false;
+			}
+			 this.pageIndex++
+			 this.pageRows = this.pageIndex*this.pageRows
+			 if(this.pageRows>this.totalRows){
+				 this.pageRows = this.totalRows
+			 }
+			 console.log(this.pageIndex)
+			 console.log(this.pageRows)
+			  this.getmessage()
+			 //console.log(this.pageIndex)
+			// console.log(this.pageRows)
 		},
 		methods: {
 			//左上角返回按钮
@@ -69,8 +91,7 @@
 			getmessage(){
 				var that = this;
 				var user = uni.getStorageSync('userinfo');
-				that.id = user.id
-				//console.log(id)	
+				this.id = user.id
 				$http({
 					url: '/venus/mobilePhone/message',
 					data: {
@@ -79,21 +100,14 @@
 						userId: that.id
 					},
 					success(res){
-						console.log(res)
-						// that.user = res.data.username;
-						// that.id = res.data.id;	
-						// that.pageIndex = res.data.pageParam.pageIndex;
-						// that.pageRows = res.data.pageParam.pageRows;
+						console.log(res.data)
 						 that.tableData = res.data.tableData	
-						// console.log(that.tableData)
+						 that.totalRows = res.data.pageParam.totalRows
+						 that.totalPages = res.data.pageParam.totalPages
+						//console.log(res.data.pageParam.totalPages)
 					}
 				})
-			},
-			reachBottom(){
-				console.log(1)
-				this.pageIndex++;
-				this.getmessage();
-			},
+			}
 		},
 		mounted() {},
 

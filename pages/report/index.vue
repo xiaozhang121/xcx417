@@ -9,12 +9,12 @@
 		<view class="content">
 		<view class="content-top">
 					<view class="select">
-					<van-cell title="站点名称" is-link value="内容" label='请选择' arrow-direction="down" @click='actone'/>
+					<van-cell title="站点名称" is-link  :label="selectone" arrow-direction="down" @click='actone'/>
 						<van-action-sheet
 						  :show="showone"
 						  :actions="actionone"
 						  @close="onClose"
-						  @select="onSelect"
+						  @select="onSelectone"
 						/>
 						<!-- <action-sheet :hidden="showone" bindchange="actionSheetChange">
 						    <block v-for="item in 5">
@@ -31,20 +31,19 @@
 							</view>
 						  <van-field
 						    :value="value"
-						    placeholder="请输入用户名"
-						    @change="onChange"
-							:border='false'
+						    placeholder="请输入采集地点"
+						    @change="onreportSite"
 						  />
 						 
 						</van-cell-group>
 					</view>
 					<view class="select">
-						<van-cell title="上报类型" is-link value="内容" label='请选择' arrow-direction="down" @click='acttwo'/>
+						<van-cell title="上报类型" is-link  :label='selecttwo' arrow-direction="down" @click='acttwo'/>
 						<van-action-sheet
 						  :show="showtwo"
 						  :actions="actiontwo"
 						  @close="onClose"
-						  @select="onSelect"
+						  @select="onSelecttwo"
 						/>
 						
 					</view>
@@ -56,7 +55,7 @@
 						  <van-field
 						    :value="value"
 						    placeholder="请输入用户名"
-						    @change="onChange"
+						    @change="onreportDescribe"
 							:border='false'
 						  />
 						  
@@ -71,10 +70,10 @@
 		</view>
 		<view class="report">
 			<view class="report-one">
-				<van-button type="default">默认按钮</van-button>
+				<van-button type="default">取消</van-button>
 			</view>
 			<view class="report-one">
-				<van-button color="linear-gradient(to right, #0068FF, #005AC3)">渐变色按钮</van-button>
+				<van-button color="linear-gradient(to right, #0068FF, #005AC3)" @click='report'>确认上报</van-button>
 			</view>
 		</view>
 			</view>
@@ -96,23 +95,26 @@
 			showone: false,
 			showtwo: false,
 			    actionone: [
-			      { name: '1'},
-				   { name: '12'},
-				    { name: '12'}
+			     
 			    ],
 				actiontwo: [
-				  // { name: '1' } 
 				],
-				fileList: [
-				     
-				    ],
-					stationId:'',
+				fileList: [],//上传图片
 					userId:'',
-					arr:[]
+					arr:[],
+					warn:[],
+					selectone:'请选择',
+					selecttwo:'请选择',
+					reportType:'',//上报类型
+					stationId:'',//站点id
+					reportPersonId:'',//上报人
+					reportSite:'',//采集地点
+					reportDescribe:''//站点描述
+					
 		}
 		},
 		mounted() {
-			this.gettype()
+			// this.gettype()
 		},
 		computed: {},
 		onLoad(option) {
@@ -161,17 +163,9 @@
 						id:that.userId
 					},
 					success(res){
-						console.log(res)
-						//this.arr.push()
-						res.data.map((item,index)=>{
-							//console.log(item)
-							that.arr.push(item.stationName)
-						})
-						var fo = that.arr.forEach((item,index)=>{
-							return [{name:item}]
-						})
-						console.log(fo)
-					
+						for (var i=0;i<res.data.length;i++){
+							that.actionone.push({name:res.data[i].label,value:res.data[i].value})
+						}
 					}
 				})
 			},
@@ -182,13 +176,55 @@
 					method:'POST',
 					data:{entityName:"REPORT_TYPE"},
 					success(res){
-						console.log(res.data)
-					
+						for (var i=0;i<res.data.length;i++){
+							that.actiontwo.push({name:res.data[i].label,value:res.data[i].value})
+						}
+						console.log(that.actiontwo)
 					}
 				})
 			},
-			onSelect(e){
-				console.log(e.detail.name)
+			onSelectone(e){
+				this.selectone = e.detail.name
+				//站点id
+				this.stationId = e.detail.value
+			},
+			onSelecttwo(e){
+				this.selecttwo = e.detail.name
+				//上报类型id
+				this.reportType = e.detail.value
+			},
+			report(){
+				var that = this;
+				var user = uni.getStorageSync('userinfo')
+				that.reportPersonId = user.id;
+				$http({
+					url: '/venus/crud/PnmHistoryReport/add',
+					method:'POST',
+					data: {
+						stationId:that.stationId,
+						reportPersonId:that.reportPersonId,
+						reportSite:that.reportSite,//采集地点
+						reportDescribe:that.reportDescribe,//站点描述
+						reportType:that.reportType,
+						imgUrl:that.fileList
+						
+					},
+					success(res){
+						console.log(res)
+						uni.showToast({
+						  title: '数据采集上报成功'
+						})
+						 uni.navigateTo({
+						 	url:'/pages/record/index'
+						 })
+					}
+				})
+			},
+			onreportSite(e){
+				this.reportSite = e.detail
+			},
+			onreportDescribe(e){
+				this.reportDescribe = e.detail
 			}
 		} 
 	}

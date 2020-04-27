@@ -80,7 +80,7 @@
 	import statusBar from "../../components/status-bar/index.vue"
 	import WatchItem from "../../components/watch-item/index.vue"
 	import uniEcCanvas from '../../uni-ec-canvas/uni-ec-canvas.vue'
-	
+	import {$http} from "../common/util.js"
 	export default {
 		name: "user",
 		components: { 
@@ -90,6 +90,7 @@
 		},
 		data() {
 			return{
+				userId:'',
 				ec:{
 			option:{
     series: [
@@ -189,9 +190,27 @@
 			// 	return this.$store.state.MonitorVersion
 			// }
 		},
-		onLoad() {},
+		onLoad() {
+			this.getech()
+		},
 		methods: {
-		
+		getech(){
+			var that = this;
+			var user = uni.getStorageSync('userinfo')
+			that.userId = user.id;
+			//console.log(that.userId)
+			$http({
+				url: '/venus/mobilePhone/stationList',
+				data: {
+					 userId: that.userId,
+				},
+				success(res){
+					console.log(res)
+					//that.ec.option.series[0].max = 50
+				}
+			})
+			
+		},
 			
 		},
 		mounted() {},
