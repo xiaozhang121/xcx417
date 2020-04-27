@@ -24,7 +24,7 @@
 						<image :src="avator" mode=""></image>
 					</view>
 					<view class="username">
-						{{username}}
+						{{user}}
 					</view>
 					<view class="userid">
 						{{id}}
@@ -96,7 +96,7 @@
 		data() {
 			return {
 				// imgURL: this.$store.state.imgURL,
-				username:'',
+				user:'',
 				id:'',
 				avator:''	
 			}
@@ -107,35 +107,32 @@
 			// }
 		},
 		onLoad() {
-			this.getuser();
-			this.get()
+			this.login()
 		},
 		methods: {
 			//左上角返回按钮
 		onClickLeft(){
 			},
-			getuser(){
-			 var user = uni.getStorageSync('userinfo')
-			 this.id = user.id;
-			 this.username = user.username
-			 this.avator = user.avator
-			},
-			get(){
-				// var that = this
-				// $http({
-				// 	url: 'https://nei.netease.com/api/apimock-v2/e64ee4e782c695855b9f3645456ae8ce/venus/mobilePhone/historyAlarm?stationId=&type=&userId=&timeStart=&timeEnd=&pageIndex=&pageRows=',
-				// 	data: {
-				// 		 pageIndex: 1,
-				// 		 pageRows: 5
-				// 	},
-				// 	success(res){
-				// 		console.log(res)
-				// 		 that.user = res.data.username;
-				// 		 that.id = res.data.id;	
-				// 		  that.avator = res.data.avator;	
-						
-				// 	}
-				// })
+			login(){
+				let that = this; 				
+				uni.login({				
+					provider: 'weixin',				
+					success: function(loginRes) {					
+						console.log(loginRes);					
+						// 获取用户信息					
+						uni.getUserInfo({						
+							provider: 'weixin',						
+							success: function(res) {							
+								console.log(res);							
+									that.user = res.userInfo.nickName;
+									//that.id = res.userInfo.id;	
+									that.avator = res.userInfo.avatarUrl;	
+													
+								},
+								});				
+								},
+								});
+				
 			}
 			
 		},

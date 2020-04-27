@@ -2,7 +2,7 @@
 	<view class="box">
 
 		<!-- 切换导航-导航 -->
-		<van-nav-bar title="预警上报" fixed left-arrow @click-left='onClickLeft' />
+		<van-nav-bar title="数据采集上报" fixed left-arrow @click-left='onClickLeft' />
 		<!-- 导航站位 -->
 		<status-bar />
 		<!-- 内容展示 -->
@@ -16,6 +16,12 @@
 						  @close="onClose"
 						  @select="onSelect"
 						/>
+						<!-- <action-sheet :hidden="showone" bindchange="actionSheetChange">
+						    <block v-for="item in 5">
+						        <action-sheet-item >2</action-sheet-item>
+						    </block>
+						    <action-sheet-cancel >取消</action-sheet-cancel>
+						</action-sheet> -->
 					</view>
 					
 					<view class="write">
@@ -33,7 +39,7 @@
 						</van-cell-group>
 					</view>
 					<view class="select">
-						<van-cell title="单元格" is-link value="内容" label='请选择' arrow-direction="down" @click='acttwo'/>
+						<van-cell title="上报类型" is-link value="内容" label='请选择' arrow-direction="down" @click='acttwo'/>
 						<van-action-sheet
 						  :show="showtwo"
 						  :actions="actiontwo"
@@ -45,7 +51,7 @@
 					<view class="write">
 						<van-cell-group>
 							<view class="van-text">
-							采集地点
+							上报描述
 							</view>
 						  <van-field
 						    :value="value"
@@ -90,24 +96,32 @@
 			showone: false,
 			showtwo: false,
 			    actionone: [
-			      { name: '1' }
+			      { name: '1'},
+				   { name: '12'},
+				    { name: '12'}
 			    ],
 				actiontwo: [
-				  { name: '1' } 
+				  // { name: '1' } 
 				],
 				fileList: [
 				     
 				    ],
-					stationId:''
+					stationId:'',
+					userId:'',
+					arr:[]
 		}
+		},
+		mounted() {
+			this.gettype()
 		},
 		computed: {},
 		onLoad(option) {
 			//console.log(option)
-			console.log(option.stationId)
-			this.stationId = option.stationId
-			console.log(this.stationId)
-			//this.getdropdown()
+			// console.log(option.stationId)
+			// this.stationId = option.stationId
+			// console.log(this.stationId)
+			this.getdropdown();
+			this.gettype()
 		},
 		methods: {
 			//左上角返回按钮
@@ -136,22 +150,47 @@
 				this.fileList.push({url: event.detail.file.path })
 			},
 			getdropdown(){
-				
-				
 				var that = this;
-				
+				var user = uni.getStorageSync('userinfo')
+				that.userId = user.id;
 				$http({
-					url: '/venus/select/customAll',
+					url: '/venus/select/custom',
+					method:'POST',
 					data: {
-						 
+						entityName:"PnmStation",
+						id:that.userId
 					},
 					success(res){
 						console.log(res)
-						
+						//this.arr.push()
+						res.data.map((item,index)=>{
+							//console.log(item)
+							that.arr.push(item.stationName)
+						})
+						var fo = that.arr.forEach((item,index)=>{
+							return [{name:item}]
+						})
+						console.log(fo)
+					
 					}
 				})
+			},
+			gettype(){
+				var that = this;
+				$http({
+					url: '/venus/select/dictionary',
+					method:'POST',
+					data:{entityName:"REPORT_TYPE"},
+					success(res){
+						console.log(res.data)
+					
+					}
+				})
+			},
+			onSelect(e){
+				console.log(e.detail.name)
 			}
-		}
+		} 
 	}
 </script>
 
