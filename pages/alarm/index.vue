@@ -42,11 +42,11 @@
 								<van-icon name="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAACbElEQVRIS62WP0xTURTGf+d10QXrpOAgLoJKAi6OkGjUkaqJuqhlUBMJ/plMHBQdjE5GCCbGodVNErRMRl1gdZEmgDjJYtENcVAHesx5ty3l8e6zNbzkLfee+333fOffFRK+T0varkp/GTKipBF6QnNlRoXlAAoiTO5rlUUfjMRtGHC5zB2EbNIFantKPgi4G0e0gWC+pJmykhMh3RB4xUiV5UAY2N8mhfpz6whmlzQrSq4Z4KitCgNdrZKvrtcINgO8DvRE1ZOQwDRfLfOxWVl8nppcqYCDFpOQYLakeYELcQdWfsHD97Dwzf2dO91/8yi0bPWLqfC8q02yEmaM8iXO9MMiXBuHld8bd1u2wOPTcKjdTxIIe2S+pNcVHkXN7ObHRx344b0w2AedrfB1GQpFeDINRvJ2yO+JwA2ZLemUQF+U4NYkTBYd+OjZjbccm3Yk/d1wvz/eC4VpmSupVeHuqMnJp/D5O0xcdDePfgtLcOqZi8fEJY9MyowRaNz2gXtude62X+NGbLwEjXrQsQNeXfZfwitRNQZHOmDkzH/GQCl6g2xZdGwEfv4BI7nSu5ZFFvyxKUil4M0g7NqeEGRfmtoRq4OrLx1J9EsJrKoLcu5cfKqGaZpUaAZqnjx456rYsso0N9DBXhgad2s+krDQ/tUq/OFz5NkXjsQqOnd+zbrWKmwpbHaWs7AtCdDXq4zEqjpf6WYKP1JCT63Z2UEbNAqvmyWIsxdY366rRpsxE7wDp0oSjkyw9t2UXCZLANnEkVklqcRk2DcjorJYQFPCcENDv/5w5dliHmVQ0iJ0274qRdaeLYWkZ8tfRVkVrJbBytQAAAAASUVORK5CYII=" />
 							</view>
 						</view>
-						<view class="list-bt" @click="navi(item.id,item.stationId)" v-if="!already">
+						<view class="list-bt" @click="navi(item.id,item.stationId)" v-if="item.isHandle==1">
 							处理上报 →
 						</view>
-						<view class="list-bt" @click="navi(item.id,item.stationId)" v-if="already">
-							已上报
+						<view class="already-list-bt" v-if="item.isHandle==0">
+							已处理
 						</view>
 					</view>
 			</scroll-view>
@@ -135,9 +135,9 @@
 			},
 			//获取历史报警
 			gethistory(){
-				
-				console.log(uni.getStorageSync('alarmid'))
 				var that = this
+				console.log(that.timeStart)
+				console.log(that.timeEnd)
 				$http({
 					url: '/venus/mobilePhone/historyAlarm',
 					data: {
@@ -283,6 +283,11 @@
 					.list-bt {
 						text-align: center;
 						color: #0068FF;
+						margin-top: 20rpx;
+					}
+					.already-list-bt {
+						text-align: center;
+						color: rgb(167, 167, 167);
 						margin-top: 20rpx;
 					}
 				}

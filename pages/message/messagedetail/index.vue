@@ -11,8 +11,8 @@
 				<view>{{tableData.datail}}</view>
 				<view>{{tableData.publishTime}}</view>
 			</view>
-			<view class="btn">
-				<van-button color="linear-gradient(to right, #0068FF, #005AC3)" @click='enter(tableData.id)'>处理上报</van-button>
+			<view class="btn" v-if="tableData.isShow==0?false:true">
+				<van-button color="linear-gradient(to right, #0068FF, #005AC3)" @click='enter(tableData.id,tableData.stationId)'>处理上报</van-button>
 			</view>
 		</view>
 	</view>
@@ -45,9 +45,9 @@
 			onClickLeft() {
 				uni.navigateBack();
 			},
-			enter(id){
+			enter(id,stationId){
 				uni.navigateTo({
-					url: '/pages/alarm/alarmreport/index?id'+id
+					url: "/pages/alarm/alarmreport/index?id=" + id+'&stationId='+stationId
 				})
 				
 			},
@@ -64,6 +64,7 @@
 						// that.id = res.data.id;	
 						// console.log(that.tableData)
 						that.tableData = res.data
+						
 					}
 				})
 			},

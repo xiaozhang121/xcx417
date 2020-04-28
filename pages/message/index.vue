@@ -10,14 +10,14 @@
 			<scroll-view scroll-y="true" class="sco">
 				<view class="list"  v-for="item in tableData" :key='item.id' @click="enter(item.id)">
 					<view class="tco">
-						<van-icon :dot="item.isRead===0?false:true" name="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABmUlEQVRIS+2X307CMBTGv47BRiQOEvBOccEoXLk3UJ/M8WTiG/gC0JFIght/SjK4gEFNJxAShnM4tpjYizVZ2vPrd9qcfIdgPSiljxzkGYABoLj5H9PMALwR8Kau6y0Rk4hPm1KTfEFPPjh4s6brJlkrfTk5cQdAwJ9Ih9IWQB6SBAP8lbQ7lBFCtGTBYKRDLZ4w1Mf9g/eyXimXUSicRb4N13XhDIYH94WmWr+uRoZui5LV/cPg+XwO23FC1V9UKsjlcv46Godiallw3WkoOJ9XcVOrxQcOJQYsiEVxauB+/wNWN/iVqooCw7jfO1ssiqezGcQDCxoSkaBp56cBp5bqxMFFTUOpFN0JjccMbDI5vnIxxiBnMpBl2Q/SaNS3wQaDIZyAouJ5HrzlEsXi4QOH1mpBWSwWWK1WPrB+d+vPAvre60FV1T1VkiQhm81+ezs/Au9GqF5dYjQa+1BNO964RAbbtg1FUX4FFUIig4953UF7UjF7nPNJevY2NUMv8p9KC7P1R37TBpNzGHEbfP9OiWjaYG6atk+aHPTXiNgrMAAAAABJRU5ErkJggg=="  />
+						<van-icon :dot="item.isRead===0?true:false" name="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABmUlEQVRIS+2X307CMBTGv47BRiQOEvBOccEoXLk3UJ/M8WTiG/gC0JFIght/SjK4gEFNJxAShnM4tpjYizVZ2vPrd9qcfIdgPSiljxzkGYABoLj5H9PMALwR8Kau6y0Rk4hPm1KTfEFPPjh4s6brJlkrfTk5cQdAwJ9Ih9IWQB6SBAP8lbQ7lBFCtGTBYKRDLZ4w1Mf9g/eyXimXUSicRb4N13XhDIYH94WmWr+uRoZui5LV/cPg+XwO23FC1V9UKsjlcv46Godiallw3WkoOJ9XcVOrxQcOJQYsiEVxauB+/wNWN/iVqooCw7jfO1ssiqezGcQDCxoSkaBp56cBp5bqxMFFTUOpFN0JjccMbDI5vnIxxiBnMpBl2Q/SaNS3wQaDIZyAouJ5HrzlEsXi4QOH1mpBWSwWWK1WPrB+d+vPAvre60FV1T1VkiQhm81+ezs/Au9GqF5dYjQa+1BNO964RAbbtg1FUX4FFUIig4953UF7UjF7nPNJevY2NUMv8p9KC7P1R37TBpNzGHEbfP9OiWjaYG6atk+aHPTXiNgrMAAAAABJRU5ErkJggg=="  />
 					</view>
 					<view class="list-title">
 						<view class="annouce">
 							{{item.stationName}}
 						</view>
 						<view class="title-tp" >
-							<text class="name">{{item.title}}</text>
+							<text class="name" :class="item.isRead==0?'grey-name':'name'">{{item.title}}</text>
 							<navigator class="normal">
 								<view class="ico">
 									<van-icon name="arrow" color='#BBBBBB'/>
@@ -200,7 +200,21 @@
 							  display: -webkit-box;
 							  -webkit-line-clamp: 1;  /*限制在一个块元素显示的文本的行数*/
 							  -webkit-box-orient: vertical
-		
+						}
+						.grey-name {
+							font-size: 32rpx;
+							font-weight: 700;
+							color: rgb(156, 156, 156);
+							width: 90%;
+							// white-space: nowrap;
+							// text-overflow: ellipsis;
+							//display: block;
+							 overflow: hidden;
+							 text-overflow: ellipsis;
+							  word-break: break-all;
+							  display: -webkit-box;
+							  -webkit-line-clamp: 1;  /*限制在一个块元素显示的文本的行数*/
+							  -webkit-box-orient: vertical
 						}
 					}
 					.title-bd {

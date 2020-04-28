@@ -270,7 +270,7 @@
 				let year = time.getFullYear();        
 				let month = time.getMonth() + 1;        
 				let day = time.getDate();        
-				return year + '年' + month + '月' + day + '日'      
+				return year + '-' + month + '-' + day      
 				},
 				gethis(){
 					var that = this

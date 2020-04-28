@@ -58,7 +58,7 @@
 				show: false,
 				timeValue: '请选择开始时间',
 				currentDate: new Date().getTime(),
-				minDate: new Date().getTime(),
+				minDate: new Date(2019,1,1).getTime(),
 			},
 			end: {
 				show: false,
@@ -100,7 +100,7 @@
 				let year = time.getFullYear();        
 				let month = time.getMonth() + 1;        
 				let day = time.getDate();        
-				return year + '年' + month + '月' + day + '日'      
+				return year + '-' + month + '-' + day    
 				}
 	}
 	}

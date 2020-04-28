@@ -91,6 +91,7 @@
 		data() {
 			return{
 				userId:'',
+				stationNameOrCode:'',
 				ec:{
 			option:{
     series: [
@@ -203,17 +204,21 @@
 				url: '/venus/mobilePhone/stationList',
 				data: {
 					 userId: that.userId,
+					 stationNameOrCode:that.stationNameOrCode
 				},
 				success(res){
 					console.log(res)
 					//that.ec.option.series[0].max = 50
+					// that.ec.option.series[0].
 				}
 			})
 			
 		},
 			
 		},
-		mounted() {},
+		mounted() {
+			this.getech()
+		},
 		
 	}
 </script>

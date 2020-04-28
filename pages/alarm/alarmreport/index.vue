@@ -113,7 +113,7 @@
 		}
 		},
 		computed: {},
-		onLoad(option) {
+		onLoad(option,stationId) {
 			this.id = option.id
 			this.stationId = option.stationId
 			console.log(option)
