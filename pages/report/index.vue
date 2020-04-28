@@ -54,7 +54,7 @@
 							</view>
 						  <van-field
 						    :value="value"
-						    placeholder="请输入用户名"
+						    placeholder="请输入描述内容(非必填)"
 						    @change="onreportDescribe"
 						  />
 						  
@@ -138,8 +138,8 @@
 			// console.log(option.stationId)
 			// this.stationId = option.stationId
 			// console.log(this.stationId)
-			this.getdropdown();
-			this.gettype()
+			//this.getdropdown();
+			//this.gettype()
 		},
 		methods: {
 			//左上角返回按钮
@@ -213,6 +213,9 @@
 				var that = this;
 				var user = uni.getStorageSync('userinfo')
 				that.reportPersonId = user.id;
+				if(that.reportType==3){
+					that.reportDescribe = that.reportDescribe.replace(/[^0-9]/ig,"")
+				};
 				$http({
 					url: '/venus/crud/PnmHistoryReport/add',
 					method:'POST',
