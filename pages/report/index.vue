@@ -286,8 +286,9 @@
 					font-size: 28rpx;
 				}
 				.van-uploader__preview{
-					width: 124rpx;
-					height: 124rpx;
+					width: 120rpx;
+					height: 120rpx;
+					margin-right: 16rpx;
 					image {
 						width: 100%!important;
 						height: 100%!important;

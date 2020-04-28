@@ -136,20 +136,16 @@
         {
                     name: '流量(m^3/s)',
                     type: 'value',
-                    max: 500
                 },
                 {
                     gridIndex: 1,
                     name: '压力(kPa)',
                     type: 'value',
-        			max: 10,
                     inverse: true
                 },
         		{
         		    name: '开启度(%)',
         		    type: 'value',
-        			max: 100,
-					min:0,
 					position:'right'
 					//inverse: true
         		}
@@ -168,7 +164,7 @@
         				   }
         			},
                     data: [
-        					0,1,1,1,1,2
+        					
                     ]
                 },
         		{
@@ -182,7 +178,7 @@
         			   }
         			   }
         		},
-        		     data: [220, 282, 201, 234, 290, 430, 410]
+        		     data: []
         		},
                 {
                     name: '压力',
@@ -199,7 +195,7 @@
         				   }
         			},
                     data: [
-        					0,0,0,0,0,0,1
+        					
                     ]
                 }
     ]
@@ -282,7 +278,7 @@
 							 dateType:that.type
 						},
 						success(res){
-							console.log(res.data)
+							console.log(res)
 							res.data.map((item,index)=>{
 								that.xarr.push(item.dateInfo)
 								that.openDegree.push(item.openDegree)

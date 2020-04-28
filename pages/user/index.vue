@@ -111,11 +111,10 @@
 		},
 		methods: {
 			//左上角返回按钮
-		onClickLeft(){
-			},
-			login(){
-				let that = this; 				
-				uni.login({				
+	
+		login(){
+		let that = this; 				
+		uni.login({				
 					provider: 'weixin',				
 					success: function(loginRes) {					
 						console.log(loginRes);					
@@ -132,8 +131,9 @@
 								});				
 								},
 								});
-				
-			}
+			},
+			
+			
 			
 		},
 		mounted() {}

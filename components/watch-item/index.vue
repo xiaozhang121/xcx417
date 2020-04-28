@@ -4,7 +4,7 @@
 			<view class="list-title">
 				<view class="title-tp">
 					<text class="name">{{item.stationName}}</text>
-					<navigator class="normal" url="/pages/details/index">{{item.workStatus==1?'正常':''}}</navigator>
+					<navigator class="normal" url="/pages/details/index">{{item.workStatus==1?'在线':'离线'}}</navigator>
 					<view class="ico">
 						<van-icon name="arrow"/>
 					</view>
