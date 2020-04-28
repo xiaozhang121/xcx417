@@ -56,7 +56,6 @@
 						    :value="value"
 						    placeholder="请输入用户名"
 						    @change="onreportDescribe"
-							:border='false'
 						  />
 						  
 						</van-cell-group>
@@ -66,11 +65,12 @@
 			<view class="bt-txt">
 				上传现场图片
 			</view>
-			<van-uploader :file-list="fileList" :deletable='false' @after-read='afterRead'/>
+			<van-uploader :file-list="fileList"  @after-read='afterRead' />
+			<!-- <van-uploader :file-list="fileList" /> -->
 		</view>
 		<view class="report">
 			<view class="report-one">
-				<van-button type="default">取消</van-button>
+				<van-button type="default" @click='back'>取消</van-button>
 			</view>
 			<view class="report-one">
 				<van-button color="linear-gradient(to right, #0068FF, #005AC3)" @click='report'>确认上报</van-button>
@@ -90,8 +90,22 @@
 			statusBar,
 			WatchItem
 		},
+		watch:{
+			fileList(){	
+			for (var i = 0; i < this.fileList.length; i++) {
+				if(i<this.fileList.length-1){
+					this.fina += this.fileList[i].url+',';
+				}
+				else {
+					this.fina += this.fileList[i].url;
+				}
+			}		
+			console.log(this.fina)
+			}
+		},
 		data() {
 		return {
+			fina:'',
 			showone: false,
 			showtwo: false,
 			    actionone: [
@@ -99,7 +113,9 @@
 			    ],
 				actiontwo: [
 				],
-				fileList: [],//上传图片
+				fileList: [
+					
+				],//上传图片
 					userId:'',
 					arr:[],
 					warn:[],
@@ -206,7 +222,7 @@
 						reportSite:that.reportSite,//采集地点
 						reportDescribe:that.reportDescribe,//站点描述
 						reportType:that.reportType,
-						imgUrl:that.fileList
+						imgUrl:that.fina
 						
 					},
 					success(res){
@@ -225,6 +241,9 @@
 			},
 			onreportDescribe(e){
 				this.reportDescribe = e.detail
+			},
+			back(){
+				uni.navigateBack()
 			}
 		} 
 	}

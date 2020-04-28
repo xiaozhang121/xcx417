@@ -14,7 +14,7 @@
 					</view>
 					<view class="list-title">
 						<view class="title-tp">
-							<text class="name">{{item.reportType}}</text>
+							<text class="name">{{item.reportType==1?'巡检上报':(item.reportType==2?'阀门开启度设置上报':'预警上报')}}</text>
 							<navigator class="normal" url="/pages/recordDetails/index">
 								<view class="ico">
 									<van-icon name="arrow" color='#BBBBBB'/>

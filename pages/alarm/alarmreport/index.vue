@@ -16,7 +16,7 @@
 				  <van-field
 					:border = 'true'
 				    :value="value"
-				    placeholder="请输入用户名"
+				    placeholder="请输入站点名"
 				    @change="getreportPersonId"
 				  />
 				</van-cell-group>
@@ -29,7 +29,7 @@
 							</view>
 						  <van-field
 						    :value="value"
-						    placeholder="请输入用户名"
+						    placeholder="请输入采集地点"
 						    @change="getreportSite"
 							
 						  />
@@ -43,7 +43,7 @@
 							</view>
 						  <van-field
 						    :value="value"
-						    placeholder="请输入用户名"
+						    placeholder="请输入上述描述"
 						    @change="getreportDescribe"
 						  />
 						</van-cell-group>
@@ -77,11 +77,23 @@
 			statusBar,
 			WatchItem
 		},
+		watch:{
+			fileList(){	
+			for (var i = 0; i < this.fileList.length; i++) {
+				if(i<this.fileList.length-1){
+					this.fina += this.fileList[i].url+',';
+				}
+				else {
+					this.fina += this.fileList[i].url;
+				}
+			}		
+			console.log(this.fina)
+			}
+		},
 		data() {
 		return {
 			showone: false,
 			showtwo: false,
-			reportSite: '',
 			    actionone: [
 			      { name: '1' }
 			    ],
@@ -95,7 +107,8 @@
 					reportSite:'',
 					reportDescribe:'',
 					id:'',
-					stationId:''
+					stationId:'',
+					fina:''//上传的图片地址
 					
 		}
 		},
@@ -152,10 +165,17 @@
 						reportPersonId: that.reportPersonId,
 						reportSite: that.reportSite,
 						reportDescribe: that.reportDescribe,
-						imgUrl: that.fileList,
+						imgUrl: that.fina,
 					},
 					success(res){
 						console.log(res)
+						uni.showToast({
+							title:'上报成功'
+						})
+						uni.navigateTo({
+							url:"/pages/alarm/index"
+						})
+						
 						// that.user = res.data.username;
 						// that.id = res.data.id;	
 						// console.log(res.tableData)
@@ -205,13 +225,17 @@
 				margin-top: 20rpx;
 				background-color: #FFFFFF;
 				padding: 30rpx 32rpx;
+				.van-uploader__wrapper:nth-child(1){
+					margin-right: 0!important;
+				}
 				.bt-txt{
 					margin-bottom: 32rpx;
 					font-size: 28rpx;
 				}
 				.van-uploader__preview{
-					width: 124rpx;
-					height: 124rpx;
+					width: 120rpx;
+					height: 120rpx;
+					margin-right: 16rpx;
 					image {
 						width: 100%!important;
 						height: 100%!important;

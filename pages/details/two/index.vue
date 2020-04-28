@@ -5,7 +5,7 @@
 				{{item}}
 			</view>
 		</view>
-		<view class="date">
+		<view class="date" v-if="currentindex===4">
 			  <van-cell
 					class='left'
 			       :value="start.timeValue"
@@ -62,16 +62,16 @@
 		},
 		props:["postid"],
 		mounted() {
+			this.gethis()
 		},
 		onLoad(){
-			this.gethis()
 		},
 		data(){
 			return {
-				timeData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+				//timeData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
 			ec: {
 			  option:  {
-	color:['#0068FF','#00C3A2','#FFB917'],
+	color:['#0068FF','#FFB917','#00C3A2'],
     tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -84,22 +84,22 @@
     axisPointer: {
         link: {xAxisIndex: 'all'}
     },
-    dataZoom: [
-        {
-            show: true,
-            realtime: true,
-            start: 30,
-            end: 70,
-            xAxisIndex: [0, 1]
-        },
-        {
-            type: 'inside',
-            realtime: true,
-            start: 30,
-            end: 70,
-            xAxisIndex: [0, 1]
-        }
-    ],
+    // dataZoom: [
+    //     {
+    //         show: true,
+    //         realtime: true,
+    //         start: 30,
+    //         end: 70,
+    //         xAxisIndex: [0, 1]
+    //     },
+    //     {
+    //         type: 'inside',
+    //         realtime: true,
+    //         start: 30,
+    //         end: 70,
+    //         xAxisIndex: [0, 1]
+    //     }
+    // ],
     grid: [{
         left: 50,
         right: 50,
@@ -115,15 +115,21 @@
                    type: 'category',
                    boundaryGap: false,
                    axisLine: {onZero: true},
-                   data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                   data: [],
+				    axisLabel: {
+				                   interval:0 
+				               }
                },
                {
                    gridIndex: 1,
                    type: 'category',
                    boundaryGap: false,
                    axisLine: {onZero: true},
-                   data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                   position: 'top'
+                   data: [],
+                   position: 'top',
+				    axisLabel: {
+				                   interval:0 
+				               }
                }
     ],
     yAxis: [
@@ -134,7 +140,7 @@
                 },
                 {
                     gridIndex: 1,
-                    name: '降雨量(mm)',
+                    name: '压力(kPa)',
                     type: 'value',
         			max: 10,
                     inverse: true
@@ -143,6 +149,8 @@
         		    name: '开启度(%)',
         		    type: 'value',
         			max: 100,
+					min:0,
+					position:'right'
 					//inverse: true
         		}
     ],
@@ -155,7 +163,7 @@
         			itemStyle : {
         				  normal : {
         				   lineStyle:{
-        				   color:'#FFB917'//设置折线线条颜色
+        				   color:'#0068FF'//设置折线线条颜色
         				   }
         				   }
         			},
@@ -164,20 +172,20 @@
                     ]
                 },
         		{
-        		     name: '压力',
+        		     name: '开启度',
         		     type: 'line',
         			step: 'middle',
         			 itemStyle : {
         			  normal : {
         			   lineStyle:{
-        			   color:'#0068FF'//设置折线线条颜色
+        			   color:'#FFB917'//设置折线线条颜色
         			   }
         			   }
         		},
         		     data: [220, 282, 201, 234, 290, 430, 410]
         		},
                 {
-                    name: '开启度',
+                    name: '压力',
                     type: 'line',
                     xAxisIndex: 1,
                     yAxisIndex: 1,
@@ -192,9 +200,7 @@
         			},
                     data: [
         					0,0,0,0,0,0,1
-                    ],
-					date:'',
-					echartData:[]
+                    ]
                 }
     ]
 }
@@ -221,7 +227,13 @@
 			},
 			choose: ['小时','天','月','年','其他'],
 			currentindex:0,
-			myChart:''
+			type:'0',//类型
+			myChart:'',
+			xarr:[],//x轴坐标
+			openDegree:[],//开启度
+			avgFlowValue:[],//流量
+			avgPressureValue:[],//压力
+			
 			}
 		},
 			methods: {
@@ -238,9 +250,11 @@
 				   this.end.show=false
 				  },
 			sele(item,e){
-				this.currentindex = e
+				this.currentindex = e;
 				//console.log(item)
-				this.date = item
+				this.date = item;
+				this.type = e;
+				console.log(this.type)
 				//this.$emit("getChild",item)
 				this.gethis()
 			},
@@ -260,18 +274,30 @@
 				},
 				gethis(){
 					var that = this
+					//console.log(that.postid)
 					$http({
 						url: '/venus/mobilePhone/historyFlowPressure',
 						data: {
-							 id:that.id,
-							 dateType:that.date
+							 stationId:that.postid,
+							 dateType:that.type
 						},
 						success(res){
-							//console.log(1)
-							//that.echartData = res.data
-							console.log(res)
 							console.log(res.data)
-							//that.ec.option.series[0].data = [500,500,500,400,600,500]
+							res.data.map((item,index)=>{
+								that.xarr.push(item.dateInfo)
+								that.openDegree.push(item.openDegree)
+								that.avgFlowValue.push(item.avgFlowValue)
+								that.avgPressureValue.push(item.avgPressureValue)
+							})
+							that.xarr = that.xarr.map((item,index)=>{
+								return item.replace('2020-', '')
+							});
+							that.ec.option.xAxis[0].data = that.xarr;
+							that.ec.option.xAxis[1].data = that.xarr;
+							that.ec.option.series[0].data = that.avgFlowValue;
+							that.ec.option.series[1].data = that.openDegree;
+							that.ec.option.series[2].data = that.avgPressureValue;
+							//console.log(1)
 						}
 					})
 				},
@@ -286,7 +312,7 @@
 .eca {
 		width: 100%;
 		height: 1200rpx;
-		margin-top: 30rpx;
+		//margin-top: 30rpx;
 		background-color: #FFFFFF;
 		padding-top: 80rpx;
 	}
@@ -302,6 +328,7 @@
 		width: 100%;
 		overflow: hidden;
 		background-color: #FFFFFF;
+		margin-bottom: 30rpx;
 		.mid {
 			float: left;
 			position: relative;
