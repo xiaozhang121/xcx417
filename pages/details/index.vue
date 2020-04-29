@@ -33,7 +33,7 @@
 			</view>
 			<one v-if="index===0" :receive='tableData'></one>
 			<two v-if="index===1" :postid='id' @getChild = "getChild"></two>
-			<three v-if="index===2" :receive='tableData'></three>
+			<three v-if="index===2" :receive='tableData' :getmore='getmore'></three>
 		</view>
 	</view>
 </template>
@@ -63,8 +63,26 @@
 			title: ['站点详情','历史记录','历史报警'],
 			id:'',
 			tableData:{},
-			date:''
+			date:'',
+			getmore:0
 		}
+		},
+		onReachBottom(){
+			this.getmore++;
+			// console.log(1)
+			// if (this.tableData.length >= this.totalRows) {
+			//   // 没有更多数据了，给一个提示，终止后续的接口调用
+			//   uni.showToast({
+			//     title: '没有更多数据了',
+			// 	icon:'none'
+			//   })
+			//   return
+			// }
+			// // 加载下一页数据
+			// this.pageIndex = this.pageIndex + 1
+			// // 页码加一后需要再次调用后台接口
+			// this.getmessage()
+			// console.log(this.tableData)
 		},
 		computed: {},
 		onLoad(option) {
@@ -99,10 +117,19 @@
 			},
 			show(n){
 				this.index = n
+			},
+			gettab(e){
+				console.log(e)
+			},
+			gettol(e){
+				console.log(e)
 			}
 
 		},
-		mounted() {},
+		mounted() {
+			this.gettab();
+			this.gettol()
+		},
 
 	}
 </script>

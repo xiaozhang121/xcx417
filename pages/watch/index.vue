@@ -46,17 +46,29 @@
 			}
 		},
 		onReachBottom(){
-			if(this.totalPages<=this.pageIndex){
-				uni.showToast({
-					title:'没有更多数据了',
-					icon:'none'
-				})
-				return false;
-			}
-			this.pageIndex++
-			this.pageRows = this.pageIndex*this.pageRows
-			this.getwatch()
+			// if(this.totalPages<=this.pageIndex){
+			// 	uni.showToast({
+			// 		title:'没有更多数据了',
+			// 		icon:'none'
+			// 	})
+			// 	return false;
+			// }
+			// this.pageIndex++
+			// this.pageRows = this.pageIndex*this.pageRows
+			// this.getwatch()
 			
+			if (this.tableData.length >= this.totalRows) {
+			  // 没有更多数据了，给一个提示，终止后续的接口调用
+			  uni.showToast({
+			    title: '没有更多数据了',
+				icon:'none'
+			  })
+			  return
+			}
+			// 加载下一页数据
+			this.pageIndex = this.pageIndex + 1
+			// 页码加一后需要再次调用后台接口
+			this.gethistory()
 		},
 		computed: {},
 		onLoad(option) {
@@ -90,11 +102,14 @@
 						console.log(res)
 						// that.user = res.data.username;
 						// that.id = res.data.id;	
-						 that.tableData = res.data.tableData
-						 //that.name = res.data.tableData.stationName
-						// console.log(that.tableData)
-						that.totalRows = res.data.pageParam.totalRows
-						that.totalPages = res.data.pageParam.totalPages
+						//  that.tableData = res.data.tableData
+						//  //that.name = res.data.tableData.stationName
+						// // console.log(that.tableData)
+						// that.totalRows = res.data.pageParam.totalRows
+						// that.totalPages = res.data.pageParam.totalPages
+						
+						that.tableData = [...that.tableData, ...res.data.tableData];
+						that.totalRows = res.data.pageParam.totalRows;
 					}
 				})
 				

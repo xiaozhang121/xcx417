@@ -95,7 +95,7 @@
 			timeEnd:'',
 			type:'',
 			pageIndex:1,
-			pageRows:7,
+			pageRows:5,
 			totalRows:10,
 			totalPages:1,
 			already:false
@@ -111,16 +111,21 @@
 			}
 		},
 		onReachBottom(){
-			if(this.totalPages<=this.pageIndex){
-				uni.showToast({
-					title:'没有更多数据了',
-					icon:'none'
-				})
-				return false;
+			
+			if (this.tableData.length >= this.totalRows) {
+			  // 没有更多数据了，给一个提示，终止后续的接口调用
+			  uni.showToast({
+			    title: '没有更多数据了',
+				icon:'none'
+			  })
+			  return
 			}
-			this.pageIndex++
-			this.pageRows = this.pageIndex*this.pageRows
-			this.gethistory();
+			// 加载下一页数据
+			this.pageIndex = this.pageIndex + 1
+			// 页码加一后需要再次调用后台接口
+			this.gethistory()
+			
+			console.log(this.tableData)
 		},
 		methods: {
 			//左上角返回按钮
@@ -139,27 +144,26 @@
 					url: '/venus/mobilePhone/historyAlarm',
 					data: {
 						 pageIndex: that.pageIndex,
-						 pageRows: that.pageRows*that.pageIndex,
+						 pageRows: that.pageRows,
 						 timeStart:that.timeStart,
 						 timeEnd:that.timeEnd,
 						 type:that.type
 					},
 					success(res){
-						console.log(res)
-						that.tableData = res.data.tableData;
-						that.totalRows = res.data.pageParam.totalRows
-						that.totalPages = res.data.pageParam.totalPages
-					}
+						that.tableData = [...that.tableData, ...res.data.tableData];
+						that.totalRows = res.data.pageParam.totalRows;
+						}	
+		
 				})
 			},
 			//到达底部触发
-			reachBottom(){
+			// reachBottom(){
 				
-				// console.log(1)
-				 this.pageIndex++;
-				// if(this.pageIndex)
-				 this.gethistory();
-			},
+			// 	// console.log(1)
+			// 	 this.pageIndex++;
+			// 	// if(this.pageIndex)
+			// 	 this.gethistory();
+			// },
 			starttime(e){
 				console.log(e)
 				this.timeStart = e

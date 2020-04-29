@@ -60,23 +60,33 @@
 			this.getmessage()
 		},
 		onReachBottom(){
-			if(this.totalPages<=this.pageIndex){
-				uni.showToast({
-					title:'没有更多数据了',
-					icon:'none'
-				})
-				return false;
+			// if(this.totalPages<=this.pageIndex){
+			// 	uni.showToast({
+			// 		title:'没有更多数据了',
+			// 		icon:'none'
+			// 	})
+			// 	return false;
+			// }
+			//  this.pageIndex++;
+			//  this.pageRows = this.pageIndex*this.pageRows;
+			//  if(this.pageRows>this.totalRows){
+			// 	 this.pageRows = this.totalRows
+			//  }
+			//   this.getmessage()
+			if (this.tableData.length >= this.totalRows) {
+			  // 没有更多数据了，给一个提示，终止后续的接口调用
+			  uni.showToast({
+			    title: '没有更多数据了',
+				icon:'none'
+			  })
+			  return
 			}
-			 this.pageIndex++;
-			 this.pageRows = this.pageIndex*this.pageRows;
-			 if(this.pageRows>this.totalRows){
-				 this.pageRows = this.totalRows
-			 }
-			 // console.log(this.pageIndex)
-			 // console.log(this.pageRows)
-			  this.getmessage()
-			 //console.log(this.pageIndex)
-			// console.log(this.pageRows)
+			// 加载下一页数据
+			this.pageIndex = this.pageIndex + 1
+			// 页码加一后需要再次调用后台接口
+			this.getmessage()
+			console.log(this.tableData)
+			
 		},
 		methods: {
 			//左上角返回按钮
@@ -100,10 +110,15 @@
 						userId: that.id
 					},
 					success(res){
-						console.log(res.data)
-						 that.tableData = res.data.tableData	
-						 that.totalRows = res.data.pageParam.totalRows
-						 that.totalPages = res.data.pageParam.totalPages
+						//合并消息页
+						that.tableData = [...that.tableData, ...res.data.tableData];
+						that.totalRows = res.data.pageParam.totalRows;
+						
+						
+						// console.log(res.data)
+						//  that.tableData = res.data.tableData	
+						//  that.totalRows = res.data.pageParam.totalRows
+						//  that.totalPages = res.data.pageParam.totalPages
 						//console.log(res.data.pageParam.totalPages)
 					}
 				})
