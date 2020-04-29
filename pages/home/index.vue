@@ -10,7 +10,8 @@
 		<status-bar />
 		<!-- 内容展示 -->
 		<view class="content">
-			<view class="bottom">
+			<map style="width:100%;height:100vh;":latitude="latitude":longitude="longitude" :markers="marker"></map>
+			<view class="bottom" v-if="false">
 				<view class="pull">
 					<view class="squ">
 					</view>
@@ -90,6 +91,45 @@
 		},
 		data() {
 			return{
+				latitude: 40.013305,  //纬度
+				longitude: 118.685713,  //经度
+				marker: [{
+				   　　id:0,
+				   　　latitude: 40.013305,//纬度
+				   　　longitude: 118.685713,//经度
+				   　　iconPath: '',    //显示的图标        
+				   　　rotate:0,   // 旋转度数
+				   　　width:20,   //宽
+				   　　height:20,   //高
+				  　　 title:'你在哪了',//标注点名
+				  　　 alpha:0.5,   //透明度
+				  　　 label:{//为标记点旁边增加标签   //因背景颜色H5不支持
+				  　　 content:'站点A',//文本
+				　　　　color:'#333'//文本颜色
+				       // 　　fontSize:24,//文字大小
+				       //    x:5,//label的坐标，原点是 marker 对应的经纬度
+				       //    y:1,//label的坐标，原点是 marker 对应的经纬度 
+				       //    borderWidth:12,//边框宽度
+				       //    borderColor:'pink',//边框颜色    
+				       // 　　borderRadius:20,//边框圆角                        
+				       // 　　bgColor:'black',//背景色
+				       // 　　padding:5,//文本边缘留白
+				       //    textAlign:'right'//文本对齐方式。
+				   },
+				   callout:{//自定义标记点上方的气泡窗口 点击有效  
+				   　　content:'幸福花园店A组',//文本
+				   　　color:'#ffffff',//文字颜色
+				   　　fontSize:14,//文本大小
+				   　　borderRadius:2,//边框圆角
+				  　　 bgColor:'#00c16f',//背景颜色
+				   　　display:'ALWAYS',//常显
+				   },
+				   // anchor:{//经纬度在标注图标的锚点，默认底边中点
+				   //     x:0,    原点为给出的经纬度
+				   //     y:0,
+				   // }
+				                
+				   }],
 				userId:'',
 				stationNameOrCode:'',
 				ec:{

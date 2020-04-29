@@ -18,13 +18,18 @@
 			  	 placeholder="请输入账号"
 			  	  left-icon="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABI0lEQVRIS+2UzW3DMAyFSdgDpBOkHUEwfU6yQbpBOkon6Ah1J0g3SO4SoGxQe4KmAwgsGMiAD/pLiqCHhGfqfeQjKYQrB15ZH24MYK19FEuVUn2ptUUWGWPWAPAOADMvfASAFyL6zIGyAC++jQg95yAlALFjHgEciegh1UUSYK2dOee+UwJVVT2lZvK/AKncGJOyaCCi02bFIjsDrfUSEXchAWZetW27/xNAHntINxn2wMybnLi8zXYwrU6G7g9N7qAoSob8BgByaOORjcI9InZN07xeZJF8C8458T45RGY+1HW9UkoFu4p2oLXeI+KiyAeADyLahHKDAF/9V6H4KS12cEFA5v8JcmMrGwSkdj/S1Q8zr0Nre9aanmPZmHsHZF37Bf79cRljR2RXAAAAAElFTkSuQmCC"
 				  @change='getaccount'
+				  clearable
 			  	/>
 			  </view>
 			 <view class="password">
+				
 			 	<van-field
 			 	 placeholder="请输入密码"
 			 	  left-icon="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABX0lEQVRIS+2U303DMBDG75S80xHKBI2T8ztsABPACO0ElAmgEzACbEB5tiNnhLJBeY916KRECvmDXbV9gnuydNb38313Z4QzB55ZH/4YwDk3Y+ZFnucfsdZGWSTC3vsXALjpCC+JaBMCRQGstW8AcAUA98y8lzMiPgDALRFJbjJiAdwXa6BARN2qBqAgwBgjr31n5mut9bZVMMaspRKttVR2eAWN8B0zZ4iYMXOFiGJPG3MAmAFAJbk0TTdKqV2fNFqBcy7z3rtQA7t5gWitVRSgLMslMz+NAD7lxU3DL/p5Iho8eLQC8beZkq7GV5Ikc6XUvixLmSYZ2x9xLGBHRJei2Db+1ABAxFVRFM/WWrFpcXIAMz9qrdfWWtmLQRxrkQhukyRZTU1YNMBaK9v5esiYyt1oQPO5ydYOfJ6Ctv2J2oP2kixcXdeyrb9GmqaVjO/YpeBfFBIP5f8BIYfgG6/GnBlwcnI3AAAAAElFTkSuQmCC"
 				  @change='getpassword'
+				@click-icon="onClickIcon"
+				:icon="password==''?'':'eye'"
+				:type='watch===false?"password":"text"'
 			 	/>
 			 </view>
 			 	<van-button round type="info" @click='getuser'>登 录</van-button>
@@ -43,7 +48,8 @@
 				imgURL: this.$store.state.imgURL,
 				value:'',
 				account:'',
-				password:''
+				password:'',
+				watch:false
 			}
 		},
 		computed: {
@@ -53,9 +59,9 @@
 		},
 		onLoad() {},
 		methods: {
-			//左上角返回按钮
-		onClickLeft(){
-			},
+		onClickIcon(){
+			this.watch = !this.watch;
+		},
 		getaccount(e){
 			this.account = e.detail
 		},
@@ -63,6 +69,20 @@
 			this.password = e.detail
 		},
 		getuser(){
+			if(this.account==''){
+				uni.showToast({
+					title:'账号不能为空',
+					icon:'none'
+				})
+				return
+			}
+			if(this.password==''){
+				uni.showToast({
+					title:'密码不能为空',
+					icon:'none'
+				})
+				return
+			}
 			var that = this
 			$http({
 				url: '/venus/mobilePhone/login',

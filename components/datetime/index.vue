@@ -6,11 +6,11 @@
 		       @click="showStart" />
 		<van-popup :show="start.show" @close="StartClose"  position="bottom">
 			  <van-datetime-picker
-			    type="date"
+			    type="datetime"
 			    :value="start.currentDate"
 			    :min-date="start.minDate"
-			    
 				@confirm = 'startConfirmFn'
+				@cancel = 'cancel'
 			  />
 		</van-popup> 
 		<view class="mid">
@@ -22,11 +22,11 @@
 		       @click="showEnd" />
 		<van-popup :show="end.show" @close="EndClose"  position="bottom">
 			  <van-datetime-picker
-			    type="date"
+			    type="datetime"
 			    :value="end.currentDate"
 			    :min-date="end.minDate"
-			    :formatter="formatter"
 				@confirm = 'endConfirmFn'
+				@cancel = 'cancel'
 			  />
 		</van-popup> 
 			<van-icon class='ico' name="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABV0lEQVRIS92VwU3DQBBF3wASuSUlUEJKSCnmgJwjdGBXQDhh5ZLQgVMBSQWYDtwBuZELHrRrm9iyE9YRllDmYq12dv7O/3/HQs8hPdfn3AGmui4o9IgkbdDp6wy4QZgRSZlbSztO0VQDID/YVsDsRxJQflsEbQL4ukUYFrlhAfB6wAwbIpkwVf3Zz3hgLqYzG02AarISIySA6aQtUoQAZVnZDG1XTgCnefh/ANRu4dSIpyMGfABOHRhxDa+LitgpyiPCCHghkiW+Go2GZKyssLl+nQC8AmDNjoQB93adkTCX2Nozj9QCdgLI/T1BUJ5lY8vc6ZgrhnzyzlK2jXUngPyBlf4P+SLmkrfixoYir+L/6ntwpKjiZSeRTVLHDvYiZzxxQVITeUfMNQsreu8i70V3dtHajoAukTG2U/VXm9aHXReIMvfWWvbgLDql5JEz5/7L/AO6vgGdT7oZrHsq9wAAAABJRU5ErkJggg==" />
@@ -44,16 +44,23 @@
 		mounted() {
 			
 		},
+		// watch:{
+		// 	start(){
+		// 			this.end.minDate = this.start.timeValue
+		// 	},
+		// 	immediate: true,
+		// 	deep: true
+		// },
 		data(){
 			return {
-			formatter(type, value) {
-			      if (type === 'year') {
-			        return `${value}年`;
-			      } else if (type === 'month') {
-			        return `${value}月`;
-			      }
-			      return value;
-			    },
+			// formatter(type, value) {
+			//       if (type === 'year') {
+			//         return `${value}年`;
+			//       } else if (type === 'month') {
+			//         return `${value}月`;
+			//       }
+			//       return value;
+			//     },
 			start: {
 				show: false,
 				timeValue: '请选择开始时间',
@@ -86,9 +93,9 @@
 			},
 			startConfirmFn(e){
 				this.start.timeValue = this.timeFormat(new Date(e.detail));
-				//console.log(this.start.timeValue)
 				this.start.show = false;
-				this.$emit('starttime',this.start.timeValue)
+				this.end.minDate = new Date(e.detail).getTime()
+				this.$emit('starttime',this.start.timeValue);
 			},
 			endConfirmFn(e){
 				this.end.timeValue = this.timeFormat(new Date(e.detail));
@@ -99,8 +106,15 @@
 			timeFormat(time) { 
 				let year = time.getFullYear();        
 				let month = time.getMonth() + 1;        
-				let day = time.getDate();        
-				return year + '-' + month + '-' + day    
+				let day = time.getDate();
+				let hour = time.getHours();
+				let minute = time.getMinutes();
+				let second = time.getSeconds();
+				return year + '-' + month + '-' + day+' '+hour+':'+minute 
+				},
+				cancel(){
+					this.start.show = false;
+					this.end.show = false;
 				}
 	}
 	}

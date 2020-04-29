@@ -10,17 +10,16 @@
 					class='left'
 			       :value="start.timeValue"
 			       @click="showStart" />
-				   <cover-view>
 					   <van-popup :show="start.show" @close="StartClose"  position="bottom">
 					   	  <van-datetime-picker
 					   	    type="date"
 					   	    :value="start.currentDate"
 					   	    :min-date="start.minDate"
-					   	    :formatter="formatter"
 					   		@confirm = 'startConfirmFn'
+							@cancel='cancel'
 					   	  />
 					   </van-popup> 
-				   </cover-view>
+				 
 			<view class="mid">
 				-
 			</view>
@@ -29,14 +28,13 @@
 			       :value="end.timeValue"
 			       @click="showEnd" />
 			<van-popup :show="end.show" @close="EndClose"  position="bottom">
-				  <cover-view>
 				<van-datetime-picker
 				    type="date"
 				    :value="end.currentDate"
 				    :min-date="end.minDate"
-				    :formatter="formatter"
 					@confirm = 'endConfirmFn'
-				  /></cover-view>
+					@cancel = 'cancel'
+				  />
 			</van-popup> 
 				<van-icon class='ico' name="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABV0lEQVRIS92VwU3DQBBF3wASuSUlUEJKSCnmgJwjdGBXQDhh5ZLQgVMBSQWYDtwBuZELHrRrm9iyE9YRllDmYq12dv7O/3/HQs8hPdfn3AGmui4o9IgkbdDp6wy4QZgRSZlbSztO0VQDID/YVsDsRxJQflsEbQL4ukUYFrlhAfB6wAwbIpkwVf3Zz3hgLqYzG02AarISIySA6aQtUoQAZVnZDG1XTgCnefh/ANRu4dSIpyMGfABOHRhxDa+LitgpyiPCCHghkiW+Go2GZKyssLl+nQC8AmDNjoQB93adkTCX2Nozj9QCdgLI/T1BUJ5lY8vc6ZgrhnzyzlK2jXUngPyBlf4P+SLmkrfixoYir+L/6ntwpKjiZSeRTVLHDvYiZzxxQVITeUfMNQsreu8i70V3dtHajoAukTG2U/VXm9aHXReIMvfWWvbgLDql5JEz5/7L/AO6vgGdT7oZrHsq9wAAAABJRU5ErkJggg==" />
 		</view>
@@ -134,17 +132,17 @@
     ],
     yAxis: [
         {
-                    name: '流量(m^3/s)',
+                    name: '流量(m^3/s)',//上左
                     type: 'value',
                 },
                 {
-                    gridIndex: 1,
+                    gridIndex: 1,//下左
                     name: '压力(kPa)',
                     type: 'value',
                     inverse: true
                 },
         		{
-        		    name: '开启度(%)',
+        		    name: '开启度(%)',//上右
         		    type: 'value',
 					position:'right'
 					//inverse: true
@@ -152,7 +150,7 @@
     ],
     series: [
          {
-                    name: '流量',
+                    name: '流量',//上左
                     type: 'line',
                     symbolSize: 8,
                     hoverAnimation: false,
@@ -168,8 +166,9 @@
                     ]
                 },
         		{
-        		     name: '开启度',
+        		     name: '开启度',//上右
         		     type: 'line',
+					 yAxisIndex: 2,
         			step: 'middle',
         			 itemStyle : {
         			  normal : {
@@ -181,7 +180,7 @@
         		     data: []
         		},
                 {
-                    name: '压力',
+                    name: '压力',//下左
                     type: 'line',
                     xAxisIndex: 1,
                     yAxisIndex: 1,
@@ -201,19 +200,19 @@
     ]
 }
 			},	
-			formatter(type, value) {
-			      if (type === 'year') {
-			        return `${value}年`;
-			      } else if (type === 'month') {
-			        return `${value}月`;
-			      }
-			      return value;
-			    },
+			// formatter(type, value) {
+			//       if (type === 'year') {
+			//         return `${value}年`;
+			//       } else if (type === 'month') {
+			//         return `${value}月`;
+			//       }
+			//       return value;
+			//     },
 			start: {
 				show: false,
 				timeValue: '请选择开始时间',
 				currentDate: new Date().getTime(),
-				minDate: new Date().getTime(),
+				minDate: new Date(2019,1,1).getTime(),
 			},
 			end: {
 				show: false,
@@ -250,15 +249,16 @@
 				//console.log(item)
 				this.date = item;
 				this.type = e;
-				console.log(this.type)
 				//this.$emit("getChild",item)
 				this.gethis()
 			},
 			startConfirmFn(e){
 				this.start.timeValue = this.timeFormat(new Date(e.detail));
 				this.start.show = false;
+				this.end.minDate = new Date(e.detail).getTime();
 			},
 			endConfirmFn(e){
+				//this.end.minDate = new Date(e.detail).getTime();
 				this.end.timeValue = this.timeFormat(new Date(e.detail));
 				this.end.show = false;
 			},
@@ -271,6 +271,16 @@
 				gethis(){
 					var that = this
 					//console.log(that.postid)
+					if(that.type==2){
+						that.type=3
+						// console.log(1)
+					}else if(that.type==3){
+						that.type=4
+						// console.log(2)
+					}else if(that.type==4){
+						that.type=''
+					}
+					console.log(that.type)
 					$http({
 						url: '/venus/mobilePhone/historyFlowPressure',
 						data: {
@@ -297,6 +307,10 @@
 						}
 					})
 				},
+				cancel(){
+					this.start.show = false;
+					this.end.show = false;
+				}
 				
 		
 					}

@@ -27,7 +27,7 @@
 						{{user}}
 					</view>
 					<view class="userid">
-						{{id}}
+						{{phone}}
 					</view>
 				</view>
 			</view>
@@ -97,8 +97,8 @@
 			return {
 				// imgURL: this.$store.state.imgURL,
 				user:'',
-				id:'',
-				avator:''	
+				avator:'',
+				phone:''
 			}
 		},
 		computed: {
@@ -108,6 +108,7 @@
 		},
 		onLoad() {
 			this.login()
+			this.getuser()
 		},
 		methods: {
 			//左上角返回按钮
@@ -125,13 +126,16 @@
 								console.log(res);							
 									that.user = res.userInfo.nickName;
 									//that.id = res.userInfo.id;	
-									that.avator = res.userInfo.avatarUrl;	
-													
+									that.avator = res.userInfo.avatarUrl;					
 								},
 								});				
 								},
 								});
 			},
+		getuser(){
+			var us = uni.getStorageSync('userinfo').phone
+			this.phone = us.replace(/^(.{3})(.*)(.{4})$/, '$1 $2 $3')	
+		},
 			
 			
 			

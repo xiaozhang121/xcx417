@@ -20,7 +20,7 @@
 				    @change="getreportPersonId"
 				  />
 				</van-cell-group>
-				<van-divider />
+				
 			</view>
 					<view class="write">
 						<van-cell-group>
@@ -34,7 +34,7 @@
 							
 						  />
 						</van-cell-group>
-						<van-divider />
+						
 					</view>
 					<view class="write mt">
 						<van-cell-group>
@@ -53,7 +53,7 @@
 			<view class="bt-txt">
 				上传现场图片
 			</view>
-			<van-uploader :file-list="fileList"  @after-read='afterRead'/>
+			<van-uploader :file-list="fileList"  @after-read='afterRead' @delete='del'/>
 		</view>
 		<view class="report">
 			<view class="report-one">
@@ -175,14 +175,22 @@
 						uni.navigateTo({
 							url:"/pages/alarm/index"
 						})
-						
 						// that.user = res.data.username;
 						// that.id = res.data.id;	
 						// console.log(res.tableData)
 						//that.tableData = res.data.tableData;
 						//uni.navigateBack()
+					},
+					fail(){
+						uni.showToast({
+							title:'预警上报失败',
+							icon:'none'
+						})
 					}
 				})
+			},
+			del(e){
+				this.fileList.splice(e.detail.index,1)
 			}
 			
 		}
@@ -203,10 +211,10 @@
 				padding: 30rpx 0 0;
 				background-color: #FFFFFF;
 				// border-bottom: 1px solid #333;
-				.van-divider {
-					padding: 20rpx 30rpx 0!important;
-					margin: 0!important;
-				}
+				// .van-divider {
+				// 	padding: 20rpx 30rpx 0!important;
+				// 	margin: 0!important;
+				// }
 				.van-text {
 					font-size: 28rpx;
 					padding: 0 32rpx;

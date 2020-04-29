@@ -37,7 +37,7 @@
 		data(){
 			return {
 			choose: ['全部','爆管','泄露','无信号'],
-			currentindex:0,
+			currentindex:1,
 			pageIndex:1,
 			pageRows:5,
 			tableData:[],
@@ -53,13 +53,16 @@
 				this.gethistory()
 			},
 			gethistory(){
-				var that = this
+				var that = this;
+				if(that.currentindex==2){
+					that.currentindex=15
+				}
 				$http({
 					url: '/venus/mobilePhone/historyAlarm',
 					data: {
 						pageIndex:that.pageIndex,
-						pageRows:that.pageRows
-						
+						pageRows:that.pageRows,
+						type:that.currentindex
 					},
 					success(res){
 						console.log(res)

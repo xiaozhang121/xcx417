@@ -65,7 +65,7 @@
 			<view class="bt-txt">
 				上传现场图片
 			</view>
-			<van-uploader :file-list="fileList"  @after-read='afterRead' />
+			<van-uploader :file-list="fileList"  @after-read='afterRead' @delete='del' />
 			<!-- <van-uploader :file-list="fileList" /> -->
 		</view>
 		<view class="report">
@@ -236,6 +236,12 @@
 						 uni.navigateTo({
 						 	url:'/pages/record/index'
 						 })
+					},
+					fail(){
+						uni.showToast({
+							title:'数据采集上报失败',
+							icon:'none'
+						})
 					}
 				})
 			},
@@ -247,6 +253,9 @@
 			},
 			back(){
 				uni.navigateBack()
+			},
+			del(e){
+				this.fileList.splice(e.detail.index,1)
 			}
 		} 
 	}

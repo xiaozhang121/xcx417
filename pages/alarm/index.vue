@@ -76,18 +76,18 @@
 			      }
 			      return value;
 			    },
-			start: {
-				show: false,
-				timeValue: '请选择开始时间',
-				currentDate: new Date().getTime(),
-				minDate: new Date().getTime(),
-			},
-			end: {
-				show: false,
-				timeValue: '请选择结束时间',
-				currentDate: new Date().getTime(),
-				minDate: new Date().getTime(),
-			},
+			// start: {
+			// 	show: false,
+			// 	timeValue: '请选择开始时间',
+			// 	currentDate: new Date().getTime(),
+			// 	minDate: new Date().getTime(),
+			// },
+			// end: {
+			// 	show: false,
+			// 	timeValue: '请选择结束时间',
+			// 	currentDate: new Date().getTime(),
+			// 	minDate: new Date().getTime(),
+			// },
 			scrollH:'',
 			tableData: [],
 			pageParam:{},
@@ -120,8 +120,7 @@
 			}
 			this.pageIndex++
 			this.pageRows = this.pageIndex*this.pageRows
-			this.getrecord()
-			
+			this.gethistory();
 		},
 		methods: {
 			//左上角返回按钮
@@ -136,8 +135,6 @@
 			//获取历史报警
 			gethistory(){
 				var that = this
-				console.log(that.timeStart)
-				console.log(that.timeEnd)
 				$http({
 					url: '/venus/mobilePhone/historyAlarm',
 					data: {
