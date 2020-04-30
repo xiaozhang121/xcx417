@@ -98,7 +98,9 @@
 				// imgURL: this.$store.state.imgURL,
 				user:'',
 				avator:'',
-				phone:''
+				phone:'',
+				userId:'',
+				msg:''
 			}
 		},
 		computed: {
@@ -109,6 +111,7 @@
 		onLoad() {
 			this.login()
 			this.getuser()
+			this.getmessage()
 		},
 		methods: {
 			//左上角返回按钮
@@ -136,6 +139,22 @@
 			var us = uni.getStorageSync('userinfo').phone
 			this.phone = us.replace(/^(.{3})(.*)(.{4})$/, '$1 $2 $3')	
 		},
+		getmessage(){
+			var that = this;
+			var user = uni.getStorageSync('userinfo')
+			that.userId = user.id;
+			$http({
+				url: '/venus/mobilePhone/messageUnread',
+				data: {
+					userId:that.userId
+				},
+				success(res){
+					that.msg = res.msg
+					console.log(that.msg)
+				}
+			})
+			
+		}
 			
 			
 			

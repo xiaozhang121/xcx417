@@ -64,7 +64,7 @@
 			}
 		},
 		mounted(){
-			this.gethistory()
+			this.getsearch()
 		},
 			methods: {
 			sele(item,e){
@@ -73,11 +73,8 @@
 				}
 				this.currentindex = e;
 				this.type = item;
-				this.tableData.length=0
 				this.pageIndex=1;
-				this.gethistory();
-				
-				
+				this.getsearch();	
 			},
 			gethistory(){
 				var that = this;
@@ -92,14 +89,26 @@
 						type:that.currentindex
 					},
 					success(res){
-						console.log(res)
-						//console.log(res.data)
-						// that.tableData = res.data.tableData
-						// console.log(that.tableData)
-						//合并消息页
 						that.tableData = [...that.tableData, ...res.data.tableData];
 						that.totalRows = res.data.pageParam.totalRows;
 						
+					}
+				})
+			},
+			getsearch(){
+				var that = this;
+				if(that.currentindex==2){
+					that.currentindex=15
+				}
+				$http({
+					url: '/venus/mobilePhone/historyAlarm',
+					data: {
+						pageIndex:that.pageIndex,
+						pageRows:that.pageRows,
+						type:that.currentindex
+					},
+					success(res){
+						that.tableData =res.data.tableData
 					}
 				})
 			}

@@ -10,7 +10,7 @@
 		<status-bar />
 		<!-- 内容展示 -->
 		<view class="content">
-			<map style="width:100%;height:90vh;" :latitude="latitude" :longitude="longitude" :markers="marker" @markertap='mark' scale="5" @tap='show=false'>
+			<map :style="{height:hei+'px'}" :latitude="latitude" :longitude="longitude" :markers="marker" @markertap='mark' scale="5" @tap='show=false' >
 					<!-- <cover-view class="map-legend">
 						
 							<view class="map-one">
@@ -22,8 +22,8 @@
 						
 					</cover-view> -->
 			</map>
-			<transition name="plus-icon">
-			<view class="bottom" v-if="show" transition="plus-icon">
+			
+			<view class="bottom"  :class="show?'start':'end'">
 				<view class="pull">
 					<view class="squ">
 					</view>
@@ -43,6 +43,7 @@
 						</view>
 						<view class="ech">
 							<uni-ec-canvas
+								v-if="show"
 							   class="uni-ec-canvas"
 							   id="uni-ec-canvas"
 							   ref="uni-ec-canvas"
@@ -61,6 +62,7 @@
 						</view>
 						<view class="ech">
 							<uni-ec-canvas
+							v-if="show"
 							   class="uni-ec-canvas"
 							   id="uni-ec-canvas"
 							   ref="uni-ec-canvas"
@@ -85,7 +87,9 @@
 					</view>
 				</view>
 			</view>
-			</transition>
+			
+			
+			
 			<!-- <van-action-sheet
 			  :show="show"
 			  :actions="actions"
@@ -113,6 +117,7 @@
 		},
 		data() {
 			return{
+				hei:'',
 				goodico:'../../static/imgage/basic/good.png',
 				badico:'../../static/imgage/basic/bad.png',
 				eachico:'',
@@ -326,6 +331,18 @@
 						            }
 			}
 		},
+		onReady() {
+		         // 计算屏幕剩余高度  填补剩余高度
+		                let that = this;
+		                uni.getSystemInfo({
+		                    success(res) {
+		                        that.hei = res.windowHeight*1-84;
+		                        console.log(res.windowHeight);
+		                      
+		                    }
+		                });
+		       
+		    },
 		computed: {
 			// MonitorVersion () {
 			// 	return this.$store.state.MonitorVersion
@@ -429,26 +446,20 @@
 </script>
 
 <style lang="less">
-	   .plus-icon-enter-active{
-	     transition: opacity .5s;
-	   }
-	   .plus-icon-enter{
-	      opacity: 0;
-	   }
-	   .plus-icon-leave-active{
-	     transition: opacity .5s;
-	   }
-	   .plus-icon-leave-to{
-	     opacity: 0;
-	   }
-	      .plus-icon-enter-to{
-	        opacity: 1;
-	     }
-
+	  .start{
+		  height: 532rpx;
 		
-
-		
-
+		 //transition: all 0.5s;
+	  }
+	  .end {
+		 
+		  //transition: all 0.5s;
+		  padding: 0!important;
+		  height: 0;
+		  .squ{
+			  height: 0!important;
+		  }
+	  }
 	.map-legend{
 		position: absolute;
 		width: 80%;
@@ -487,13 +498,14 @@
 	.box {
 		.content {
 			 padding: 44px 0 0;
-			// height: 100%;
+			height: 100%;
+			overflow: hidden;
 			box-sizing: border-box;
 			.bottom {
-				transition: all 0.6s;
+				transition: all 0.4s;
 				padding: 40rpx 30rpx 0 30rpx;
 				width: 100%;
-				height: 532rpx;
+				 //height: 532rpx;
 				position: absolute;
 				bottom: 0;
 				left: 0;

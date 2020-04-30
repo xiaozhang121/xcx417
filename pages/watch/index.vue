@@ -72,8 +72,8 @@
 		},
 		computed: {},
 		onLoad(option) {
-			this.getwatch(),
-			console.log(option)
+			this.getsearch()
+			
 		},
 		methods: {
 			//左上角返回按钮
@@ -85,6 +85,7 @@
 				//this.getwatch()
 			},
 			getwatch(){
+				//翻页加载
 				var that = this;
 				var user = uni.getStorageSync('userinfo')
 				that.userId = user.id;
@@ -96,31 +97,44 @@
 						 pageRows:that.pageRows,
 						 userId: that.userId,
 						 stationNameOrCode:that.stationNameOrCode
-						 //stationNameOrCode:003
 					},
 					success(res){
-						console.log(res)
+						console.log(res.data)
 						// that.user = res.data.username;
 						// that.id = res.data.id;	
 						//  that.tableData = res.data.tableData
 						//  //that.name = res.data.tableData.stationName
 						// // console.log(that.tableData)
 						// that.totalRows = res.data.pageParam.totalRows
-						// that.totalPages = res.data.pageParam.totalPages
-						
+						// that.totalPages = res.data.pageParam.totalPages	
 						that.tableData = [...that.tableData, ...res.data.tableData];
 						that.totalRows = res.data.pageParam.totalRows;
+						//console.log(that.tableData)
 					}
 				})
-				
 			},
-			reachBottom(){
-				console.log(1)
-				this.pageIndex++;
-				this.getwatch();
+			//搜索与首次加载
+			getsearch(){
+				var that = this;
+				var user = uni.getStorageSync('userinfo')
+				that.userId = user.id;
+				//console.log(that.userId)
+				$http({
+					url: '/venus/mobilePhone/stationList/ByPage',
+					data: {
+						 pageIndex:that.pageIndex,
+						 pageRows:that.pageRows,
+						 userId: that.userId,
+						 stationNameOrCode:that.stationNameOrCode
+					},
+					success(res){
+						that.tableData = res.data.tableData
+					}
+				})
 			},
 			onSearch(){
-				this.getwatch()
+				this.pageIndex=1;
+				this.getsearch();
 			}
 
 		},

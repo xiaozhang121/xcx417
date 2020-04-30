@@ -68,21 +68,7 @@
 		}
 		},
 		onReachBottom(){
-			this.getmore++;
-			// console.log(1)
-			// if (this.tableData.length >= this.totalRows) {
-			//   // 没有更多数据了，给一个提示，终止后续的接口调用
-			//   uni.showToast({
-			//     title: '没有更多数据了',
-			// 	icon:'none'
-			//   })
-			//   return
-			// }
-			// // 加载下一页数据
-			// this.pageIndex = this.pageIndex + 1
-			// // 页码加一后需要再次调用后台接口
-			// this.getmessage()
-			// console.log(this.tableData)
+			this.getmore++;//暴露给子组件 让子组件进行监听
 		},
 		computed: {},
 		onLoad(option) {

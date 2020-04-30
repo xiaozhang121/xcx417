@@ -103,15 +103,14 @@
 		},
 		computed: {},
 		onLoad() {
-			this.gethistory()
+			this.getsearch()
 		},
 		watch:{
 			timeEnd(){
-				this.gethistory()
+			this.getsearch()
 			}
 		},
 		onReachBottom(){
-			
 			if (this.tableData.length >= this.totalRows) {
 			  // 没有更多数据了，给一个提示，终止后续的接口调用
 			  uni.showToast({
@@ -137,7 +136,25 @@
 					url: "/pages/alarm/alarmreport/index?id=" + id+'&stationId='+stationId
 				})
 			},
-			//获取历史报警
+			//获取历史报警与搜索
+			getsearch(){
+				var that = this
+				$http({
+					url: '/venus/mobilePhone/historyAlarm',
+					data: {
+						 pageIndex: that.pageIndex,
+						 pageRows: that.pageRows,
+						 timeStart:that.timeStart,
+						 timeEnd:that.timeEnd,
+						 type:that.type
+					},
+					success(res){
+						console.log(res)
+						that.tableData = res.data.tableData
+						}	
+				})
+			},
+			//翻页
 			gethistory(){
 				var that = this
 				$http({
@@ -154,17 +171,8 @@
 						that.tableData = [...that.tableData, ...res.data.tableData];
 						that.totalRows = res.data.pageParam.totalRows;
 						}	
-		
 				})
 			},
-			//到达底部触发
-			// reachBottom(){
-				
-			// 	// console.log(1)
-			// 	 this.pageIndex++;
-			// 	// if(this.pageIndex)
-			// 	 this.gethistory();
-			// },
 			starttime(e){
 				console.log(e)
 				this.timeStart = e
@@ -177,16 +185,8 @@
 				this.type = e.detail
 			},
 			onClick(){
-				this.gethistory()
-			},
-			enterMap(stationId){
-				// uni.navigateTo({
-				//          url:"/pages/report/index"
-				//      })
-				uni.switchTab({
-					url:"/pages/home/index?stationId"+stationId
-				})
-				//console.log(1)
+				this.pageIndex=1
+				this.getsearch()
 			}
 		}
 
