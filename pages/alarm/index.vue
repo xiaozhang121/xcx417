@@ -38,7 +38,7 @@
 							<view class="main-bd">
 								<text>预警描述: </text>
 							</view>
-							<view class="ico">
+							<view class="ico" @click="enterMap(item.stationId)">
 								<van-icon name="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAACbElEQVRIS62WP0xTURTGf+d10QXrpOAgLoJKAi6OkGjUkaqJuqhlUBMJ/plMHBQdjE5GCCbGodVNErRMRl1gdZEmgDjJYtENcVAHesx5ty3l8e6zNbzkLfee+333fOffFRK+T0varkp/GTKipBF6QnNlRoXlAAoiTO5rlUUfjMRtGHC5zB2EbNIFantKPgi4G0e0gWC+pJmykhMh3RB4xUiV5UAY2N8mhfpz6whmlzQrSq4Z4KitCgNdrZKvrtcINgO8DvRE1ZOQwDRfLfOxWVl8nppcqYCDFpOQYLakeYELcQdWfsHD97Dwzf2dO91/8yi0bPWLqfC8q02yEmaM8iXO9MMiXBuHld8bd1u2wOPTcKjdTxIIe2S+pNcVHkXN7ObHRx344b0w2AedrfB1GQpFeDINRvJ2yO+JwA2ZLemUQF+U4NYkTBYd+OjZjbccm3Yk/d1wvz/eC4VpmSupVeHuqMnJp/D5O0xcdDePfgtLcOqZi8fEJY9MyowRaNz2gXtude62X+NGbLwEjXrQsQNeXfZfwitRNQZHOmDkzH/GQCl6g2xZdGwEfv4BI7nSu5ZFFvyxKUil4M0g7NqeEGRfmtoRq4OrLx1J9EsJrKoLcu5cfKqGaZpUaAZqnjx456rYsso0N9DBXhgad2s+krDQ/tUq/OFz5NkXjsQqOnd+zbrWKmwpbHaWs7AtCdDXq4zEqjpf6WYKP1JCT63Z2UEbNAqvmyWIsxdY366rRpsxE7wDp0oSjkyw9t2UXCZLANnEkVklqcRk2DcjorJYQFPCcENDv/5w5dliHmVQ0iJ0274qRdaeLYWkZ8tfRVkVrJbBytQAAAAASUVORK5CYII=" />
 							</view>
 						</view>
@@ -95,7 +95,7 @@
 			timeEnd:'',
 			type:'',
 			pageIndex:1,
-			pageRows:5,
+			pageRows:3,
 			totalRows:10,
 			totalPages:1,
 			already:false
@@ -150,6 +150,7 @@
 						 type:that.type
 					},
 					success(res){
+						console.log(res)
 						that.tableData = [...that.tableData, ...res.data.tableData];
 						that.totalRows = res.data.pageParam.totalRows;
 						}	
@@ -177,6 +178,15 @@
 			},
 			onClick(){
 				this.gethistory()
+			},
+			enterMap(stationId){
+				// uni.navigateTo({
+				//          url:"/pages/report/index"
+				//      })
+				uni.switchTab({
+					url:"/pages/home/index?stationId"+stationId
+				})
+				//console.log(1)
 			}
 		}
 

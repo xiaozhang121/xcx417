@@ -103,6 +103,9 @@
 			console.log(this.fina)
 			}
 		},
+		// onLoad(option) {
+		// 	console.log(option)
+		// },
 		data() {
 		return {
 			fina:'',
@@ -134,9 +137,19 @@
 		},
 		computed: {},
 		onLoad(option) {
-			//console.log(option)
+			this.getdropdown();
+			this.gettype();
 			// console.log(option.stationId)
-			// this.stationId = option.stationId
+			 this.stationId = option
+			 this.actionone.map((item,index)=>{
+				 if(item.value==this.stationId){
+					 this.selectone = item.name
+				 }
+			 })
+			 // this.actionone.map((item,index)=>{
+			//this.gettype()	 
+			 // })
+			 //console.log(this.stationId)
 			// console.log(this.stationId)
 			//this.getdropdown();
 			//this.gettype()
@@ -256,7 +269,7 @@
 			},
 			del(e){
 				this.fileList.splice(e.detail.index,1)
-			}
+			},
 		} 
 	}
 </script>

@@ -10,9 +10,7 @@
 		<status-bar />
 		<!-- 内容展示 -->
 		<view class="content">
-			
-		
-			<map style="width:100%;height:100vh;":latitude="latitude":longitude="longitude" :markers="marker" @markertap='mark' scale="5" @tap='show=false'>
+			<map style="width:100%;height:90vh;" :latitude="latitude" :longitude="longitude" :markers="marker" @markertap='mark' scale="5" @tap='show=false'>
 					<!-- <cover-view class="map-legend">
 						
 							<view class="map-one">
@@ -83,7 +81,7 @@
 					</view>
 					<view class="ex-right">
 						<van-icon name='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAABCUlEQVQ4T+2TsW3DMBBF/7GQWmeCJBPEniDJCBlBjU7qPEKyQTqKlTJCNrC9gbKBsoFrFXcGDVMQDJmKEVVBCBDggXfv/n2QhJkXzczDHwFaa++IaGOMecnzvInZNDlyXdeLrus2AJaq2qZpusqybH8JGgUOYQNAkyTJ8yVoFFhVVUNEDyNqGmZejamcHNkXWWufjDF+7Ddmfv2Vh7MAT4oePUxEvgG0QaGI+PPtSeUXM38OFY+O7JxrAYSiHRGtVfUdgN9rAMdmAPbMfBMFDvzq81R1GwIiWgJYhFhEsrIsP/r7c4Odc744KJj86v5tFkVxHwPqJOUsgZl76370bK5p8A+8xq3x3AM+WFsVRHGfxgAAAABJRU5ErkJggg=='></van-icon>
-						<text>数据上报</text>
+						<text @click="report(areamessage.id)">数据上报</text>
 					</view>
 				</view>
 			</view>
@@ -115,6 +113,10 @@
 		},
 		data() {
 			return{
+				goodico:'../../static/imgage/basic/good.png',
+				badico:'../../static/imgage/basic/bad.png',
+				eachico:'',
+				nowico:'../../static/imgage/basic/now.png',
 				actions: [
 				      {
 				        name: '选项'
@@ -168,7 +170,9 @@
                 ],
                     width: 5, //半径
                     shadowColor: '#fff', //默认透明
-                    shadowBlur: 1
+                    shadowBlur: 1,
+					goodicon:'../../static/imgage/basic/good.png',//正常图标
+					badicon:'../../static/imgage/basic/bad.png'//预警图标
                 }
             },
             pointer: {
@@ -329,6 +333,10 @@
 		},
 		onLoad() {
 			//this.getech()
+			//console.log(option)
+		},
+		onShow(option) {
+			console.log(option)
 		},
 		methods: {
 		getech(){
@@ -343,15 +351,24 @@
 					 stationNameOrCode:that.stationNameOrCode
 				},
 				success(res){
-					console.log(res)
 					that.tableData = res.data
-					//that.ec.option.series[0].max = 50
+					// that.ec.option.series[0].max = 50
 					// that.ec.option.series[0].
-					res.data.map((item,index)=>{
-						that.marker.push({latitude:item.lat,longitude:item.lon,id:item.id,label:{content:item.stationName},iconPath:''})
-					})
-					that.latitude = that.marker[0].latitude
-					that.longitude = that.marker[0].longitude
+					console.log(res.data)
+						res.data.map((item,index)=>{
+							if(item.workStatus==1){
+								that.eachico = that.goodico
+							}else{
+								that.eachico = that.badico
+							}
+							 that.marker.push({latitude:item.lat,longitude:item.lon,id:item.id,label:{content:item.stationName},iconPath:that.eachico,workStatus:item.workStatus})
+							console.log(that.marker)
+							
+						})
+						that.latitude = that.marker[0].latitude
+						that.longitude = that.marker[0].longitude
+					
+					
 					// console.log(that.marker)
 					
 				}
@@ -370,7 +387,23 @@
 					this.econe.option.series[0].data[0].value=item.waterPressure
 					//console.log(item)
 					this.areamessage = item
-					
+					//console.log(item)
+					this.marker.map((i,index)=>{
+						if(i.id==e.markerId){
+							//将当前点击的坐标变绿
+							i.iconPath= this.nowico;
+						}
+						else if(i.id!=e.markerId){
+							// 地图数组中 没有当前点击的id 那么就通过状态重新判断左边颜色
+							if(i.workStatus==0){
+								i.iconPath=this.badico
+							}
+							else if(i.workStatus==1){
+								i.iconPath=this.goodico
+							}
+						}
+							
+					})
 				}
 			})
 			
@@ -378,6 +411,12 @@
 		enter(id){
 			uni.navigateTo({
 				url:'/pages/details/index?id='+id
+			})
+		},
+		report(id){
+			//console.log(id)
+			uni.navigateTo({
+				url:"/pages/report/index?id="+id
 			})
 		}
 			
@@ -390,18 +429,25 @@
 </script>
 
 <style lang="less">
-	  .plus-icon-enter-active{
-	    transition: opacity .6s;
-	  }
-	  .plus-icon-enter{
+	   .plus-icon-enter-active{
+	     transition: opacity .5s;
+	   }
+	   .plus-icon-enter{
+	      opacity: 0;
+	   }
+	   .plus-icon-leave-active{
+	     transition: opacity .5s;
+	   }
+	   .plus-icon-leave-to{
 	     opacity: 0;
-	  }
-	  .plus-icon-leave-active{
-	    transition: opacity .5s;
-	  }
-	  .plus-icon-leave-to{
-	    opacity: 0;
-	  }
+	   }
+	      .plus-icon-enter-to{
+	        opacity: 1;
+	     }
+
+		
+
+		
 
 	.map-legend{
 		position: absolute;
