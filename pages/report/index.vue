@@ -91,24 +91,15 @@
 			WatchItem
 		},
 		watch:{
-			fileList(){	
-			for (var i = 0; i < this.fileList.length; i++) {
-				if(i<this.fileList.length-1){
-					this.fina += this.fileList[i].url+',';
-				}
-				else {
-					this.fina += this.fileList[i].url;
-				}
-			}		
-			console.log(this.fina)
-			}
+			
+			
 		},
 		// onLoad(option) {
 		// 	console.log(option)
 		// },
 		data() {
 		return {
-			fina:'',
+			fina:[],
 			showone: false,
 			showtwo: false,
 			    actionone: [
@@ -209,6 +200,7 @@
 							that.actiontwo.push({name:res.data[i].label,value:res.data[i].value})
 						}
 						console.log(that.actiontwo)
+						
 					}
 				})
 			},
@@ -229,6 +221,12 @@
 				if(that.reportType==3){
 					that.reportDescribe = that.reportDescribe.replace(/[^0-9]/ig,"")
 				};
+				//切割地址
+				that.fileList.map((item,index)=>{
+					that.fina.push(item.url)
+				})
+				that.fina = String(that.fina)
+				
 				$http({
 					url: '/venus/crud/PnmHistoryReport/add',
 					method:'POST',
@@ -244,15 +242,18 @@
 					success(res){
 						console.log(res)
 						uni.showToast({
-						  title: '数据采集上报成功'
+						  title: '上报成功',
+						  success() {
+						  	uni.navigateTo({
+						  		url:'/pages/record/index'
+						  	})
+						  }
 						})
-						 uni.navigateTo({
-						 	url:'/pages/record/index'
-						 })
+						 
 					},
 					fail(){
 						uni.showToast({
-							title:'数据采集上报失败',
+							title:'上报失败',
 							icon:'none'
 						})
 					}

@@ -34,7 +34,7 @@ export const $http = ({ url, method, header, data, success: callback, fail: erro
 		mask: true
 	})
 	uni.request({
-		url: 'http://192.168.0.75:8045'+url,
+		url: 'http://192.168.0.75:8045'+url, //
 		method,
 		header,
 		data,

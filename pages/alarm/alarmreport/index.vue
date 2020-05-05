@@ -9,21 +9,17 @@
 		<view class="content">
 		<view class="content-top">
 			<view class="write">
-				<van-cell-group>
 					<view class="van-text">
 					站点名称
 					</view>
 				  <van-field
-					:border = 'true'
 				    :value="value"
 				    placeholder="请输入站点名"
 				    @change="getreportPersonId"
 				  />
-				</van-cell-group>
-				
 			</view>
 					<view class="write">
-						<van-cell-group>
+						
 							<view class="van-text">
 							采集地点
 							</view>
@@ -33,11 +29,11 @@
 						    @change="getreportSite"
 							
 						  />
-						</van-cell-group>
+						
 						
 					</view>
 					<view class="write mt">
-						<van-cell-group>
+					
 							<view class="van-text">
 							上述描述
 							</view>
@@ -46,7 +42,7 @@
 						    placeholder="请输入上述描述"
 						    @change="getreportDescribe"
 						  />
-						</van-cell-group>
+						
 					</view>
 		</view>
 		<view class="content-bottom">
@@ -77,19 +73,6 @@
 			statusBar,
 			WatchItem
 		},
-		watch:{
-			fileList(){	
-			for (var i = 0; i < this.fileList.length; i++) {
-				if(i<this.fileList.length-1){
-					this.fina += this.fileList[i].url+',';
-				}
-				else {
-					this.fina += this.fileList[i].url;
-				}
-			}		
-			console.log(this.fina)
-			}
-		},
 		data() {
 		return {
 			showone: false,
@@ -108,7 +91,7 @@
 					reportDescribe:'',
 					id:'',
 					stationId:'',
-					fina:''//上传的图片地址
+					fina:[]//上传的图片地址
 					
 		}
 		},
@@ -155,7 +138,12 @@
 				this.reportDescribe =e.detail
 			},
 			makesure(){
-				var that = this
+				var that = this;
+				that.fileList.map((item,index)=>{
+					that.fina.push(item.url)
+				})
+				that.fina = String(that.fina)
+				console.log(that.fina)
 				$http({
 					method:'PUT',
 					url: '/venus/crud/PnmAlarm/edit',

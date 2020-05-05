@@ -60,19 +60,6 @@
 			this.getmessage()
 		},
 		onReachBottom(){
-			// if(this.totalPages<=this.pageIndex){
-			// 	uni.showToast({
-			// 		title:'没有更多数据了',
-			// 		icon:'none'
-			// 	})
-			// 	return false;
-			// }
-			//  this.pageIndex++;
-			//  this.pageRows = this.pageIndex*this.pageRows;
-			//  if(this.pageRows>this.totalRows){
-			// 	 this.pageRows = this.totalRows
-			//  }
-			//   this.getmessage()
 			if (this.tableData.length >= this.totalRows) {
 			  // 没有更多数据了，给一个提示，终止后续的接口调用
 			  uni.showToast({
@@ -113,13 +100,7 @@
 						//合并消息页
 						that.tableData = [...that.tableData, ...res.data.tableData];
 						that.totalRows = res.data.pageParam.totalRows;
-						
-						
-						// console.log(res.data)
-						//  that.tableData = res.data.tableData	
-						//  that.totalRows = res.data.pageParam.totalRows
-						//  that.totalPages = res.data.pageParam.totalPages
-						//console.log(res.data.pageParam.totalPages)
+
 					}
 				})
 			}

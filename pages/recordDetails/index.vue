@@ -74,11 +74,6 @@
 			onClickLeft() {
 				uni.navigateBack()
 			},
-			watch(e){
-				uni.navigateTo({
-					url: '/pages/recordDetails/pic?index='+this.info
-				})
-			},
 				_previewImage(image) {
 							// this.imgArr = [];
 							this.imgArr.push(image);
@@ -103,20 +98,6 @@
 							console.log(res)
 							that.detail = res.data
 							that.imgURL = res.data.imgUrl.split(',')
-							//console.log(res.data.)
-							// that.tableData = res.data.tableData
-							
-							// var tab = that.tableData.filter((item,index)=>{
-								 
-							// 	if(item.id*1===that.id.id*1){
-									
-							// 		return item
-							// 	}
-							// })
-							// //that.detail = tab;
-							// let [detail] = tab;
-							// that.detail = detail;
-							// console.log(that.detail)
 						}
 					})
 				}

@@ -106,9 +106,9 @@
 			this.getsearch()
 		},
 		watch:{
-			timeEnd(){
-			this.getsearch()
-			}
+			// timeEnd(){
+			// this.getsearch()
+			// }
 		},
 		onReachBottom(){
 			if (this.tableData.length >= this.totalRows) {
@@ -176,10 +176,25 @@
 			starttime(e){
 				console.log(e)
 				this.timeStart = e
+				this.pageIndex = 1
+				this.pageRows=3
+				if(this.timeEnd!=''){
+					this.getsearch()
+				}
 			},
 			endtime(e){
 				console.log(e)
 				this.timeEnd = e
+				this.pageIndex = 1
+				this.pageRows=3
+				if(this.timeStart!=''){
+					this.getsearch()
+					return
+				}
+				uni.showToast({
+					title:'请选择开始时间',
+					icon:'none'
+				})
 			},
 			onChange(e){
 				this.type = e.detail

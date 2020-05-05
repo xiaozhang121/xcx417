@@ -15,6 +15,7 @@
 					   	    type="date"
 					   	    :value="start.currentDate"
 					   	    :min-date="start.minDate"
+							:max-date = "start.maxDate"
 					   		@confirm = 'startConfirmFn'
 							@cancel='cancel'
 					   	  />
@@ -38,14 +39,24 @@
 			</van-popup> 
 				<van-icon class='ico' name="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABV0lEQVRIS92VwU3DQBBF3wASuSUlUEJKSCnmgJwjdGBXQDhh5ZLQgVMBSQWYDtwBuZELHrRrm9iyE9YRllDmYq12dv7O/3/HQs8hPdfn3AGmui4o9IgkbdDp6wy4QZgRSZlbSztO0VQDID/YVsDsRxJQflsEbQL4ukUYFrlhAfB6wAwbIpkwVf3Zz3hgLqYzG02AarISIySA6aQtUoQAZVnZDG1XTgCnefh/ANRu4dSIpyMGfABOHRhxDa+LitgpyiPCCHghkiW+Go2GZKyssLl+nQC8AmDNjoQB93adkTCX2Nozj9QCdgLI/T1BUJ5lY8vc6ZgrhnzyzlK2jXUngPyBlf4P+SLmkrfixoYir+L/6ntwpKjiZSeRTVLHDvYiZzxxQVITeUfMNQsreu8i70V3dtHajoAukTG2U/VXm9aHXReIMvfWWvbgLDql5JEz5/7L/AO6vgGdT7oZrHsq9wAAAABJRU5ErkJggg==" />
 		</view>
-		  <view class="eca" v-if="start.show===false&&end.show===false">
-		  <uni-ec-canvas
+		  <view class="eca" >
+			
+		  <!-- <uni-ec-canvas
+		   v-if="start.show===false&&end.show===false"
 		    class="uni-ec-canvas"
-		    id="line-chart"
-		    ref="canvas"
-		    canvas-id="lazy-load-chart"
+		    id="uni-ec-canvas"
+		    ref="uni-ec-canvas"
+		    canvas-id="uni-ec-canvas"
 		    :ec="ec"
-		  ></uni-ec-canvas>
+		  ></uni-ec-canvas> -->
+		  <uni-ec-canvas 
+		   v-if="start.show===false&&end.show===false"
+		            class="uni-ec-canvas"
+		            id="uni-ec-canvas"
+		            ref="uni-ec-canvas"
+		            canvas-id="uni-ec-canvas"
+		            :ec="ec"
+		         ></uni-ec-canvas>
 		  </view>	   
 	</view>
 </template>
@@ -60,13 +71,14 @@
 		},
 		props:["postid"],
 		mounted() {
-			this.gethis()
+			this.gethis();
 		},
 		onLoad(){
 		},
 		data(){
 			return {
 				//timeData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+			eaa:false,	
 			ec: {
 			  option:  {
 	color:['#0068FF','#FFB917','#00C3A2'],
@@ -82,22 +94,22 @@
     axisPointer: {
         link: {xAxisIndex: 'all'}
     },
-    // dataZoom: [
-    //     {
-    //         show: true,
-    //         realtime: true,
-    //         start: 30,
-    //         end: 70,
-    //         xAxisIndex: [0, 1]
-    //     },
-    //     {
-    //         type: 'inside',
-    //         realtime: true,
-    //         start: 30,
-    //         end: 70,
-    //         xAxisIndex: [0, 1]
-    //     }
-    // ],
+    dataZoom: [
+        // {
+        //     show: true,
+        //     realtime: true,
+        //     start: 30,
+        //     end: 70,
+        //     xAxisIndex: [0, 1]
+        // },
+        // {
+        //     type: 'inside',
+        //     realtime: true,
+        //     start: 30,
+        //     end: 70,
+        //     xAxisIndex: [0, 1]
+        // }
+    ],
     grid: [{
         left: 50,
         right: 50,
@@ -213,12 +225,13 @@
 				timeValue: '请选择开始时间',
 				currentDate: new Date().getTime(),
 				minDate: new Date(2019,1,1).getTime(),
+				maxDate:new Date().getTime()
 			},
 			end: {
 				show: false,
 				timeValue: '请选择结束时间',
 				currentDate: new Date().getTime(),
-				minDate: new Date().getTime(),
+				minDate: new Date(2019,1,1).getTime(),
 			},
 			choose: ['小时','天','月','年','其他'],
 			currentindex:0,
@@ -228,6 +241,8 @@
 			openDegree:[],//开启度
 			avgFlowValue:[],//流量
 			avgPressureValue:[],//压力
+			endTime:'',
+			startTime:''
 			
 			}
 		},
@@ -245,22 +260,55 @@
 				   this.end.show=false
 				  },
 			sele(item,e){
+				this.start.timeValue = '请选择开始时间'
+				this.end.timeValue = '请选择结束时间'
+				this.startTime = ''
+				this.endTime = ''
+				this.xarr.length=0
+				this.openDegree.length=0
+				this.avgFlowValue.length=0
+				this.avgPressureValue.length=0
 				this.currentindex = e;
 				//console.log(item)
-				this.date = item;
+				//this.date = item;
 				this.type = e;
 				//this.$emit("getChild",item)
 				this.gethis()
 			},
 			startConfirmFn(e){
+				this.startTime = ''
+				this.xarr.length=0
+				this.openDegree.length=0
+				this.avgFlowValue.length=0
+				this.avgPressureValue.length=0//先清零
 				this.start.timeValue = this.timeFormat(new Date(e.detail));
 				this.start.show = false;
 				this.end.minDate = new Date(e.detail).getTime();
+				this.startTime = this.timeFormat(new Date(e.detail))
+				if(this.endTime!=''){
+					this.gethis() //如果后选择开始时间也可调用
+				}
 			},
 			endConfirmFn(e){
+				this.endTime = ''
+				this.xarr.length=0
+				this.openDegree.length=0
+				this.avgFlowValue.length=0
+				this.avgPressureValue.length=0 //清零
+				this.start.maxDate = new Date(e.detail).getTime();
 				//this.end.minDate = new Date(e.detail).getTime();
 				this.end.timeValue = this.timeFormat(new Date(e.detail));
 				this.end.show = false;
+				this.endTime=this.timeFormat(new Date(e.detail))
+				console.log(this.startTime)
+				if(this.startTime==''){
+					uni.showToast({
+						title:'请选择开始时间',
+						icon:'none'
+					})
+					return
+				}
+				 this.gethis()
 			},
 			timeFormat(time) { 
 				let year = time.getFullYear();        
@@ -280,15 +328,17 @@
 					}else if(that.type==4){
 						that.type=''
 					}
-					console.log(that.type)
 					$http({
 						url: '/venus/mobilePhone/historyFlowPressure',
 						data: {
 							 stationId:that.postid,
-							 dateType:that.type
+							 dateType:that.type,
+							 endTime:that.endTime,
+							 startTime:that.startTime
 						},
 						success(res){
-							console.log(res)
+							 //that.ec.option.xAxis[0].data = [1,2,3,4,5];	
+							 console.log(res)
 							res.data.map((item,index)=>{
 								that.xarr.push(item.dateInfo)
 								that.openDegree.push(item.openDegree)
@@ -298,12 +348,14 @@
 							that.xarr = that.xarr.map((item,index)=>{
 								return item.replace('2020-', '')
 							});
+							
 							that.ec.option.xAxis[0].data = that.xarr;
-							that.ec.option.xAxis[1].data = that.xarr;
+							that.ec.option.xAxis[1].data = that.xarr
 							that.ec.option.series[0].data = that.avgFlowValue;
 							that.ec.option.series[1].data = that.openDegree;
-							that.ec.option.series[2].data = that.avgPressureValue;
-							//console.log(1)
+							that.ec.option.series[2].data = that.avgPressureValue;	
+							// console.log(that.ec.option.series[2].data = that.avgPressureValue)
+							
 						}
 					})
 				},

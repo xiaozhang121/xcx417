@@ -32,7 +32,7 @@
 				</view>
 			</view>
 			<one v-if="index===0" :receive='tableData'></one>
-			<two v-if="index===1" :postid='id' @getChild = "getChild"></two>
+			<two v-if="index===1" :postid='id' ></two>
 			<three v-if="index===2" :receive='tableData' :getmore='getmore'></three>
 		</view>
 	</view>
@@ -63,7 +63,7 @@
 			title: ['站点详情','历史记录','历史报警'],
 			id:'',
 			tableData:{},
-			date:'',
+			//date:'',
 			getmore:0
 		}
 		},
@@ -79,7 +79,7 @@
 		methods: {
 			getChild(e){
 				// console.log(e)
-				this.date = e
+				//this.date = e
 			},
 			//左上角返回按钮
 			onClickLeft() {
@@ -103,18 +103,13 @@
 			},
 			show(n){
 				this.index = n
-			},
-			gettab(e){
-				console.log(e)
-			},
-			gettol(e){
-				console.log(e)
 			}
+			
 
 		},
 		mounted() {
-			this.gettab();
-			this.gettol()
+			// this.gettab();
+			// this.gettol()
 		},
 
 	}

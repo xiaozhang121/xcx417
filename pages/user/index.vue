@@ -42,6 +42,10 @@
 						</view>
 					</view>
 					<view class="navbox">
+						<!-- <van-icon info="99+" class='ponit'/> -->
+						<view class="point">
+							<van-icon  :info='unread>99?"99+":unread' v-if='unread>0'/>
+						</view>
 						<navigator url="/pages/message/index">
 						<image src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAVqSURBVHhe7Z1PT5xFHMe/M8+zYENJWlOEUkFpjDGxN3kB5WYUeiT26EHrC/DuG+AFSC+e1MSrjUnjAb31gJ701kBLQwsFrZT/u8/MOL/nmQV22WWfZ5/ZfQZ2PgnZ+Q0bGD6ZP7+ZBwaGdllYCLF7cxD8cEBH/QhLfSjr1xIPkjc4SkUK9OEQjB+icliG7N/F3vhrzDJh3pGJbALnF0uYGBpCpK4gYJdM7cWgIvfQx7ewvLGBe5MVU9uSdAJJ3NjwMBANIeDc1F5MhJRAuIFn6+tpRJ4tsJfE1VMVeenxGqamIlN7iuZSlGK4fvU6Ajncc/II+pnpZ98eH41dNKHxJ35SAQaX3wMPLpua3kaKHWxPPG600DToWdq2l1cLuSAn5KaO0wJ/XRrz8hpATshNHbUCF1avQYZDJvLUQ27I0QmOBS6oEPvlU4Y9dZAjyk4MxwKjpdGeXG2zQo7i1C4hEfaX6kMU1HRNz1novNj0wkTgsyej4CzdrsST9MKbOkfWmCHL6UDAk4UoHKQXhu+W38Ao/zCu9GTjufybYwhXTOjJinbHUbpgx1LdRLvjiMRRTuPJiHbH45NkV2HsfYho1ETuwUMtUDjaA0meEj+A8+/BZbziOYeQWqCLuw+SJ8V8UsYghJp3UmKJB+7KI3FV4qHspkS3BJIgKeZq5FUhiZGaM5EzuCOQ5FEvY2i+aHD2EZT8xkRO4IbAI3m6l7WCYcYliW4IpKGZRl6VROKXJiqU4gVSb6KhmRUGLVDOmKgwihVI8qg3tY8eysVKLE4gDcF88qrQfJi9B1uiIIG618RD0BJKZptDLVKAwHjI2V1FKW+Mk+/uS+y2QBpqnUlBqhK7fPjQXYFK3DOlzkASOZ82UVdgePi0exMw9Y4gjB/GNEWp22DqronqeQCF56bcGCkf6O9x9nss0l2BqZGLplALxxQk3zaRExSXxrSDY/KI8yXQQbzAnHiBOfECc+IF5sQLzEln8kBKmDn/Vn/1dNsqhftg/L6JNE3yQPBJU9CIOd382yY4G0q+pfyqEwl2Z3ogbafSyotRJ8SkJaU8gtrSoS2efYHJo8dmW7EiuduJx6L2BUrovWyDx5JFE5/W6LZZxr5AhS9MqX0U+xFK/VnzQQcJebHRtjosLyJtHpaSIBZkPKFuttC0QOFrvWD9ZqLc2O2BUrU5UbORTPNTnpNn1fSorC1s9kD9dWTyC0HOw+lg94+knA+LPbD4Z7TpsddWOwKT5xBdPUrPybStZyd2BPLAxbzvbCy1Ob/AePJvd/EoEt1mC4l1foFC0UNy9xLnVlCbqe05sTCE2WemcA7J3/b8AjMdGjiGhbbbWUR6mPwCJX43pfOHhbY7+mD9/MDju6Q87aHd0R/apL4nylOHdschIy+wXbQ7jjDwAttFu9NzoNo3oScr2h3HBv4zoScr2h3H5xMHOh86MFWetJAz7S5JpBXfil896YlYPHITgTtbL5MLBz2pIFeXx9apmAicvVWGCF7GZU9ryNUUi2+1PN4L7z9a87uSFJCj6bEXJjohcHZWINxdMZGnKfwpGDua7o4FEh/f+hdltmYiTz3kZvqdVyaKqRVIzIyvggfO/TZ84Si2Fbup47RAIryxhKhSNpGHXLx+tGyiGppfeUdX//68NIb+Hr8StCI28enEip73lKmpofWdgXRn6EFlvOfuF5RKoXKwgjsfbJqahqST8ovsh3wygn72JuQFvyaUxAn5D/i7a/iEH5rapmTrVYuqhM3VEcjKNSdvPMpFICDUJt56ex2TzPI/I2jEwxcDENFVsMpA/C8wyiLUa1LgvNh4y6qTYUabhiBCKdzBXvAKd27smXdkAPgfNWu+4Yrr2cUAAAAASUVORK5CYII=" mode=""></image>
 						</navigator>
@@ -100,13 +104,12 @@
 				avator:'',
 				phone:'',
 				userId:'',
-				msg:''
+				msg:'',
+				unread:0
 			}
 		},
 		computed: {
-			// MonitorVersion () {
-			// 	return this.$store.state.MonitorVersion
-			// }
+			
 		},
 		onLoad() {
 			this.login()
@@ -149,14 +152,13 @@
 					userId:that.userId
 				},
 				success(res){
-					that.msg = res.msg
-					console.log(that.msg)
+					that.unread = res.data;
 				}
 			})
 			
 		}
 			
-			
+		
 			
 		},
 		mounted() {}
@@ -242,11 +244,23 @@
 			align-items: center;
 			margin-bottom: 50rpx;
 			.navbox {
+				position: relative;
+				.point {
+					//width: 40rpx;
+					// height: 40rpx;
+					// background-color: red;
+					// border-radius: 50%;
+					// white-space: nowrap;
+					position: absolute;
+					right: 0;
+					top: -20rpx;
+				}
 				navigator {
 					display: block;
 					margin: 0 auto;
 					width: 150rpx;
 					height: 150rpx;
+					
 					image {
 						width: 100%;
 						height: 100%;

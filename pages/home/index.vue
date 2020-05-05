@@ -10,17 +10,40 @@
 		<status-bar />
 		<!-- 内容展示 -->
 		<view class="content">
-			<map :style="{height:hei+'px'}" :latitude="latitude" :longitude="longitude" :markers="marker" @markertap='mark' scale="5" @tap='show=false' >
-					<!-- <cover-view class="map-legend">
-						
-							<view class="map-one">
-								<van-icon name="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABrklEQVRIS82UvTIDURTHfydFUhgzSjTkCSQNSSUaSyWegPRMqJQoVdbQ8waiskkjqoRG8gSiQZnKR2bkmisybHbv7s6YzDjl3bPnd/7nSxiyyZDj8w8Ad1djdDpFFHkg9a24gVAiHj8ivdAOqkKwgptyHsUpMGYI0kYoMGeVTBAzoBf8PFKPhFUTxB+gy/LeuQ/IfJDbJhFP+pXLH1B3tkAOfbJvfr/NeL+pbTJL9uC7AVBuAO4gSgpkF8++AtQq64jSvfltDTJWOipAuRwV12StnOut7pNExvIkbFIQDqiVqwjzLmhkQM1pITLl+jkmaWYXdengtpKiq+5CVYJhk+uODVL0aXJ/3vXSuU2xT9bai9aD2uU0EtNjGt1UN0l2uRUN8DUp5T2E3UgEQ/b63+BTUXdKICshkCYZq3+jPK7BgN5GVz078ROmSSKeCzp44edaQ946NsLaQFcvSCTW/3ZNdcTjgzyiikxO5Jgc7zEen+HxqYqSIzZ3jJc0vAfa4+RAT0ZvJ0ZH4KMLL699MQ9s7EwH9Si8RFoBbHm2Vp8PsP+uINKcmp3CFfx3wCdrRoMZxJibEgAAAABJRU5ErkJggg==" />
-								<view class="txt">
-									预警站点
-								</view>
+			
+			<map style="height: 92vh;width:100%;" :latitude="latitude" :longitude="longitude" :markers="marker" @markertap='mark' scale="5" @tap='show=false' >
+				<view class="divide">
+					<view class="left">
+						<image src="../../static/imgage/basic/compass@2x.png" mode=""></image>
+					</view>
+					<view class="right">
+						<view class="bad">
+							<view class="img">
+								<image src="../../static/imgage/basic/bad.png" mode=""></image>
 							</view>
-						
-					</cover-view> -->
+							<view class="tex">
+								预警站点
+							</view>
+						</view>
+						<view class="bad">
+							<view class="img">
+								<image src="../../static/imgage/basic/good.png" mode=""></image>
+							</view>
+							<view class="tex">
+								正常站点
+							</view>
+						</view>
+						<view class="bad">
+							<view class="img">
+								<image src="../../static/imgage/basic/now.png" mode=""></image>
+							</view>
+							<view class="tex">
+								当前站点
+							</view>
+						</view>
+					</view>
+					
+				</view>
 			</map>
 			
 			<view class="bottom"  :class="show?'start':'end'">
@@ -90,14 +113,6 @@
 			
 			
 			
-			<!-- <van-action-sheet
-			  :show="show"
-			  :actions="actions"
-			  bind:close="onClose"
-			  bind:select="onSelect"
-			  :overlay='false'
-			>
-			</van-action-sheet> -->
 			
 		</view>
 	</view>
@@ -122,25 +137,15 @@
 				badico:'../../static/imgage/basic/bad.png',
 				eachico:'',
 				nowico:'../../static/imgage/basic/now.png',
-				actions: [
-				      {
-				        name: '选项'
-				      },
-				      {
-				        name: '选项'
-				      },
-				      {
-				        name: '选项',
-				        subname: '副文本',
-				        openType: 'share'
-				      }
-				    ],
-				tableData:[],//站点数据
+				tableData:[
+					
+				],//站点数据
 				areamessage:{},//弹出框展示的站点信息
 				show:false,//地图下标展示
-				latitude: '',  //纬度
-				longitude: '',  //经度
-				marker:[],
+				latitude: 32,  //纬度
+				longitude: 118,  //经度
+				marker:[
+				],
 				userId:'',
 				stationNameOrCode:'',
 				ec:{
@@ -149,7 +154,8 @@
         {
             name: '1',
             type: 'gauge',
-            center: ['50%', '55%'], // 默认全局居中
+            center: ['50%', 
+			'55%'], // 默认全局居中
             radius: '100%',
             min: 0,
             max: 120,  
@@ -331,18 +337,6 @@
 						            }
 			}
 		},
-		onReady() {
-		         // 计算屏幕剩余高度  填补剩余高度
-		                let that = this;
-		                uni.getSystemInfo({
-		                    success(res) {
-		                        that.hei = res.windowHeight*1-84;
-		                        console.log(res.windowHeight);
-		                      
-		                    }
-		                });
-		       
-		    },
 		computed: {
 			// MonitorVersion () {
 			// 	return this.$store.state.MonitorVersion
@@ -369,9 +363,20 @@
 				},
 				success(res){
 					that.tableData = res.data
+					// that.tableData = [{latitude: 32,  //纬度
+					// longitude: 118,
+					// workStatus:1,
+					// id:1,
+					// waterFlow:20
+					// },
+					// {latitude: 36,  //纬度
+					// longitude: 118,
+					// workStatus:1,
+					// id:2,
+					// waterFlow:20
+					// }]
 					// that.ec.option.series[0].max = 50
 					// that.ec.option.series[0].
-					console.log(res.data)
 						res.data.map((item,index)=>{
 							if(item.workStatus==1){
 								that.eachico = that.goodico
@@ -379,28 +384,29 @@
 								that.eachico = that.badico
 							}
 							 that.marker.push({latitude:item.lat,longitude:item.lon,id:item.id,label:{content:item.stationName},iconPath:that.eachico,workStatus:item.workStatus})
-							console.log(that.marker)
+							 //that.marker.push({latitude:32,longitude:118,id:1,label:{content:5555},iconPath:that.eachico,workStatus:1},{latitude:36,longitude:118,id:2,label:{content:5555},iconPath:that.eachico,workStatus:0})
+							
 							
 						})
 						that.latitude = that.marker[0].latitude
 						that.longitude = that.marker[0].longitude
-					
-					
-					// console.log(that.marker)
+						
 					
 				}
 			})
 			
 		},
 		mark(e){
-			//console.log(e)
 			this.show = true;
-			// console.log(e.markerId)
-			// console.log(this.tableData)
+			
 			this.tableData.map((item,index)=>{
+				
 				if(e.markerId==item.id){
+					console.log(item)
+					this.longitude = item.longitude;
+					this.latitude = item.latitude;
 					this.ec.option.series[0].data[0].value=item.waterFlow
-					//console.log(item.waterFlow)
+					console.log(item.waterFlow)
 					this.econe.option.series[0].data[0].value=item.waterPressure
 					//console.log(item)
 					this.areamessage = item
@@ -496,11 +502,59 @@
 		font-size: 12rpx;
 	}
 	.box {
+		height: 100%;
+		overflow: hidden;
 		.content {
 			 padding: 44px 0 0;
 			height: 100%;
 			overflow: hidden;
 			box-sizing: border-box;
+			.divide{
+				width: 90%;
+				height: 80rpx;
+				position: absolute;
+				left: 50%;
+				top: 45rpx;
+				transform: translate(-50%,0);
+				.left{
+					height: 100rpx;
+					width: 100rpx;
+					float: left;
+					position: relative;
+					top: -16rpx;
+					image{
+						width: 100%;
+						height: 100%;
+					}
+				}
+				.right{
+					float: left;
+					border-radius: 10rpx;
+					padding: 0 15rpx;
+					//line-height: 80rpx;
+					box-sizing: border-box;
+					background-color: white;
+					image {
+						width: 100%;
+						height: 100%;
+						width: 50rpx;
+						height: 50rpx;
+					}
+					.bad {
+						overflow: hidden;
+						float: left;
+						.tex {
+							line-height: 55rpx;
+							float: left;
+							font-size: 28rpx;
+							margin: 0 10rpx;
+						}
+						.img {
+							float: left;
+						}
+					}
+				}
+			}
 			.bottom {
 				transition: all 0.4s;
 				padding: 40rpx 30rpx 0 30rpx;

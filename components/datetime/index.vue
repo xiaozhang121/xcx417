@@ -9,6 +9,7 @@
 			    type="datetime"
 			    :value="start.currentDate"
 			    :min-date="start.minDate"
+				:max-date="start.maxDate"
 				@confirm = 'startConfirmFn'
 				@cancel = 'cancel'
 			  />
@@ -66,12 +67,13 @@
 				timeValue: '请选择开始时间',
 				currentDate: new Date().getTime(),
 				minDate: new Date(2019,1,1).getTime(),
+				maxDate:new Date().getTime()
 			},
 			end: {
 				show: false,
 				timeValue: '请选择结束时间',
 				currentDate: new Date().getTime(),
-				minDate: new Date().getTime(),
+				minDate: new Date(2019,1,1).getTime(),
 			}
 			}
 		},
@@ -101,6 +103,7 @@
 				this.end.timeValue = this.timeFormat(new Date(e.detail));
 				this.end.show = false;
 				//console.log(this.end.timeValue)
+				this.start.maxDate = new Date(e.detail).getTime();
 				this.$emit('endtime',this.end.timeValue)
 			},
 			timeFormat(time) { 

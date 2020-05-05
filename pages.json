@@ -60,7 +60,7 @@
 			{
 				"pagePath": "pages/home/index",
 				"iconPath": "static/imgage/basic/home.png",
-				"selectedIconPath": "static/imgage/basic/home.png",
+				"selectedIconPath": "static/imgage/basic/home-active.png",
 				"text": "首页"
 			},
 			{
